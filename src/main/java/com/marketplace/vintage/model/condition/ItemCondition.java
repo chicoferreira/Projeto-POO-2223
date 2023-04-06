@@ -4,4 +4,6 @@ public interface ItemCondition {
 
     String getDisplayString();
 
+    ItemConditionType getType();
+
 }
