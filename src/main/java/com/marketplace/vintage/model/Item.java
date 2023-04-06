@@ -40,6 +40,16 @@ public abstract class Item {
         return basePrice;
     }
 
-    public abstract BigDecimal applyPriceCorrection(BigDecimal basePrice);
+    /**
+     * @return the final price of the item, after applying the price correction
+     */
+    public BigDecimal getFinalPrice(int currentYear) {
+        return basePrice.add(getPriceCorrection(currentYear));
+    }
+
+    /**
+     * @return the price correction to be applied to the base price
+     */
+    public abstract BigDecimal getPriceCorrection(int currentYear);
 
 }
