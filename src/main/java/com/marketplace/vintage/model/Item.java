@@ -1,9 +1,9 @@
 package com.marketplace.vintage.model;
 
 import com.marketplace.vintage.model.condition.ItemCondition;
-import com.marketplace.vintage.model.Transporter;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public abstract class Item {
 
@@ -12,15 +12,15 @@ public abstract class Item {
     private final String brand;
     private final String alphanumericCode;
     private final BigDecimal basePrice;
-    private final int transporterID;
+    private final UUID parcelCarrierUuid;
 
-    public Item(ItemCondition itemCondition, String description, String brand, String alphanumericCode, BigDecimal basePrice, int transporterID) {
+    public Item(ItemCondition itemCondition, String description, String brand, String alphanumericCode, BigDecimal basePrice, UUID parcelCarrierUuid) {
         this.itemCondition = itemCondition;
         this.description = description;
         this.brand = brand;
         this.alphanumericCode = alphanumericCode;
         this.basePrice = basePrice;
-        this.transporterID = transporterID;
+        this.parcelCarrierUuid = parcelCarrierUuid;
     }
 
     public ItemCondition getItemCondition() {
@@ -43,13 +43,15 @@ public abstract class Item {
         return basePrice;
     }
 
-    public int getTransporterID() { return transporterID; }
+    public UUID getParcelCarrierUuid() {
+        return parcelCarrierUuid;
+    }
 
     /**
      * @return the final price of the item, after applying the price correction
      */
     public BigDecimal getFinalPrice(int currentYear) {
-        return (basePrice.add(getPriceCorrection(currentYear)));
+        return basePrice.add(getPriceCorrection(currentYear));
     }
 
     /**
