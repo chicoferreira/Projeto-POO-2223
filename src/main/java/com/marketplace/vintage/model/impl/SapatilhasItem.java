@@ -6,6 +6,7 @@ import com.marketplace.vintage.model.condition.UsedItemCondition;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.UUID;
 
 public class SapatilhasItem extends Item {
 
@@ -14,8 +15,17 @@ public class SapatilhasItem extends Item {
     private final String color;
     private final int collectionYear;
 
-    public SapatilhasItem(ItemCondition itemCondition, String description, String brand, String alphanumericCode, BigDecimal basePrice, int size, boolean hasLaces, String color, int collectionYear) {
-        super(itemCondition, description, brand, alphanumericCode, basePrice);
+    public SapatilhasItem(ItemCondition itemCondition,
+                          String description,
+                          String brand,
+                          String alphanumericCode,
+                          BigDecimal basePrice,
+                          UUID parcelCarrierUuid,
+                          int size,
+                          boolean hasLaces,
+                          String color,
+                          int collectionYear) {
+        super(itemCondition, description, brand, alphanumericCode, basePrice, parcelCarrierUuid);
         this.size = size;
         this.hasLaces = hasLaces;
         this.color = color;
