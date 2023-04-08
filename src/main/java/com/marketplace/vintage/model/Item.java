@@ -3,6 +3,7 @@ package com.marketplace.vintage.model;
 import com.marketplace.vintage.model.condition.ItemCondition;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public abstract class Item {
 
@@ -11,13 +12,15 @@ public abstract class Item {
     private final String brand;
     private final String alphanumericCode;
     private final BigDecimal basePrice;
+    private final UUID parcelCarrierUuid;
 
-    public Item(ItemCondition itemCondition, String description, String brand, String alphanumericCode, BigDecimal basePrice) {
+    public Item(ItemCondition itemCondition, String description, String brand, String alphanumericCode, BigDecimal basePrice, UUID parcelCarrierUuid) {
         this.itemCondition = itemCondition;
         this.description = description;
         this.brand = brand;
         this.alphanumericCode = alphanumericCode;
         this.basePrice = basePrice;
+        this.parcelCarrierUuid = parcelCarrierUuid;
     }
 
     public ItemCondition getItemCondition() {
@@ -38,6 +41,10 @@ public abstract class Item {
 
     public BigDecimal getBasePrice() {
         return basePrice;
+    }
+
+    public UUID getParcelCarrierUuid() {
+        return parcelCarrierUuid;
     }
 
     /**

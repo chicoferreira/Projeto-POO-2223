@@ -4,7 +4,7 @@ import com.marketplace.vintage.model.Item;
 import com.marketplace.vintage.model.condition.ItemCondition;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.UUID;
 
 public class MalaItem extends Item {
 
@@ -13,8 +13,17 @@ public class MalaItem extends Item {
     private final int collectionYear;
     private final int appreciationRateOverYears;
 
-    public MalaItem(ItemCondition itemCondition, String description, String brand, String alphanumericCode, BigDecimal basePrice, int dimensionArea, String material, int collectionYear, int appreciationRateOverYears) {
-        super(itemCondition, description, brand, alphanumericCode, basePrice);
+    public MalaItem(ItemCondition itemCondition,
+                    String description,
+                    String brand,
+                    String alphanumericCode,
+                    BigDecimal basePrice,
+                    UUID parcelCarrierUuid,
+                    int dimensionArea,
+                    String material,
+                    int collectionYear,
+                    int appreciationRateOverYears) {
+        super(itemCondition, description, brand, alphanumericCode, basePrice, parcelCarrierUuid);
         this.dimensionArea = dimensionArea;
         this.material = material;
         this.collectionYear = collectionYear;

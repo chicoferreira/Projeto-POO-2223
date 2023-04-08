@@ -5,6 +5,7 @@ import com.marketplace.vintage.model.condition.ItemCondition;
 import com.marketplace.vintage.model.condition.ItemConditionType;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class TshirtItem extends Item {
 
@@ -24,9 +25,10 @@ public class TshirtItem extends Item {
                       String brand,
                       String alphanumericCode,
                       BigDecimal basePrice,
+                      UUID parcelCarrierUuid,
                       TshirtItemSize size,
                       TshirtItemPattern pattern) {
-        super(itemCondition, description, brand, alphanumericCode, basePrice);
+        super(itemCondition, description, brand, alphanumericCode, basePrice, parcelCarrierUuid);
         this.size = size;
         this.pattern = pattern;
     }
