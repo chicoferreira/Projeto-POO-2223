@@ -3,7 +3,9 @@ package com.marketplace.vintage.model;
 import org.jetbrains.annotations.NotNull;
 
 
-import javax.swing.text.html.parser.Entity;
+import com.marketplace.vintage.model.EntityNotFoundException;
+
+import java.rmi.AlreadyBoundException;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.Map;
@@ -19,26 +21,34 @@ public class ParcelCarrierManager {
         this.carriersByName = new HashMap<>();
     }
 
-    public void registerParcelCarrier(@NotNull ParcelCarrier carrier) throws Exception {
+    public void registerParcelCarrier(@NotNull ParcelCarrier carrier) throws AlreadyBoundException {
         UUID carrierId = carrier.getId();
         String carrierName = carrier.getName();
 
-        if(getCarrierById(carrierId) != null || getCarrierByName(carrierName) != null ){
-            throw new Exception("Carrier already exists");
-        }
+        ParcelCarrier hashValueId = this.carriersById.putIfAbsent( carrierId, carrier);
+        ParcelCarrier hashValueName = this.carriersByName.putIfAbsent( carrierName, carrier);
 
-        this.carriersById.put( carrierId, carrier);
-        this.carriersByName.put( carrierName, carrier);
+        if(hashValueName != null && hashValueId != null )
+            throw new AlreadyBoundException("ID/Name is already associated to a Carrier");
+
     }
 
     public ParcelCarrier getCarrierById(UUID id) throws Exception {
-        if(this.carriersById.get(id) == null) throw new Exception("Carrier doesnt exist");
-        return this.carriersById.get(id);
+        ParcelCarrier carrier = this.carriersById.get(id);
+
+        if(carrier == null) {
+            throw new EntityNotFoundException("Could not find carrier");
+        }
+        return carrier;
     }
 
     public ParcelCarrier getCarrierByName(String name) throws Exception {
-        if(this.carriersById.get(name) == null) throw new Exception("Carrier doesnt exist");
-        return this.carriersByName.get(name);
+        ParcelCarrier carrier = this.carriersByName.get(name);
+
+        if(carrier == null) {
+            throw new EntityNotFoundException("Could not find carrier");
+        }
+        return carrier;
     }
 
 }
