@@ -21,16 +21,15 @@ public class ParcelCarrierManager {
         this.carriersByName = new HashMap<>();
     }
 
-    public void registerParcelCarrier(@NotNull ParcelCarrier carrier) throws AlreadyBoundException {
+    public void registerParcelCarrier(@NotNull ParcelCarrier carrier) throws Exception {
         UUID carrierId = carrier.getId();
         String carrierName = carrier.getName();
 
-        ParcelCarrier hashValueId = this.carriersById.putIfAbsent( carrierId, carrier);
-        ParcelCarrier hashValueName = this.carriersByName.putIfAbsent( carrierName, carrier);
+        if(this.carriersById.get(carrierId) != null && this.carriersByName.get(carrierName) != null )
+            throw new EntityAlreadyExistsException("ID/Name is already associated to a Carrier");
 
-        if(hashValueName != null && hashValueId != null )
-            throw new AlreadyBoundException("ID/Name is already associated to a Carrier");
-
+        this.carriersById.put(carrierId, carrier);
+        this.carriersByName.put(carrierName, carrier);
     }
 
     public ParcelCarrier getCarrierById(UUID id) throws Exception {
