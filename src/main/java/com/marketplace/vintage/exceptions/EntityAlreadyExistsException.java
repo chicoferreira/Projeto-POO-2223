@@ -1,4 +1,4 @@
-package com.marketplace.vintage.model;
+package com.marketplace.vintage.exceptions;
 
 public class EntityAlreadyExistsException extends Exception {
     

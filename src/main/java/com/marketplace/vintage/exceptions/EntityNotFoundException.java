@@ -1,4 +1,4 @@
-package com.marketplace.vintage.model;
+package com.marketplace.vintage.exceptions;
 
 import javax.swing.text.html.parser.Entity;
 
