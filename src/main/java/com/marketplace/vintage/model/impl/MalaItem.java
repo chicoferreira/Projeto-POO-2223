@@ -55,8 +55,13 @@ public class MalaItem extends Item {
             throw new IllegalArgumentException("Current year cannot be before collection year");
         }
 
-        // TODO: esclarecer enunciado da correção do preço aqui
+        BigDecimal result = this.getBasePrice();
 
-        return BigDecimal.ZERO;
+        int yearsSinceCollection = currentYear - collectionYear;
+        for (int i = 0; i < yearsSinceCollection; i++) {
+            result = result.multiply(BigDecimal.valueOf((appreciationRateOverYears + 100) / 100.0));
+        }
+
+        return result;
     }
 }
