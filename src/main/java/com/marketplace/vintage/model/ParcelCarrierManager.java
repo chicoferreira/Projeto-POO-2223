@@ -1,11 +1,11 @@
 package com.marketplace.vintage.model;
 
+import com.marketplace.vintage.exceptions.EntityAlreadyExistsException;
 import org.jetbrains.annotations.NotNull;
 
 
-import com.marketplace.vintage.model.EntityNotFoundException;
+import com.marketplace.vintage.exceptions.EntityNotFoundException;
 
-import java.rmi.AlreadyBoundException;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.Map;
