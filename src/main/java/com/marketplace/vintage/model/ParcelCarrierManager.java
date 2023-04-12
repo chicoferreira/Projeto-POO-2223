@@ -21,30 +21,30 @@ public class ParcelCarrierManager {
         this.carriersByName = new HashMap<>();
     }
 
-    public void registerParcelCarrier(@NotNull ParcelCarrier carrier) throws Exception {
+    public void registerParcelCarrier(@NotNull ParcelCarrier carrier) {
         UUID carrierId = carrier.getId();
         String carrierName = carrier.getName();
 
-        if(this.carriersById.get(carrierId) != null && this.carriersByName.get(carrierName) != null )
+        if (this.carriersById.containsKey(carrierId) && this.carriersByName.containsKey(carrierName))
             throw new EntityAlreadyExistsException("ID/Name is already associated to a Carrier");
 
         this.carriersById.put(carrierId, carrier);
         this.carriersByName.put(carrierName, carrier);
     }
 
-    public ParcelCarrier getCarrierById(UUID id) throws Exception {
+    public ParcelCarrier getCarrierById(UUID id) {
         ParcelCarrier carrier = this.carriersById.get(id);
 
-        if(carrier == null) {
+        if (carrier == null) {
             throw new EntityNotFoundException("Could not find carrier");
         }
         return carrier;
     }
 
-    public ParcelCarrier getCarrierByName(String name) throws Exception {
+    public ParcelCarrier getCarrierByName(String name) {
         ParcelCarrier carrier = this.carriersByName.get(name);
 
-        if(carrier == null) {
+        if (carrier == null) {
             throw new EntityNotFoundException("Could not find carrier");
         }
         return carrier;
