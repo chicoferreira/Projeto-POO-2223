@@ -11,11 +11,19 @@ public class ParcelCarrier {
     private final double mediumTax;
     private final double largeTax;
 
-    public ParcelCarrier(String name, Double smallTax, Double mediumTax, Double largeTax) {
+    public ParcelCarrier(String name) {
+        this(name, 0D, 0D, 0D);
+    }
+
+    public ParcelCarrier(UUID uuid, String name) {
+        this(uuid, name, 0D, 0D, 0D);
+    }
+
+    public ParcelCarrier(String name, double smallTax, double mediumTax, double largeTax) {
         this(UUID.randomUUID(), name, smallTax, mediumTax, largeTax);
     }
 
-    public ParcelCarrier(UUID uuid, String name, Double smallTax, Double mediumTax, Double largeTax) {
+    public ParcelCarrier(UUID uuid, String name, double smallTax, double mediumTax, double largeTax) {
         this.id = uuid;
         this.name = name;
         this.smallTax = smallTax;
