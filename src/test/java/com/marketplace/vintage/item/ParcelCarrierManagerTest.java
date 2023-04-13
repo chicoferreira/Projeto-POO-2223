@@ -1,4 +1,4 @@
-package com.marketplace.vintage.model;
+package com.marketplace.vintage.item;
 
 import com.marketplace.vintage.exceptions.EntityAlreadyExistsException;
 import com.marketplace.vintage.exceptions.EntityNotFoundException;
@@ -28,5 +28,4 @@ class ParcelCarrierManagerTest {
         assertThrowsExactly(EntityNotFoundException.class, () -> parcelCarrierManager.getCarrierByName("UPS"));
         assertThrowsExactly(EntityAlreadyExistsException.class, () -> parcelCarrierManager.registerParcelCarrier(new ParcelCarrier(testName)));
     }
-
 }

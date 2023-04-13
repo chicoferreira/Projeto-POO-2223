@@ -1,4 +1,4 @@
-package com.marketplace.vintage.model.impl;
+package com.marketplace.vintage.item.impl;
 
 import org.junit.jupiter.api.Test;
 
