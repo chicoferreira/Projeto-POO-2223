@@ -1,14 +1,13 @@
 package com.marketplace.vintage.model;
 
 import com.marketplace.vintage.exceptions.EntityAlreadyExistsException;
-import org.jetbrains.annotations.NotNull;
-
-
 import com.marketplace.vintage.exceptions.EntityNotFoundException;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
-import java.util.UUID;
 import java.util.Map;
+import java.util.UUID;
 
 
 public class ParcelCarrierManager {
@@ -25,8 +24,13 @@ public class ParcelCarrierManager {
         UUID carrierId = carrier.getId();
         String carrierName = carrier.getName();
 
-        if (this.carriersById.containsKey(carrierId) && this.carriersByName.containsKey(carrierName))
-            throw new EntityAlreadyExistsException("A carrier with that name or id already exists");
+        if (this.carriersById.containsKey(carrierId)) {
+            throw new EntityAlreadyExistsException("A carrier with that id already exists");
+        }
+
+        if (this.carriersByName.containsKey(carrierName)) {
+            throw new EntityAlreadyExistsException("A carrier with that name already exists");
+        }
 
         this.carriersById.put(carrierId, carrier);
         this.carriersByName.put(carrierName, carrier);
