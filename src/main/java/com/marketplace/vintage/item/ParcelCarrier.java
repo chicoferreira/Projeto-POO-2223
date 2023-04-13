@@ -1,11 +1,11 @@
-package com.marketplace.vintage.model;
+package com.marketplace.vintage.item;
 
 import java.util.UUID;
 
 public class ParcelCarrier {
 
+    private final UUID uuid;
     private final String name;
-    private final UUID id;
 
     private final double smallTax;
     private final double mediumTax;
@@ -24,19 +24,19 @@ public class ParcelCarrier {
     }
 
     public ParcelCarrier(UUID uuid, String name, double smallTax, double mediumTax, double largeTax) {
-        this.id = uuid;
+        this.uuid = uuid;
         this.name = name;
         this.smallTax = smallTax;
         this.mediumTax = mediumTax;
         this.largeTax = largeTax;
     }
 
-    public String getName() {
-        return name;
+    public UUID getId() {
+        return uuid;
     }
 
-    public UUID getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
     public double getTax(int amountOfParcels) {

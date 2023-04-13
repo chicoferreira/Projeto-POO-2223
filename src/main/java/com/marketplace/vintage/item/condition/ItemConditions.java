@@ -1,4 +1,4 @@
-package com.marketplace.vintage.model.condition;
+package com.marketplace.vintage.item.condition;
 
 import com.marketplace.vintage.Lang;
 
