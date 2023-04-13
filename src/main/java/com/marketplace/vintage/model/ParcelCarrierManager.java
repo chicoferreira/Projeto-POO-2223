@@ -26,7 +26,7 @@ public class ParcelCarrierManager {
         String carrierName = carrier.getName();
 
         if (this.carriersById.containsKey(carrierId) && this.carriersByName.containsKey(carrierName))
-            throw new EntityAlreadyExistsException("ID/Name is already associated to a Carrier");
+            throw new EntityAlreadyExistsException("A carrier with that name or id already exists");
 
         this.carriersById.put(carrierId, carrier);
         this.carriersByName.put(carrierName, carrier);
@@ -36,7 +36,7 @@ public class ParcelCarrierManager {
         ParcelCarrier carrier = this.carriersById.get(id);
 
         if (carrier == null) {
-            throw new EntityNotFoundException("Could not find carrier");
+            throw new EntityNotFoundException("A carrier with the id " + id + " was not found");
         }
         return carrier;
     }
@@ -45,7 +45,7 @@ public class ParcelCarrierManager {
         ParcelCarrier carrier = this.carriersByName.get(name);
 
         if (carrier == null) {
-            throw new EntityNotFoundException("Could not find carrier");
+            throw new EntityNotFoundException("A carrier with the name " + name + " was not found");
         }
         return carrier;
     }
