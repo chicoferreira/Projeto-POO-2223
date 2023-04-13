@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 public class UserManagerTest {
-
     @Test
     void testUserManager() {
         UserManager userManager = new UserManager();
@@ -39,5 +38,22 @@ public class UserManagerTest {
 
         assertThrowsExactly(EntityNotFoundException.class, () -> userManager.getUserByEmail("__user__@gmail.com"));
         assertThrowsExactly(EntityAlreadyExistsException.class, () -> userManager.registerUser(new User(testEmail, name, address, taxNumber)));
+    }
+
+    @Test()
+    void twoUsersWithSameEmail() {
+        UserManager userManager = new UserManager();
+
+        String name = "John Doe";
+        String address = "123 Main St";
+        String taxNumber = "123456789";
+
+        String firstEmail = "user@gmail.com";
+        String secondEmail = "USER@GMAIL.COM";
+
+        userManager.registerUser(new User(firstEmail, name, address, taxNumber));
+
+        // This should throw an EntityAlreadyExistsException because the email is case-insensitive
+        assertThrowsExactly(EntityAlreadyExistsException.class, () -> userManager.registerUser(new User(secondEmail, name, address, taxNumber)));
     }
 }
