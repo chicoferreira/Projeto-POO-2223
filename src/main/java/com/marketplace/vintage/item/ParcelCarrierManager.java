@@ -1,4 +1,4 @@
-package com.marketplace.vintage.model;
+package com.marketplace.vintage.item;
 
 import com.marketplace.vintage.exceptions.EntityAlreadyExistsException;
 import com.marketplace.vintage.exceptions.EntityNotFoundException;
