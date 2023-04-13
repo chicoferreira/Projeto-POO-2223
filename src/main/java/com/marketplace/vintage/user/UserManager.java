@@ -20,7 +20,7 @@ public class UserManager {
 
     public void registerUser(@NotNull User user) {
         UUID userId = user.getId();
-        String userEmail = user.getEmail();
+        String userEmail = user.getEmail().toLowerCase();
 
         if (this.usersById.containsKey(userId)) {
             throw new EntityAlreadyExistsException("A user with that id already exists");
@@ -45,7 +45,7 @@ public class UserManager {
     }
 
     public User getUserByEmail(String email) {
-        User user = this.usersByEmail.get(email);
+        User user = this.usersByEmail.get(email.toLowerCase());
 
         if (user == null) {
             throw new EntityNotFoundException("A user with the email " + email + " was not found");

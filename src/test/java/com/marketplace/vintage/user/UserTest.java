@@ -2,24 +2,27 @@ package com.marketplace.vintage.user;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class UserTest {
 
     @Test
     void testUser() {
-        String email = "USER@GMAIL.COM";
+        String email = "user@gmail.com";
         String name = "User";
         String address = "123 Main St.";
         String taxNumber = "123456789";
 
         User user = new User(email, name, address, taxNumber);
 
-        // Email is stored in lowercase, because it is case-insensitive
-        assert user.getEmail().equals(email.toLowerCase());
-        assert user.getName().equals(name);
-        assert user.getAddress().equals(address);
-        assert user.getTaxNumber().equals(taxNumber);
+        assertEquals(email, user.getEmail());
+        assertEquals(name, user.getName());
+        assertEquals(address, user.getAddress());
+        assertEquals(taxNumber, user.getTaxNumber());
 
         // UUID is generated automatically
-        assert user.getId() != null;
+        assertNotNull(user.getId());
+        assertEquals(36, user.getId().toString().length());
     }
 }

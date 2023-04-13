@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 public class UserManagerTest {
-
     @Test
     void testUserManager() {
         UserManager userManager = new UserManager();
