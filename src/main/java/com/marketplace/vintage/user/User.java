@@ -16,7 +16,7 @@ public class User {
 
     public User(UUID uuid, String email, String name, String address, String taxNumber) {
         this.uuid = uuid;
-        this.email = email;
+        this.email = email.toLowerCase();
         this.name = name;
         this.address = address;
         this.taxNumber = taxNumber;
