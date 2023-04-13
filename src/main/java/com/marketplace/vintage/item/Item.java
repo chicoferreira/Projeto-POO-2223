@@ -1,12 +1,13 @@
-package com.marketplace.vintage.model;
+package com.marketplace.vintage.item;
 
-import com.marketplace.vintage.model.condition.ItemCondition;
+import com.marketplace.vintage.item.condition.ItemCondition;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 public abstract class Item {
 
+    private final UUID uuid;
     private final ItemCondition itemCondition;
     private final String description;
     private final String brand;
@@ -15,12 +16,21 @@ public abstract class Item {
     private final UUID parcelCarrierUuid;
 
     public Item(ItemCondition itemCondition, String description, String brand, String alphanumericCode, BigDecimal basePrice, UUID parcelCarrierUuid) {
+        this(UUID.randomUUID(), itemCondition, description, brand, alphanumericCode, basePrice, parcelCarrierUuid);
+    }
+
+    public Item(UUID uuid, ItemCondition itemCondition, String description, String brand, String alphanumericCode, BigDecimal basePrice, UUID parcelCarrierUuid) {
+        this.uuid = uuid;
         this.itemCondition = itemCondition;
         this.description = description;
         this.brand = brand;
         this.alphanumericCode = alphanumericCode;
         this.basePrice = basePrice;
         this.parcelCarrierUuid = parcelCarrierUuid;
+    }
+
+    public UUID getItemUuid() {
+        return uuid;
     }
 
     public ItemCondition getItemCondition() {

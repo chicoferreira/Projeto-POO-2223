@@ -1,7 +1,7 @@
-package com.marketplace.vintage.model.impl;
+package com.marketplace.vintage.item.impl;
 
-import com.marketplace.vintage.model.Item;
-import com.marketplace.vintage.model.condition.ItemCondition;
+import com.marketplace.vintage.item.Item;
+import com.marketplace.vintage.item.condition.ItemCondition;
 
 import java.math.BigDecimal;
 import java.util.UUID;
