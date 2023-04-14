@@ -18,3 +18,9 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+tasks.jar {
+    manifest {
+        attributes 'Main-Class': 'com.marketplace.vintage.Main'
+    }
+}
