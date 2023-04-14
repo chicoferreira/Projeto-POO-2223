@@ -9,25 +9,22 @@ public class EmailUtilsTest {
 
     @Test
     public void testIsValidEmail() {
-        String validEmail = "user@mail.com";
-        assertTrue(EmailUtils.isValidEmail(validEmail));
+        assertTrue(EmailUtils.isValidEmail("user@mail.com"));
+        assertTrue(EmailUtils.isValidEmail("user@mail.pt"));
+        assertTrue(EmailUtils.isValidEmail("user123@mail.com"));
+        assertTrue(EmailUtils.isValidEmail("user+123@mail.com"));
+        assertTrue(EmailUtils.isValidEmail("user-123@mail.com"));
+        assertTrue(EmailUtils.isValidEmail("user.123@mail.com"));
+        assertTrue(EmailUtils.isValidEmail("user_123@mail.com"));
 
-        String validEmail2 = "user@mail.pt";
-        assertTrue(EmailUtils.isValidEmail(validEmail2));
-
-        String invalidEmail = "usermail.com";
-        assertFalse(EmailUtils.isValidEmail(invalidEmail));
-
-        String invalidEmail2 = "user@mailcom";
-        assertFalse(EmailUtils.isValidEmail(invalidEmail2));
-
-        String invalidEmail3 = "user@mail";
-        assertFalse(EmailUtils.isValidEmail(invalidEmail3));
-
-        String invalidEmail4 = "usermail";
-        assertFalse(EmailUtils.isValidEmail(invalidEmail4));
-
-        String invalidEmail5 = "user@mail.";
-        assertFalse(EmailUtils.isValidEmail(invalidEmail5));
+        assertFalse(EmailUtils.isValidEmail("usermail.com"));
+        assertFalse(EmailUtils.isValidEmail("user@mailcom"));
+        assertFalse(EmailUtils.isValidEmail("user@mail"));
+        assertFalse(EmailUtils.isValidEmail("usermail"));
+        assertFalse(EmailUtils.isValidEmail("user@mail."));
+        assertFalse(EmailUtils.isValidEmail(""));
+        assertFalse(EmailUtils.isValidEmail("user@mail.c"));
+        assertFalse(EmailUtils.isValidEmail("user@mail."));
+        assertFalse(EmailUtils.isValidEmail("user@mail.co.m"));
     }
 }
