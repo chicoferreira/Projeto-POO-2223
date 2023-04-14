@@ -3,12 +3,19 @@ package com.marketplace.vintage;
 public enum Lang {
 
     USED_ITEM_CONDITION_DISPLAY_STRING("Usado (<conditionLevel>/10, <numberOfPreviousOwners> donos anteriores)"),
-    NEW_ITEM_CONDITION_DISPLAY_STRING("Novo");
+    NEW_ITEM_CONDITION_DISPLAY_STRING("Novo"),
+    VIEW_TYPE_USER_DISPLAY_NAME("User"),
+    VIEW_TYPE_CARRIER_DISPLAY_NAME("Parcel Carrier"),
+    ;
 
     private final String value;
 
     Lang(String value) {
         this.value = value;
+    }
+
+    public String get() {
+        return this.value;
     }
 
     public String apply(Object... strings) {
