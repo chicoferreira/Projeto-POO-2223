@@ -23,6 +23,7 @@ public class EmailUtilsTest {
         assertFalse(EmailUtils.isValidEmail("usermail"));
         assertFalse(EmailUtils.isValidEmail("user@mail."));
         assertFalse(EmailUtils.isValidEmail(""));
+        assertFalse(EmailUtils.isValidEmail(null));
         assertFalse(EmailUtils.isValidEmail("user@mail.c"));
         assertFalse(EmailUtils.isValidEmail("user@mail."));
         assertFalse(EmailUtils.isValidEmail("user@mail.co.m"));
