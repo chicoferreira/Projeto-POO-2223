@@ -32,7 +32,7 @@ public class UserView extends BaseView {
     }
 
     public User askForLogin() {
-        String email = getTerminal().askForInput(getLogger(), "Enter the email to login (or 'cancel'): ");
+        String email = getTerminal().askForInput(getLogger(), "Enter the email to login (or 'cancel'):");
 
         if (email.equalsIgnoreCase("cancel")) {
             return null;
@@ -59,9 +59,9 @@ public class UserView extends BaseView {
             return askForLogin();
         }
 
-        String name = getTerminal().askForInput(getLogger(), "Enter your name: ");
-        String address = getTerminal().askForInput(getLogger(), "Enter your address: ");
-        String taxNumber = getTerminal().askForInput(getLogger(), "Enter your tax number: ");
+        String name = getTerminal().askForInput(getLogger(), "Enter your name:");
+        String address = getTerminal().askForInput(getLogger(), "Enter your address:");
+        String taxNumber = getTerminal().askForInput(getLogger(), "Enter your tax number:");
 
         getLogger().info("Creating user with email " + email + "...");
 
