@@ -13,7 +13,7 @@ public class Terminal {
     }
 
     public String askForInput(Logger logger, String message) {
-        logger.print(message);
+        logger.print(message + " ");
         return askForInput();
     }
 
