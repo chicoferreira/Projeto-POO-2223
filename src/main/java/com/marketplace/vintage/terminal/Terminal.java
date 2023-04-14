@@ -7,20 +7,25 @@ import java.util.Scanner;
 public class Terminal {
 
     private final Scanner scanner;
-    private final Logger logger;
 
-    public Terminal(Logger logger) {
-        this.logger = logger;
+    public Terminal() {
         this.scanner = new Scanner(System.in);
     }
 
-    public String askForInput(String message) {
+    public String askForInput(Logger logger, String message) {
         logger.print(message);
         return askForInput();
     }
 
     public String askForInput() {
         return scanner.nextLine();
+    }
+
+    public boolean askForConfirmation(Logger logger, String message) {
+        String input = askForInput(logger, message);
+        return input.equalsIgnoreCase("y")
+               || input.equalsIgnoreCase("yes")
+               || input.equalsIgnoreCase("true");
     }
 
 }

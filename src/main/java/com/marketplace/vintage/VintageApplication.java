@@ -3,6 +3,7 @@ package com.marketplace.vintage;
 import com.marketplace.vintage.logging.JavaLogger;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.terminal.Terminal;
+import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.view.View;
 import com.marketplace.vintage.view.ViewFactory;
 import com.marketplace.vintage.view.ViewType;
@@ -16,9 +17,10 @@ public class VintageApplication {
     private final ViewFactory viewFactory;
 
     public VintageApplication() {
-        this.viewFactory = new ViewFactory();
         this.logger = new JavaLogger();
-        this.terminal = new Terminal(this.logger);
+        this.terminal = new Terminal();
+        UserManager userManager = new UserManager();
+        this.viewFactory = new ViewFactory(logger, terminal, userManager);
     }
 
     public void start() {
