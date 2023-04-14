@@ -5,6 +5,7 @@ import com.marketplace.vintage.terminal.Terminal;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.view.BaseView;
+import com.marketplace.vintage.utils.EmailUtils;
 
 public class UserView extends BaseView {
 
@@ -35,6 +36,12 @@ public class UserView extends BaseView {
 
         if (email.equalsIgnoreCase("cancel")) {
             return null;
+        }
+
+        // Ensure email is valid
+        if (!EmailUtils.isValidEmail(email)) {
+            getLogger().info("Invalid email pattern.");
+            return askForLogin();
         }
 
         if (!userManager.existsUserWithEmail(email)) {
