@@ -6,6 +6,8 @@ public interface Logger {
         info("");
     }
 
+    void print(String message);
+
     void info(String message);
 
     void warn(String message);
