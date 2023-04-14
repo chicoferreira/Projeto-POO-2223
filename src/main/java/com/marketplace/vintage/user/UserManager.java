@@ -2,6 +2,7 @@ package com.marketplace.vintage.user;
 
 import com.marketplace.vintage.exceptions.EntityAlreadyExistsException;
 import com.marketplace.vintage.exceptions.EntityNotFoundException;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -18,6 +19,12 @@ public class UserManager {
         this.usersByEmail = new HashMap<>();
     }
 
+    public User createUser(String email, String name, String address, String taxNumber) {
+        User user = new User(email, name, address, taxNumber);
+        this.registerUser(user);
+        return user;
+    }
+
     public void registerUser(@NotNull User user) {
         UUID userId = user.getId();
         String userEmail = user.getEmail().toLowerCase();
@@ -32,6 +39,10 @@ public class UserManager {
 
         this.usersById.put(userId, user);
         this.usersByEmail.put(userEmail, user);
+    }
+
+    public boolean existsUserWithEmail(String email) {
+        return this.usersByEmail.containsKey(email.toLowerCase());
     }
 
     public User getUserById(UUID id) {
