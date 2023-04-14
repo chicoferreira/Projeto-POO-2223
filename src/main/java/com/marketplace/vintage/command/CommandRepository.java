@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-public class CommandManager {
+public class CommandRepository {
 
     private static final Function<String, String> KEY_TRANSFORMATION = String::toLowerCase;
     private final Map<String, Command> commands;
 
-    public CommandManager() {
+    public CommandRepository() {
         this.commands = new HashMap<>();
     }
 

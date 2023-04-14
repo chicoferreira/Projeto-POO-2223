@@ -3,12 +3,12 @@ package com.marketplace.vintage.command;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class CommandManagerTest {
+class CommandRepositoryTest {
 
     @Test
     void executeCommand() {
-        CommandManager commandManager = new CommandManager();
-        commandManager.registerCommand(new BaseCommand("test", "") {
+        CommandRepository commandRepository = new CommandRepository();
+        commandRepository.registerCommand(new BaseCommand("test", "") {
             @Override
             public void execute(String[] args) {
                 Assertions.assertEquals(2, args.length);
@@ -17,8 +17,8 @@ class CommandManagerTest {
             }
         });
 
-        commandManager.executeCommand("test arg1 arg2");
-        commandManager.executeCommand("test arg1 arg2  ");
-        commandManager.executeCommand("test   arg1  arg2  ");
+        commandRepository.executeCommand("test arg1 arg2");
+        commandRepository.executeCommand("test arg1 arg2  ");
+        commandRepository.executeCommand("test   arg1  arg2  ");
     }
 }
