@@ -17,7 +17,7 @@ public class ItemManager {
 
     public Item getItem(UUID id) {
         if (!itemsById.containsKey(id)) {
-            throw new EntityNotFoundException("An item with the id" + id + " was not found");
+            throw new EntityNotFoundException("An item with this id" + id + " was not found");
         }
 
         return itemsById.get(id);
@@ -27,7 +27,7 @@ public class ItemManager {
         UUID itemId = item.getItemUuid();
 
         if (!itemsById.containsKey(itemId)) {
-            throw new EntityAlreadyExistsException("An item with that id already exists");
+            throw new EntityAlreadyExistsException("An item with this id already exists");
         }
 
         this.itemsById.put(itemId, item);
