@@ -26,7 +26,7 @@ public class ItemManager {
     public void addItem(Item item) {
         UUID itemId = item.getItemUuid();
 
-        if (!itemsById.containsKey(itemId)) {
+        if (itemsById.containsKey(itemId)) {
             throw new EntityAlreadyExistsException("An item with this id already exists");
         }
 
