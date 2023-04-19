@@ -17,7 +17,7 @@ public class ItemManager {
 
     public Item getItem(UUID id) {
         if (!itemsById.containsKey(id)) {
-            throw new EntityNotFoundException("An item with that id " + id + " was not found");
+            throw new EntityNotFoundException("An item with the id " + id + " was not found");
         }
 
         return itemsById.get(id);
