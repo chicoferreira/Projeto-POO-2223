@@ -1,18 +1,18 @@
 package com.marketplace.vintage.view;
 
 import com.marketplace.vintage.command.CommandRepository;
+import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
-import com.marketplace.vintage.terminal.Terminal;
 
 public abstract class BaseView implements View {
 
     private final Logger logger;
-    private final Terminal terminal;
+    private final InputPrompter inputPrompter;
     private final CommandRepository commandRepository;
 
-    public BaseView(Logger logger, Terminal terminal) {
+    public BaseView(Logger logger, InputPrompter inputPrompter) {
         this.logger = logger;
-        this.terminal = terminal;
+        this.inputPrompter = inputPrompter;
         this.commandRepository = new CommandRepository();
     }
 
@@ -24,7 +24,7 @@ public abstract class BaseView implements View {
         return logger;
     }
 
-    public Terminal getTerminal() {
-        return terminal;
+    public InputPrompter getInputPrompter() {
+        return inputPrompter;
     }
 }

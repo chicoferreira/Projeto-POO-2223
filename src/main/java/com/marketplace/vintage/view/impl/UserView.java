@@ -1,7 +1,10 @@
 package com.marketplace.vintage.view.impl;
 
+import com.marketplace.vintage.input.InputPrompter;
+import com.marketplace.vintage.input.questionnaire.Questionnaire;
+import com.marketplace.vintage.input.questionnaire.QuestionnaireBuilder;
+import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.logging.Logger;
-import com.marketplace.vintage.terminal.Terminal;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.view.BaseView;
@@ -11,8 +14,8 @@ public class UserView extends BaseView {
 
     private final UserManager userManager;
 
-    public UserView(Logger logger, Terminal terminal, UserManager userManager) {
-        super(logger, terminal);
+    public UserView(Logger logger, InputPrompter inputPrompter, UserManager userManager) {
+        super(logger, inputPrompter);
         this.userManager = userManager;
     }
 
@@ -32,7 +35,7 @@ public class UserView extends BaseView {
     }
 
     public User askForLogin() {
-        String email = getTerminal().askForInput(getLogger(), "Enter the email to login (or 'cancel'):");
+        String email = getInputPrompter().askForInput(getLogger(), "Enter the email to login (or 'cancel'):");
 
         if (email.equalsIgnoreCase("cancel")) {
             return null;
@@ -53,17 +56,27 @@ public class UserView extends BaseView {
     }
 
     public User askForRegistration(String email) {
-        boolean register = getTerminal().askForConfirmation(getLogger(), "Do you want to register that email? (y/n)");
+        boolean register = getInputPrompter().askForInput(getLogger(), "Do you want to register that email? (y/n)", InputMapper.BOOLEAN);
         if (!register) {
             getLogger().info("Cancelled registration.");
             return askForLogin();
         }
 
-        String name = getTerminal().askForInput(getLogger(), "Enter your name:");
-        String address = getTerminal().askForInput(getLogger(), "Enter your address:");
-        String taxNumber = getTerminal().askForInput(getLogger(), "Enter your tax number:");
+        Questionnaire questionnaire = QuestionnaireBuilder.newBuilder()
+                                                          .withQuestion("name", "Enter your name:", InputMapper.STRING)
+                                                          .withQuestion("address", "Enter your address:", InputMapper.STRING)
+                                                          .withQuestion("taxNumber", "Enter your tax number:", InputMapper.STRING)
+                                                          .withInputPrompter(getInputPrompter())
+                                                          .withLogger(getLogger())
+                                                          .build();
+
+        questionnaire.ask();
 
         getLogger().info("Creating user with email " + email + "...");
+
+        String name = questionnaire.getAnswer("name", String.class);
+        String address = questionnaire.getAnswer("address", String.class);
+        String taxNumber = questionnaire.getAnswer("taxNumber", String.class);
 
         return userManager.createUser(email, name, address, taxNumber);
     }
