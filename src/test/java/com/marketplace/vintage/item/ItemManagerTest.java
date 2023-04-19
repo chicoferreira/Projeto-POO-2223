@@ -2,7 +2,6 @@ package com.marketplace.vintage.item;
 
 import com.marketplace.vintage.exceptions.EntityAlreadyExistsException;
 import com.marketplace.vintage.exceptions.EntityNotFoundException;
-import com.marketplace.vintage.item.condition.ItemCondition;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -30,14 +29,13 @@ public class ItemManagerTest {
     }
 
     private Item createTestItem() {
-        ItemCondition testCondition = NEW;
         String testDescription = "TEST";
         String testBrand = "BRAND";
         String testNumericCode = "1";
         BigDecimal testBasePrice = BigDecimal.valueOf(100);
         UUID testCarrier = UUID.randomUUID();
 
-        return new Item(testCondition, testDescription, testBrand, testNumericCode, testBasePrice, testCarrier) {
+        return new Item(NEW, testDescription, testBrand, testNumericCode, testBasePrice, testCarrier) {
             @Override
             public BigDecimal getPriceCorrection(int currentYear) {
                 return new BigDecimal(0);
