@@ -1,8 +1,8 @@
 package com.marketplace.vintage;
 
+import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.JavaLogger;
 import com.marketplace.vintage.logging.Logger;
-import com.marketplace.vintage.terminal.Terminal;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.view.View;
 import com.marketplace.vintage.view.ViewFactory;
@@ -12,15 +12,15 @@ import java.util.stream.Collectors;
 
 public class VintageApplication {
 
-    private final Terminal terminal;
     private final Logger logger;
     private final ViewFactory viewFactory;
+    private final InputPrompter inputPrompter;
 
     public VintageApplication() {
         this.logger = new JavaLogger();
-        this.terminal = new Terminal();
         UserManager userManager = new UserManager();
-        this.viewFactory = new ViewFactory(logger, terminal, userManager);
+        this.inputPrompter = new InputPrompter();
+        this.viewFactory = new ViewFactory(logger, inputPrompter, userManager);
     }
 
     public void start() {
@@ -35,7 +35,7 @@ public class VintageApplication {
 
             View view = null;
             while (view == null) {
-                String viewTypeName = terminal.askForInput();
+                String viewTypeName = inputPrompter.getInput();
                 if (viewTypeName.equals("exit")) {
                     return;
                 }
