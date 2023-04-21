@@ -1,10 +1,12 @@
 package com.marketplace.vintage.view.impl;
 
+import com.marketplace.vintage.commands.item.ItemCommand;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.input.questionnaire.Questionnaire;
 import com.marketplace.vintage.input.questionnaire.QuestionnaireBuilder;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.logging.Logger;
+import com.marketplace.vintage.logging.PrefixLogger;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.view.BaseView;
@@ -13,10 +15,14 @@ import com.marketplace.vintage.utils.EmailUtils;
 public class UserView extends BaseView {
 
     private final UserManager userManager;
+    private final Logger baseLogger;
 
     public UserView(Logger logger, InputPrompter inputPrompter, UserManager userManager) {
-        super(logger, inputPrompter);
+        super(PrefixLogger.of("USER", logger), inputPrompter);
+        this.baseLogger = logger;
         this.userManager = userManager;
+
+        this.getCommandManager().registerCommand(new ItemCommand());
     }
 
     @Override
@@ -26,12 +32,10 @@ public class UserView extends BaseView {
             return;
         }
 
+        setLogger(PrefixLogger.of(user.getName(), baseLogger));
         getLogger().info("Logged in as " + user.getName() + " (" + user.getEmail() + ")");
-        try {
-            Thread.sleep(1000 * 2);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+
+        super.run();
     }
 
     public User askForLogin() {
