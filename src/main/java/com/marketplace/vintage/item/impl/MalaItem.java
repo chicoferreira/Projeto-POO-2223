@@ -58,10 +58,14 @@ public class MalaItem extends Item {
         BigDecimal result = this.getBasePrice();
 
         int yearsSinceCollection = currentYear - collectionYear;
-        for (int i = 0; i < yearsSinceCollection; i++) {
-            result = result.multiply(BigDecimal.valueOf((appreciationRateOverYears + 100) / 100.0));
+        if (yearsSinceCollection == 0) {
+            return BigDecimal.valueOf(0);
         }
 
-        return result;
+        for (int i = 0; i < yearsSinceCollection; i++) {
+            result = result.multiply(BigDecimal.valueOf(1 - appreciationRateOverYears / 100.0));
+        }
+
+        return this.getBasePrice().subtract(result).negate();
     }
 }

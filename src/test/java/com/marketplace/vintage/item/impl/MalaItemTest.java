@@ -12,11 +12,12 @@ class MalaItemTest {
     void getPriceCorrection() {
         BigDecimal basePrice = BigDecimal.valueOf(100);
         int appreciationRateOverYears = 10;
+        int collectionYear = 2022;
 
-        MalaItem malaItem = new MalaItem(null, null, null, null, basePrice, null, 0, null, 2022, appreciationRateOverYears);
+        MalaItem malaItem = new MalaItem(null, null, null, null, basePrice, null, 0, null, collectionYear, appreciationRateOverYears);
 
-        assertEquals(basePrice, malaItem.getPriceCorrection(2022));
-        assertEquals(BigDecimal.valueOf(110.0).compareTo(malaItem.getPriceCorrection(2023)), 0);
-        assertEquals(BigDecimal.valueOf(121.0).compareTo(malaItem.getPriceCorrection(2024)), 0);
+        assertEquals(BigDecimal.valueOf(0), malaItem.getPriceCorrection(2022));
+        assertEquals(BigDecimal.valueOf(-10.0), malaItem.getPriceCorrection(2023));
+        assertEquals(malaItem.getPriceCorrection(2024).compareTo(BigDecimal.valueOf(-19.0)), 0);
     }
 }

@@ -49,17 +49,16 @@ public class SapatilhasItem extends Item {
     }
 
     @Override
-    public BigDecimal getPriceCorrection(int currentYear) {
-        // TODO: clarificar " Apenas há lugar aplicação de desconto ... ou em sapatilhas novas acima do tamanho 45." no enunciado
-        // Qual a formula?
+    public BigDecimal getPriceCorrection(int _currentYear) {
         ItemCondition itemCondition = getItemCondition();
         if (itemCondition instanceof UsedItemCondition usedItemCondition) {
             BigDecimal previousOwnersMultiplier = BigDecimal.valueOf(usedItemCondition.getNumberOfPreviousOwners() * 0.5);
             BigDecimal conditionMultiplier = BigDecimal.valueOf(usedItemCondition.getConditionLevel() * 0.1);
             return getBasePrice().negate()
-                                 .divide(previousOwnersMultiplier, 2, RoundingMode.UP)
+                                 .multiply(previousOwnersMultiplier)
                                  .multiply(conditionMultiplier);
         }
+
         return BigDecimal.ZERO;
     }
 }
