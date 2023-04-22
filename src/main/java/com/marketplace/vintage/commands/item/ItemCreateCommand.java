@@ -10,7 +10,7 @@ public class ItemCreateCommand extends BaseCommand {
     }
 
     @Override
-    public void execute(Logger logger, String[] args) {
+    protected void executeSafely(Logger logger, String[] args) {
         String itemType = getInputPrompter().askForInput(logger, "Enter item type: ");
         logger.info("Creating item of type: " + itemType);
     }

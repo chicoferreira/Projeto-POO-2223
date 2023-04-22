@@ -1,6 +1,7 @@
 package com.marketplace.vintage.command;
 
 import com.marketplace.vintage.input.InputPrompter;
+import com.marketplace.vintage.logging.Logger;
 
 public abstract class BaseCommand implements Command {
 
@@ -18,6 +19,21 @@ public abstract class BaseCommand implements Command {
         this.description = description;
         this.inputPrompter = new InputPrompter();
     }
+
+    @Override
+    public void execute(Logger logger, String[] args) {
+        if (args.length < minArgs) {
+            logger.warn("Usage: " + usage);
+            return;
+        }
+
+        executeSafely(logger, args);
+    }
+
+    /**
+     * Execute the command, assuming that the arguments are valid.
+     */
+    protected abstract void executeSafely(Logger logger, String[] args); // TODO: maybe find a better name
 
     @Override
     public String getName() {
