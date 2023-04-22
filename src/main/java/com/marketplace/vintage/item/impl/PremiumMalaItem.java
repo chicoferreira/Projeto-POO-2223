@@ -23,8 +23,6 @@ public class PremiumMalaItem extends MalaItem {
 
     @Override
     public BigDecimal getPriceCorrection(int currentYear) {
-        BigDecimal price = super.getPriceCorrection(currentYear);
-
-        return price.negate();
+        return super.getPriceCorrection(currentYear).negate();
     }
 }

@@ -49,7 +49,7 @@ public class SapatilhasItem extends Item {
     }
 
     @Override
-    public BigDecimal getPriceCorrection(int _currentYear) {
+    public BigDecimal getPriceCorrection(int currentYear) {
         ItemCondition itemCondition = getItemCondition();
         if (itemCondition instanceof UsedItemCondition usedItemCondition) {
             BigDecimal previousOwnersMultiplier = BigDecimal.valueOf(usedItemCondition.getNumberOfPreviousOwners() * 0.5);
