@@ -9,12 +9,17 @@ public class HelpCommand extends BaseCommand {
     private final CommandRepository commandRepository;
 
     public HelpCommand(CommandRepository commandRepository) {
-        super("help", "help", 0, "Show help");
+        this(commandRepository, "help");
+    }
+
+    public HelpCommand(CommandRepository commandRepository, String usage) {
+        super("help", usage, 0, "Show help");
         this.commandRepository = commandRepository;
     }
 
     @Override
-    public void execute(Logger logger, String[] args) {
+    protected void executeSafely(Logger logger, String[] args) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
+
 }
