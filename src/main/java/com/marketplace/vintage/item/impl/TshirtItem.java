@@ -47,6 +47,7 @@ public class TshirtItem extends Item {
             getPattern() != TshirtItemPattern.PLAIN) {
             return getBasePrice().negate().multiply(BigDecimal.valueOf(0.5));
         }
+
         return BigDecimal.ZERO;
     }
 
