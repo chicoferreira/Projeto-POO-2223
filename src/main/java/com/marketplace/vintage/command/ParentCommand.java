@@ -6,10 +6,13 @@ import com.marketplace.vintage.logging.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParentCommand extends BaseCommand implements CommandRepository {
+public class ParentCommand implements CommandRepository, Command {
 
     private final Map<String, Command> subCommands;
+    private final String name;
     private final String fullName;
+    private final String description;
+    private final HelpCommand helpCommand;
 
     public ParentCommand(ParentCommand parent, String name, String description) {
         this(parent.getFullName() + " " + name, name, description);
@@ -20,21 +23,19 @@ public class ParentCommand extends BaseCommand implements CommandRepository {
     }
 
     private ParentCommand(String fullName, String name, String description) {
-        super(name, name + " <subcommand>", 1, description);
+        this.name = name;
         this.fullName = fullName;
+        this.description = description;
         this.subCommands = new HashMap<>();
 
-        this.registerSubCommand(new HelpCommand(this));
-    }
-
-    public void registerSubCommand(Command command) {
-        this.subCommands.put(command.getName().toLowerCase(), command);
+        this.helpCommand = new HelpCommand(this, getUsage() + " help");
+        this.registerSubCommand(helpCommand);
     }
 
     @Override
     public void execute(Logger logger, String[] args) {
         if (args.length == 0) {
-            logger.warn("No subcommand provided");
+            helpCommand.execute(logger, args);
             return;
         }
 
@@ -50,6 +51,30 @@ public class ParentCommand extends BaseCommand implements CommandRepository {
         System.arraycopy(args, 1, subCommandArgs, 0, subCommandArgs.length);
 
         subCommand.execute(logger, subCommandArgs);
+    }
+
+    public void registerSubCommand(Command command) {
+        this.subCommands.put(command.getName().toLowerCase(), command);
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public String getUsage() {
+        return getFullName() + " <subcommand>";
+    }
+
+    @Override
+    public int getMinArgs() {
+        return 1;
+    }
+
+    @Override
+    public String getDescription() {
+        return this.description;
     }
 
     @Override
