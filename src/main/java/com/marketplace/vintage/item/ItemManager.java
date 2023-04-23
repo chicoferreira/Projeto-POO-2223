@@ -9,13 +9,13 @@ import java.util.UUID;
 
 public class ItemManager {
 
-    private final Map<UUID, Item> itemsById;
+    private final Map<String, Item> itemsById;
 
     public ItemManager() {
         this.itemsById = new HashMap<>();
     }
 
-    public Item getItem(UUID id) {
+    public Item getItem(String id) {
         if (!itemsById.containsKey(id)) {
             throw new EntityNotFoundException("An item with the id " + id + " was not found");
         }
@@ -24,7 +24,7 @@ public class ItemManager {
     }
 
     public void addItem(Item item) {
-        UUID itemId = item.getItemUuid();
+        String itemId = item.getAlphanumericCode();
 
         if (itemsById.containsKey(itemId)) {
             throw new EntityAlreadyExistsException("An item with that id already exists");

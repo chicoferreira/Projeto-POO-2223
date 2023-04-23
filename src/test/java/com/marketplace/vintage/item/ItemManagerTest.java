@@ -2,6 +2,7 @@ package com.marketplace.vintage.item;
 
 import com.marketplace.vintage.exceptions.EntityAlreadyExistsException;
 import com.marketplace.vintage.exceptions.EntityNotFoundException;
+import com.marketplace.vintage.utils.AlphanumericGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -17,16 +18,14 @@ public class ItemManagerTest {
     void testItemManager() {
         ItemManager itemManager = new ItemManager();
         Item testItem = createTestItem();
-        UUID testItemID = testItem.getItemUuid();
         String testNumericCode = testItem.getAlphanumericCode();
 
         itemManager.addItem(testItem);
-        Item testGetItem = itemManager.getItem(testItemID);
+        Item testGetItem = itemManager.getItem(testNumericCode);
 
-        assertEquals(testItemID, testGetItem.getItemUuid());
         assertEquals(testNumericCode, testGetItem.getAlphanumericCode());
 
-        assertThrowsExactly(EntityNotFoundException.class, () -> itemManager.getItem(UUID.randomUUID()));
+        assertThrowsExactly(EntityNotFoundException.class, () -> itemManager.getItem("AAA-AAA"));
         assertThrowsExactly(EntityAlreadyExistsException.class, () -> itemManager.addItem(testGetItem));
     }
 

@@ -8,32 +8,29 @@ import java.util.UUID;
 
 public abstract class Item {
 
-    private final UUID uuid;
+    private final String alphanumericCode;
     private final ItemCondition itemCondition;
     private final String description;
     private final String brand;
-    private final String alphanumericCode;
     private final BigDecimal basePrice;
     private final UUID parcelCarrierUuid;
 
     public Item(ItemCondition itemCondition, String description, String brand, BigDecimal basePrice, UUID parcelCarrierUuid) {
-        this(UUID.randomUUID(), itemCondition, description, brand, AlphanumericGenerator.generateAlphanumericID(6) , basePrice, parcelCarrierUuid);
+        this(AlphanumericGenerator.generateAlphanumericID(6) , itemCondition, description, brand, basePrice, parcelCarrierUuid);
     }
 
-    public Item(UUID uuid, ItemCondition itemCondition, String description, String brand, String alphanumericCode, BigDecimal basePrice, UUID parcelCarrierUuid) {
-        this.uuid = uuid;
+    public Item(String alphanumericCode, ItemCondition itemCondition, String description, String brand,  BigDecimal basePrice, UUID parcelCarrierUuid) {
+        this.alphanumericCode = alphanumericCode;
         this.itemCondition = itemCondition;
         this.description = description;
         this.brand = brand;
-        this.alphanumericCode = alphanumericCode;
         this.basePrice = basePrice;
         this.parcelCarrierUuid = parcelCarrierUuid;
     }
 
-    public UUID getItemUuid() {
-        return uuid;
+    public String getAlphanumericCode() {
+        return alphanumericCode;
     }
-
     public ItemCondition getItemCondition() {
         return itemCondition;
     }
@@ -44,10 +41,6 @@ public abstract class Item {
 
     public String getBrand() {
         return brand;
-    }
-
-    public String getAlphanumericCode() {
-        return alphanumericCode;
     }
 
     public BigDecimal getBasePrice() {
