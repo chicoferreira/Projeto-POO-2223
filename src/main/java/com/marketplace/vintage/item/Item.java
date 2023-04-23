@@ -8,16 +8,12 @@ import java.util.UUID;
 
 public abstract class Item {
 
-    private final String alphanumericCode;
+    private String alphanumericCode;
     private final ItemCondition itemCondition;
     private final String description;
     private final String brand;
     private final BigDecimal basePrice;
     private final UUID parcelCarrierUuid;
-
-    public Item(ItemCondition itemCondition, String description, String brand, BigDecimal basePrice, UUID parcelCarrierUuid) {
-        this(AlphanumericGenerator.generateAlphanumericID("XXX-XXX") , itemCondition, description, brand, basePrice, parcelCarrierUuid);
-    }
 
     public Item(String alphanumericCode, ItemCondition itemCondition, String description, String brand,  BigDecimal basePrice, UUID parcelCarrierUuid) {
         this.alphanumericCode = alphanumericCode;
