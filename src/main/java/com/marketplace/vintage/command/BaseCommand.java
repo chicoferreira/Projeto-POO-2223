@@ -13,6 +13,9 @@ public abstract class BaseCommand implements Command {
     private final InputPrompter inputPrompter;
 
     public BaseCommand(String name, String usage, int minArgs, String description) {
+        if (name.contains(" "))
+            throw new IllegalArgumentException("Command name cannot contain spaces");
+
         this.name = name;
         this.usage = usage;
         this.minArgs = minArgs;

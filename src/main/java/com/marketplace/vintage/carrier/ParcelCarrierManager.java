@@ -5,10 +5,11 @@ import com.marketplace.vintage.exceptions.EntityNotFoundException;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 
 public class ParcelCarrierManager {
 
@@ -54,4 +55,7 @@ public class ParcelCarrierManager {
         return carrier;
     }
 
+    public List<ParcelCarrier> getAll() {
+        return new ArrayList<>(carriersById.values());
+    }
 }

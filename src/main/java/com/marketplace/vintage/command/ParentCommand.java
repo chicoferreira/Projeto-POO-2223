@@ -53,7 +53,7 @@ public class ParentCommand implements CommandRepository, Command {
         subCommand.execute(logger, subCommandArgs);
     }
 
-    public void registerSubCommand(Command command) {
+    private void registerSubCommand(Command command) {
         this.subCommands.put(command.getName().toLowerCase(), command);
     }
 
