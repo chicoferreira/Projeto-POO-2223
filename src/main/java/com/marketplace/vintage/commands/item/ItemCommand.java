@@ -6,7 +6,7 @@ public class ItemCommand extends ParentCommand {
 
     public ItemCommand() {
         super("item", "Item management commands");
-        registerSubCommand(new ItemCreateCommand());
+        registerCommand(new ItemCreateCommand());
     }
 
 }

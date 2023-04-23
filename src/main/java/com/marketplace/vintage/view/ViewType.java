@@ -8,7 +8,7 @@ import java.util.Map;
 
 public enum ViewType {
 
-    USER(Lang.VIEW_TYPE_USER_DISPLAY_NAME.get()), CARRIER(Lang.VIEW_TYPE_CARRIER_DISPLAY_NAME.get());
+    USER(Lang.VIEW_TYPE_USER_DISPLAY_NAME.get()), ADMIN("Admin");
 
     private static final Map<String, ViewType> VIEW_TYPE_MAP;
 
