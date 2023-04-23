@@ -1,5 +1,6 @@
 package com.marketplace.vintage;
 
+import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.JavaLogger;
 import com.marketplace.vintage.logging.Logger;
@@ -19,8 +20,9 @@ public class VintageApplication {
     public VintageApplication() {
         this.logger = new JavaLogger();
         UserManager userManager = new UserManager();
+        ParcelCarrierManager parcelCarrierManager = new ParcelCarrierManager();
         this.inputPrompter = new InputPrompter();
-        this.viewFactory = new ViewFactory(logger, inputPrompter, userManager);
+        this.viewFactory = new ViewFactory(logger, inputPrompter, userManager, parcelCarrierManager);
     }
 
     public void start() {
