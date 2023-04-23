@@ -18,14 +18,13 @@ public class SapatilhasItem extends Item {
     public SapatilhasItem(ItemCondition itemCondition,
                           String description,
                           String brand,
-                          String alphanumericCode,
                           BigDecimal basePrice,
                           UUID parcelCarrierUuid,
                           int size,
                           boolean hasLaces,
                           String color,
                           int collectionYear) {
-        super(itemCondition, description, brand, alphanumericCode, basePrice, parcelCarrierUuid);
+        super(itemCondition, description, brand, basePrice, parcelCarrierUuid);
         this.size = size;
         this.hasLaces = hasLaces;
         this.color = color;

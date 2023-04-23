@@ -16,14 +16,13 @@ public class MalaItem extends Item {
     public MalaItem(ItemCondition itemCondition,
                     String description,
                     String brand,
-                    String alphanumericCode,
                     BigDecimal basePrice,
                     UUID parcelCarrierUuid,
                     int dimensionArea,
                     String material,
                     int collectionYear,
                     int appreciationRateOverYears) {
-        super(itemCondition, description, brand, alphanumericCode, basePrice, parcelCarrierUuid);
+        super(itemCondition, description, brand, basePrice, parcelCarrierUuid);
         this.dimensionArea = dimensionArea;
         this.material = material;
         this.collectionYear = collectionYear;

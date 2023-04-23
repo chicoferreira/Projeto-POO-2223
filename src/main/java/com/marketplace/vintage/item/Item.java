@@ -1,6 +1,7 @@
 package com.marketplace.vintage.item;
 
 import com.marketplace.vintage.item.condition.ItemCondition;
+import com.marketplace.vintage.utils.AlphanumericGenerator;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -15,8 +16,8 @@ public abstract class Item {
     private final BigDecimal basePrice;
     private final UUID parcelCarrierUuid;
 
-    public Item(ItemCondition itemCondition, String description, String brand, String alphanumericCode, BigDecimal basePrice, UUID parcelCarrierUuid) {
-        this(UUID.randomUUID(), itemCondition, description, brand, alphanumericCode, basePrice, parcelCarrierUuid);
+    public Item(ItemCondition itemCondition, String description, String brand, BigDecimal basePrice, UUID parcelCarrierUuid) {
+        this(UUID.randomUUID(), itemCondition, description, brand, AlphanumericGenerator.generateAlphanumericID(6) , basePrice, parcelCarrierUuid);
     }
 
     public Item(UUID uuid, ItemCondition itemCondition, String description, String brand, String alphanumericCode, BigDecimal basePrice, UUID parcelCarrierUuid) {

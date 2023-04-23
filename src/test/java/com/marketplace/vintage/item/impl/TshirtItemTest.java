@@ -18,7 +18,6 @@ public class TshirtItemTest {
                 usedItemCondition,
                 "description",
                 "brand",
-                "alphanumericCode",
                 BigDecimal.valueOf(100),
                 null,
                 TshirtItem.TshirtItemSize.SMALL,
