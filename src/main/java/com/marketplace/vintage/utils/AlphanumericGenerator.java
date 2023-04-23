@@ -5,25 +5,25 @@ import java.util.Random;
 public class AlphanumericGenerator {
 
     /**
-     * This method creates an AlphanumericID divided by an '-' every 3 symbols
-     * For example: lenght = 4 => A78-C
-     *              length = 6 => GF3-56D
-     *              length = 8 => E32-JKL-68
+     * This method creates an AlphanumericID depending on the format its given
+     * For example: format = XXX-X => A78-C
+     *              format = XXX-XXX => GF3-56D
+     *              format = XXX-XXX-XX => E32-JKL-68
      */
 
-    public static String generateAlphanumericID(int length) {
+    public static String generateAlphanumericID(String format) {
 
-        String character = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        String alphanumeric = "";
+        char [] character = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+        char [] arrayFormat = format.toCharArray();
 
         Random random = new Random();
-        for(int i = 0; i < length; i++) {
-            int randomIndex = random.nextInt(character.length());
-            alphanumeric += character.indexOf(randomIndex);
-            if(i == 2) alphanumeric += '-';
+        for(int i = 0; i < format.length(); i++) {
+            int randomIndex = random.nextInt(character.length);
+            if(arrayFormat[i] != '-') arrayFormat[i] = character[randomIndex];
         }
+        String idString = new String(arrayFormat);
 
-        return alphanumeric;
+        return idString;
 
     }
 }

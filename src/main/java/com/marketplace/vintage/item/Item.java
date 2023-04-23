@@ -16,7 +16,7 @@ public abstract class Item {
     private final UUID parcelCarrierUuid;
 
     public Item(ItemCondition itemCondition, String description, String brand, BigDecimal basePrice, UUID parcelCarrierUuid) {
-        this(AlphanumericGenerator.generateAlphanumericID(6) , itemCondition, description, brand, basePrice, parcelCarrierUuid);
+        this(AlphanumericGenerator.generateAlphanumericID("XXX-XXX") , itemCondition, description, brand, basePrice, parcelCarrierUuid);
     }
 
     public Item(String alphanumericCode, ItemCondition itemCondition, String description, String brand,  BigDecimal basePrice, UUID parcelCarrierUuid) {

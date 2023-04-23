@@ -25,7 +25,7 @@ public class ItemManagerTest {
 
         assertEquals(testNumericCode, testGetItem.getAlphanumericCode());
 
-        assertThrowsExactly(EntityNotFoundException.class, () -> itemManager.getItem("AAA-AAA"));
+        assertThrowsExactly(EntityNotFoundException.class, () -> itemManager.getItem(AlphanumericGenerator.generateAlphanumericID(testNumericCode)));
         assertThrowsExactly(EntityAlreadyExistsException.class, () -> itemManager.addItem(testGetItem));
     }
 
