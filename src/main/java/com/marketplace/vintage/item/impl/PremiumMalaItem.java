@@ -8,7 +8,8 @@ import java.util.UUID;
 
 public class PremiumMalaItem extends MalaItem {
 
-    public PremiumMalaItem(ItemCondition itemCondition,
+    public PremiumMalaItem(String alphanumericID,
+                           ItemCondition itemCondition,
                            String description,
                            String brand,
                            BigDecimal basePrice,
@@ -17,7 +18,7 @@ public class PremiumMalaItem extends MalaItem {
                            String material,
                            int collectionYear,
                            int appreciationRateOverYears) {
-        super(itemCondition, description, brand, basePrice, parcelCarrierUuid, dimensionArea, material, collectionYear, appreciationRateOverYears);
+        super(alphanumericID, itemCondition, description, brand, basePrice, parcelCarrierUuid, dimensionArea, material, collectionYear, appreciationRateOverYears);
     }
 
     @Override

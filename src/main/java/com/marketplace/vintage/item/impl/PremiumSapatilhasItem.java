@@ -10,7 +10,8 @@ public class PremiumSapatilhasItem extends SapatilhasItem {
 
     private final int appreciationRateOverYears;
 
-    public PremiumSapatilhasItem(ItemCondition itemCondition,
+    public PremiumSapatilhasItem(String alphanumericID,
+                                 ItemCondition itemCondition,
                                  String description,
                                  String brand,
                                  BigDecimal basePrice,
@@ -20,7 +21,7 @@ public class PremiumSapatilhasItem extends SapatilhasItem {
                                  String color,
                                  int collectionYear,
                                  int appreciationRateOverYears) {
-        super(itemCondition, description, brand, basePrice, parcelCarrierUuid, size, hasLaces, color, collectionYear);
+        super(alphanumericID, itemCondition, description, brand, basePrice, parcelCarrierUuid, size, hasLaces, color, collectionYear);
         this.appreciationRateOverYears = appreciationRateOverYears;
     }
 

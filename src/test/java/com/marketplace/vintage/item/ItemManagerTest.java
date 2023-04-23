@@ -25,17 +25,24 @@ public class ItemManagerTest {
 
         assertEquals(testNumericCode, testGetItem.getAlphanumericCode());
 
-        assertThrowsExactly(EntityNotFoundException.class, () -> itemManager.getItem(AlphanumericGenerator.generateAlphanumericID(testNumericCode)));
+        String secondTestNumericID = AlphanumericGenerator.generateAlphanumericID(testNumericCode);
+        while(testNumericCode == secondTestNumericID) {
+            secondTestNumericID = AlphanumericGenerator.generateAlphanumericID(testNumericCode);
+        }
+        final String finalTestID = secondTestNumericID;
+
+        assertThrowsExactly(EntityNotFoundException.class, () -> itemManager.getItem(finalTestID));
         assertThrowsExactly(EntityAlreadyExistsException.class, () -> itemManager.addItem(testGetItem));
     }
 
     private Item createTestItem() {
+        String alphaNumericID  = AlphanumericGenerator.generateAlphanumericID("XXX-XXX");
         String testDescription = "TEST";
         String testBrand = "BRAND";
         BigDecimal testBasePrice = BigDecimal.valueOf(100);
         UUID testCarrier = UUID.randomUUID();
 
-        return new Item(NEW, testDescription, testBrand, testBasePrice, testCarrier) {
+        return new Item(alphaNumericID, NEW, testDescription, testBrand, testBasePrice, testCarrier) {
             @Override
             public BigDecimal getPriceCorrection(int currentYear) {
                 return new BigDecimal(0);

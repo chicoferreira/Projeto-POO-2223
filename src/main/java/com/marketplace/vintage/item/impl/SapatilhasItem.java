@@ -15,7 +15,8 @@ public class SapatilhasItem extends Item {
     private final String color;
     private final int collectionYear;
 
-    public SapatilhasItem(ItemCondition itemCondition,
+    public SapatilhasItem(String alphanumericID,
+                          ItemCondition itemCondition,
                           String description,
                           String brand,
                           BigDecimal basePrice,
@@ -24,7 +25,7 @@ public class SapatilhasItem extends Item {
                           boolean hasLaces,
                           String color,
                           int collectionYear) {
-        super(itemCondition, description, brand, basePrice, parcelCarrierUuid);
+        super(alphanumericID, itemCondition, description, brand, basePrice, parcelCarrierUuid);
         this.size = size;
         this.hasLaces = hasLaces;
         this.color = color;

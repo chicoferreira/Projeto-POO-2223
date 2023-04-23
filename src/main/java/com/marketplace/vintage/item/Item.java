@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public abstract class Item {
 
-    private String alphanumericCode;
+    private final String alphanumericCode;
     private final ItemCondition itemCondition;
     private final String description;
     private final String brand;
