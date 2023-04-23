@@ -3,6 +3,7 @@ package com.marketplace.vintage.questionnaire;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.input.questionnaire.Questionnaire;
+import com.marketplace.vintage.input.questionnaire.QuestionnaireAnswers;
 import com.marketplace.vintage.input.questionnaire.QuestionnaireBuilder;
 import com.marketplace.vintage.logging.Logger;
 
@@ -26,16 +27,14 @@ public class QuestionnaireTest {
         Questionnaire questionnaire = QuestionnaireBuilder.newBuilder()
                                                           .withQuestion("name", "What is your name?", InputMapper.STRING)
                                                           .withQuestion("age", "What is your age?", InputMapper.ofIntRange(0, 100))
-                                                          .withInputPrompter(inputPrompter)
-                                                          .withLogger(logger)
                                                           .build();
 
-        questionnaire.ask();
+        QuestionnaireAnswers answers = questionnaire.ask(inputPrompter, logger);
 
         Mockito.verify(logger).print("What is your name? ");
         Mockito.verify(logger).print("What is your age? ");
 
-        assertEquals("John", questionnaire.getAnswer("name", String.class));
-        assertEquals(18, questionnaire.getAnswer("age", Integer.class));
+        assertEquals("John", answers.getAnswer("name", String.class));
+        assertEquals(18, answers.getAnswer("age", Integer.class));
     }
 }
