@@ -18,7 +18,7 @@ public class VintageApplication {
 
     // Default application values
     public static final String DEFAULT_EXPEDITION_PRICE_EXPRESSION_STRING = "basePrice * 0.1 * (1 + tax) * 0.9";
-    public static final List<String> EXPEDITION_PRICE_EXPRESSION_VARIABLES = new ArrayList<>(Arrays.asList("basePrice", "tax"));
+    public static final List<String> EXPEDITION_PRICE_EXPRESSION_VARIABLES = List.of("basePrice", "tax");
 
     private final Logger logger;
     private final ViewFactory viewFactory;
