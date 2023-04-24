@@ -27,13 +27,13 @@ public class ParcelCarrierCreateCommand extends BaseCommand {
 
         logger.info("Do you want to set a custom price expression? (y/n)");
         logger.info("The default one is: " + VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_STRING);
-        boolean response = getInputPrompter().askForInput(logger,">", InputMapper.BOOLEAN);
+        boolean response = getInputPrompter().askForInput(logger, ">", InputMapper.BOOLEAN);
 
         if (response) {
             logger.info("Please enter the expression using the following variables: ");
-            logger.info(StringUtils.joinQuoted(VintageConstants.EXPEDITION_PRICE_EXPRESSION_VARIABLES, ", "));
+            logger.info(StringUtils.joinQuoted(VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_VARIABLES, ", "));
 
-            Expression expression = getInputPrompter().askForInput(logger, ">", InputMapper.ofExpression(VintageConstants.EXPEDITION_PRICE_EXPRESSION_VARIABLES));
+            Expression expression = getInputPrompter().askForInput(logger, ">", InputMapper.ofExpression(VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_VARIABLES));
 
             parcelCarrier.setExpeditionPriceExpression(expression);
         }

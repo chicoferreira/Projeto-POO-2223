@@ -1,5 +1,7 @@
 package com.marketplace.vintage.expression;
 
+import net.objecthunter.exp4j.ExpressionBuilder;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +12,7 @@ public class Exp4jExpression implements Expression {
     private final List<String> variables;
 
     public Exp4jExpression(String expression, List<String> variables) {
-        net.objecthunter.exp4j.ExpressionBuilder builder = new net.objecthunter.exp4j.ExpressionBuilder(expression);
+        ExpressionBuilder builder = new ExpressionBuilder(expression);
         for (String variable : variables) {
             builder.variable(variable);
         }
