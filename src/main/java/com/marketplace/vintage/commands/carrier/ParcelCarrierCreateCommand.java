@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.carrier;
 
-import com.marketplace.vintage.VintageApplication;
+import com.marketplace.vintage.VintageConstants;
 import com.marketplace.vintage.carrier.ParcelCarrier;
 import com.marketplace.vintage.carrier.ParcelCarrierFactory;
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
@@ -8,6 +8,7 @@ import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.expression.Expression;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.logging.Logger;
+import com.marketplace.vintage.utils.StringUtils;
 
 public class ParcelCarrierCreateCommand extends BaseCommand {
 
@@ -25,24 +26,14 @@ public class ParcelCarrierCreateCommand extends BaseCommand {
         ParcelCarrier parcelCarrier = ParcelCarrierFactory.createNormalParcelCarrier(parcelCarrierName);
 
         logger.info("Do you want to set a custom price expression? (y/n)");
-        logger.info("The default one is: " + VintageApplication.DEFAULT_EXPEDITION_PRICE_EXPRESSION_STRING);
+        logger.info("The default one is: " + VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_STRING);
         boolean response = getInputPrompter().askForInput(logger,">", InputMapper.BOOLEAN);
 
         if (response) {
             logger.info("Please enter the expression using the following variables: ");
+            logger.info(StringUtils.joinQuoted(VintageConstants.EXPEDITION_PRICE_EXPRESSION_VARIABLES, ", "));
 
-            StringBuilder expressionMessage = new StringBuilder();
-            int index = 0;
-            for (String variable : VintageApplication.EXPEDITION_PRICE_EXPRESSION_VARIABLES) {
-                expressionMessage.append("'").append(variable).append("'");
-                if (index != VintageApplication.EXPEDITION_PRICE_EXPRESSION_VARIABLES.size() - 1) {
-                    expressionMessage.append(", ");
-                }
-                index++;
-            }
-            logger.info(expressionMessage.toString());
-
-            Expression expression = getInputPrompter().askForInput(logger, ">", InputMapper.ofExpression(VintageApplication.EXPEDITION_PRICE_EXPRESSION_VARIABLES));
+            Expression expression = getInputPrompter().askForInput(logger, ">", InputMapper.ofExpression(VintageConstants.EXPEDITION_PRICE_EXPRESSION_VARIABLES));
 
             parcelCarrier.setExpeditionPriceExpression(expression);
         }
