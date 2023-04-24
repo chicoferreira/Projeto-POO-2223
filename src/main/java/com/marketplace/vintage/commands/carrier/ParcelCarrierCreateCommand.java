@@ -24,16 +24,25 @@ public class ParcelCarrierCreateCommand extends BaseCommand {
 
         ParcelCarrier parcelCarrier = ParcelCarrierFactory.createNormalParcelCarrier(parcelCarrierName);
 
-        String message = "Do you want to set a custom price expression? The default one is: " + VintageApplication.DEFAULT_EXPEDITION_PRICE_EXPRESSION_STRING + " (y/n)";
-        boolean response = getInputPrompter().askForInput(logger, message, InputMapper.BOOLEAN);
+        logger.info("Do you want to set a custom price expression? (y/n)");
+        logger.info("The default one is: " + VintageApplication.DEFAULT_EXPEDITION_PRICE_EXPRESSION_STRING);
+        boolean response = getInputPrompter().askForInput(logger,">", InputMapper.BOOLEAN);
 
         if (response) {
-            StringBuilder expressionMessage = new StringBuilder("Please enter the expression using the following variables: ");
+            logger.info("Please enter the expression using the following variables: ");
+
+            StringBuilder expressionMessage = new StringBuilder();
+            int index = 0;
             for (String variable : VintageApplication.EXPEDITION_PRICE_EXPRESSION_VARIABLES) {
-                expressionMessage.append(variable).append(" ");
+                expressionMessage.append("'").append(variable).append("'");
+                if (index != VintageApplication.EXPEDITION_PRICE_EXPRESSION_VARIABLES.size() - 1) {
+                    expressionMessage.append(", ");
+                }
+                index++;
             }
-            expressionMessage.append("\n");
-            Expression expression = getInputPrompter().askForInput(logger, expressionMessage.toString(), InputMapper.ofExpression(VintageApplication.EXPEDITION_PRICE_EXPRESSION_VARIABLES));
+            logger.info(expressionMessage.toString());
+
+            Expression expression = getInputPrompter().askForInput(logger, ">", InputMapper.ofExpression(VintageApplication.EXPEDITION_PRICE_EXPRESSION_VARIABLES));
 
             parcelCarrier.setExpeditionPriceExpression(expression);
         }
