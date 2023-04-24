@@ -1,6 +1,6 @@
 package com.marketplace.vintage.expression;
 
-import com.marketplace.vintage.VintageApplication;
+import com.marketplace.vintage.VintageConstants;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -17,7 +17,7 @@ public class ExpressionTest {
         Expression expression = ExpressionBuilder.newBuilder()
                 .addVariable("basePrice")
                 .addVariable("tax")
-                .build(VintageApplication.DEFAULT_EXPEDITION_PRICE_EXPRESSION_STRING);
+                .build(VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_STRING);
 
         assertTrue(expression.isValid());
         assertEquals(expression.getVariables().get(0), "basePrice");
