@@ -1,5 +1,9 @@
 package com.marketplace.vintage.input;
 
+import com.marketplace.vintage.expression.Expression;
+import com.marketplace.vintage.expression.ExpressionBuilder;
+
+import java.util.List;
 import java.util.function.Function;
 
 public final class InputMapper {
@@ -32,4 +36,14 @@ public final class InputMapper {
             throw new IllegalArgumentException("Value must be 'y' or 'n'");
         }
     };
+
+    public static Function<String, Expression> ofExpression(List<String> variables) {
+        return (String input) -> {
+            try {
+                return ExpressionBuilder.newBuilder().withVariables(variables).build(input);
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Variables must be in " + variables);
+            }
+        };
+    }
 }
