@@ -2,6 +2,7 @@ package com.marketplace.vintage.item;
 
 import com.marketplace.vintage.exceptions.EntityAlreadyExistsException;
 import com.marketplace.vintage.exceptions.EntityNotFoundException;
+import com.marketplace.vintage.utils.AlphanumericGenerator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,11 +17,11 @@ public class ItemManager {
     }
 
     public Item getItem(String id) {
-        if (!itemsById.containsKey(id)) {
+        if (!this.itemsById.containsKey(id)) {
             throw new EntityNotFoundException("An item with the id " + id + " was not found");
         }
 
-        return itemsById.get(id);
+        return this.itemsById.get(id);
     }
 
     public void addItem(Item item) {
@@ -31,5 +32,14 @@ public class ItemManager {
         }
 
         this.itemsById.put(itemId, item);
+    }
+
+    public String generateUniqueID(Item item) {
+
+        String uniqueID = AlphanumericGenerator.generateAlphanumericID("XXX-XXX");
+        while (this.itemsById.containsKey(uniqueID)) uniqueID = AlphanumericGenerator.generateAlphanumericID("XXX-XXX");
+
+        return uniqueID;
+
     }
 }

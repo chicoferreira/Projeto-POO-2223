@@ -15,7 +15,7 @@ public abstract class Item {
     private final BigDecimal basePrice;
     private final UUID parcelCarrierUuid;
 
-    public Item(String alphanumericCode, ItemCondition itemCondition, String description, String brand,  BigDecimal basePrice, UUID parcelCarrierUuid) {
+    public Item(String alphanumericCode, ItemCondition itemCondition, String description, String brand, BigDecimal basePrice, UUID parcelCarrierUuid) {
         this.alphanumericCode = alphanumericCode;
         this.itemCondition = itemCondition;
         this.description = description;
@@ -27,6 +27,7 @@ public abstract class Item {
     public String getAlphanumericCode() {
         return alphanumericCode;
     }
+
     public ItemCondition getItemCondition() {
         return itemCondition;
     }

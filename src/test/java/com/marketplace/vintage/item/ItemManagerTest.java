@@ -26,7 +26,7 @@ public class ItemManagerTest {
         assertEquals(testNumericCode, testGetItem.getAlphanumericCode());
 
         String secondTestNumericID = AlphanumericGenerator.generateAlphanumericID(testNumericCode);
-        while(testNumericCode == secondTestNumericID) {
+        while (testNumericCode == secondTestNumericID) {
             secondTestNumericID = AlphanumericGenerator.generateAlphanumericID(testNumericCode);
         }
         final String finalTestID = secondTestNumericID;
@@ -36,7 +36,7 @@ public class ItemManagerTest {
     }
 
     private Item createTestItem() {
-        String alphaNumericID  = AlphanumericGenerator.generateAlphanumericID("XXX-XXX");
+        String alphaNumericID = AlphanumericGenerator.generateAlphanumericID("XXX-XXX");
         String testDescription = "TEST";
         String testBrand = "BRAND";
         BigDecimal testBasePrice = BigDecimal.valueOf(100);
