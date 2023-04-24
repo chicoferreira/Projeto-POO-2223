@@ -25,7 +25,7 @@ public class ItemManager {
     }
 
     public void addItem(Item item) {
-        String itemId = item.getAlphanumericCode();
+        String itemId = item.getAlphanumericID();
 
         if (itemsById.containsKey(itemId)) {
             throw new EntityAlreadyExistsException("An item with that id already exists");
@@ -34,10 +34,9 @@ public class ItemManager {
         this.itemsById.put(itemId, item);
     }
 
-    public String generateUniqueID(Item item) {
-
-        String uniqueID = AlphanumericGenerator.generateAlphanumericID("XXX-XXX");
-        while (this.itemsById.containsKey(uniqueID)) uniqueID = AlphanumericGenerator.generateAlphanumericID("XXX-XXX");
+    public String generateUniqueID(String format) {
+        String uniqueID = AlphanumericGenerator.generateAlphanumericID(format);
+        while (this.itemsById.containsKey(uniqueID)) uniqueID = AlphanumericGenerator.generateAlphanumericID(format);
 
         return uniqueID;
 

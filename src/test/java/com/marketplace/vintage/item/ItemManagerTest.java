@@ -2,7 +2,6 @@ package com.marketplace.vintage.item;
 
 import com.marketplace.vintage.exceptions.EntityAlreadyExistsException;
 import com.marketplace.vintage.exceptions.EntityNotFoundException;
-import com.marketplace.vintage.utils.AlphanumericGenerator;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -17,26 +16,26 @@ public class ItemManagerTest {
     @Test
     void testItemManager() {
         ItemManager itemManager = new ItemManager();
-        Item testItem = createTestItem();
-        String testNumericCode = testItem.getAlphanumericCode();
+        String id = itemManager.generateUniqueID("XXX-XXX");
+        Item testItem = createTestItem(id);
+        String alphanumericID = testItem.getAlphanumericID();
+
+        assertEquals(id,alphanumericID);
 
         itemManager.addItem(testItem);
-        Item testGetItem = itemManager.getItem(testNumericCode);
+        Item testGetItem = itemManager.getItem(alphanumericID);
 
-        assertEquals(testNumericCode, testGetItem.getAlphanumericCode());
+        assertEquals(alphanumericID, testGetItem.getAlphanumericID());
 
-        String secondTestNumericID = AlphanumericGenerator.generateAlphanumericID(testNumericCode);
-        while (testNumericCode == secondTestNumericID) {
-            secondTestNumericID = AlphanumericGenerator.generateAlphanumericID(testNumericCode);
-        }
-        final String finalTestID = secondTestNumericID;
+        String secondAlphanumericID = itemManager.generateUniqueID("XXX-XXX");
+        final String finalTestID = secondAlphanumericID;
 
         assertThrowsExactly(EntityNotFoundException.class, () -> itemManager.getItem(finalTestID));
         assertThrowsExactly(EntityAlreadyExistsException.class, () -> itemManager.addItem(testGetItem));
     }
 
-    private Item createTestItem() {
-        String alphaNumericID = AlphanumericGenerator.generateAlphanumericID("XXX-XXX");
+    private Item createTestItem(String id) {
+        String alphaNumericID = id;
         String testDescription = "TEST";
         String testBrand = "BRAND";
         BigDecimal testBasePrice = BigDecimal.valueOf(100);

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public abstract class Item {
 
-    private final String alphanumericCode;
+    private final String alphanumericID;
     private final ItemCondition itemCondition;
     private final String description;
     private final String brand;
@@ -16,7 +16,7 @@ public abstract class Item {
     private final UUID parcelCarrierUuid;
 
     public Item(String alphanumericCode, ItemCondition itemCondition, String description, String brand, BigDecimal basePrice, UUID parcelCarrierUuid) {
-        this.alphanumericCode = alphanumericCode;
+        this.alphanumericID = alphanumericCode;
         this.itemCondition = itemCondition;
         this.description = description;
         this.brand = brand;
@@ -24,8 +24,8 @@ public abstract class Item {
         this.parcelCarrierUuid = parcelCarrierUuid;
     }
 
-    public String getAlphanumericCode() {
-        return alphanumericCode;
+    public String getAlphanumericID() {
+        return alphanumericID;
     }
 
     public ItemCondition getItemCondition() {
