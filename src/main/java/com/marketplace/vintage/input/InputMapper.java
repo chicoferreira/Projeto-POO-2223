@@ -1,7 +1,7 @@
 package com.marketplace.vintage.input;
 
 import com.marketplace.vintage.expression.Expression;
-import com.marketplace.vintage.expression.ExpressionBuilder;
+import com.marketplace.vintage.expression.ExpressionFactory;
 
 import java.util.List;
 import java.util.function.Function;
@@ -40,7 +40,7 @@ public final class InputMapper {
     public static Function<String, Expression> ofExpression(List<String> variables) {
         return (String input) -> {
             try {
-                return ExpressionBuilder.newBuilder().withVariables(variables).build(input);
+                return ExpressionFactory.createExpression(input, variables);
             } catch (Exception e) {
                 throw new IllegalArgumentException("Variables must be in " + variables);
             }
