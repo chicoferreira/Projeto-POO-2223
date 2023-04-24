@@ -6,14 +6,8 @@ import com.marketplace.vintage.carrier.ParcelCarrierFactory;
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.expression.Expression;
-import com.marketplace.vintage.expression.ExpressionBuilder;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.logging.Logger;
-import com.marketplace.vintage.utils.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
 
 public class ParcelCarrierCreateCommand extends BaseCommand {
 
@@ -34,7 +28,13 @@ public class ParcelCarrierCreateCommand extends BaseCommand {
         boolean response = getInputPrompter().askForInput(logger, message, InputMapper.BOOLEAN);
 
         if (response) {
-            Expression expression = askForExpression(logger);
+            StringBuilder expressionMessage = new StringBuilder("Please enter the expression using the following variables: ");
+            for (String variable : VintageApplication.EXPEDITION_PRICE_EXPRESSION_VARIABLES) {
+                expressionMessage.append(variable).append(" ");
+            }
+            expressionMessage.append("\n");
+            Expression expression = getInputPrompter().askForInput(logger, expressionMessage.toString(), InputMapper.ofExpression(VintageApplication.EXPEDITION_PRICE_EXPRESSION_VARIABLES));
+
             parcelCarrier.setExpeditionPriceExpression(expression);
         }
 
@@ -48,31 +48,4 @@ public class ParcelCarrierCreateCommand extends BaseCommand {
         logger.info("Parcel carrier " + parcelCarrier.getName() + " created successfully");
     }
 
-    public Expression askForExpression(Logger logger) {
-        List<String> allowedVariables = VintageApplication.EXPEDITION_PRICE_EXPRESSION_VARIABLES;
-        StringBuilder message = new StringBuilder("Please enter the expression using the following variables: ");
-        for (String variable : allowedVariables) {
-            message.append(variable).append(" ");
-        }
-        message.append("\n");
-        String expressionString = getInputPrompter().askForInput(logger, message.toString(), InputMapper.STRING);
-
-        // Check for unknown variables
-        Predicate<String> variableValidator = variable -> allowedVariables.contains(variable) || StringUtils.isNumeric(variable) || StringUtils.isOperator(variable);
-        if (!StringUtils.containsOnlyAllowedTokens(expressionString, variableValidator)) {
-            logger.warn("Invalid expression, please try again");
-            return askForExpression(logger);
-        }
-
-        List<String> variables = new ArrayList<>();
-        for (String variable : allowedVariables) {
-            if (expressionString.contains(variable)) {
-                variables.add(variable);
-            }
-        }
-
-        return ExpressionBuilder.newBuilder()
-                .withVariables(variables)
-                .build(expressionString);
-    }
 }
