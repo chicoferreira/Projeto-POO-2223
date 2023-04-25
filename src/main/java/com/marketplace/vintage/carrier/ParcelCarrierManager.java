@@ -57,6 +57,14 @@ public class ParcelCarrierManager {
         return carrier;
     }
 
+    public boolean containsCarrierById(UUID id) {
+        return this.carriersById.containsKey(id);
+    }
+
+    public boolean containsCarrierByName(String name) {
+        return this.carriersByName.containsKey(name);
+    }
+
     public List<ParcelCarrier> getAll() {
         return new ArrayList<>(carriersById.values());
     }

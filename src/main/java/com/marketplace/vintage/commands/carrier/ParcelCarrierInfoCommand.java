@@ -19,14 +19,14 @@ public class ParcelCarrierInfoCommand extends BaseCommand {
     protected void executeSafely(Logger logger, String[] args) {
         String name = args[0];
 
-        try {
-            ParcelCarrier parcelCarrier = parcelCarrierManager.getCarrierByName(name);
-            logger.info("Name: " + name);
-            logger.info("Type: " + parcelCarrier.getType());
-            logger.info("Expedition price expression: " + parcelCarrier.getExpeditionPriceExpression());
-        } catch (EntityNotFoundException e) {
-            logger.warn(e.getMessage());
+        if (!parcelCarrierManager.containsCarrierByName(name)) {
+            logger.warn("Parcel carrier with name " + name + " does not exist");
+            return;
         }
 
+        ParcelCarrier parcelCarrier = parcelCarrierManager.getCarrierByName(name);
+        logger.info("Name: " + name);
+        logger.info("Type: " + parcelCarrier.getType());
+        logger.info("Expedition price expression: " + parcelCarrier.getExpeditionPriceExpression());
     }
 }
