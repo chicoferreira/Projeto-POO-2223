@@ -8,17 +8,17 @@ import java.util.UUID;
 
 public class PremiumMalaItem extends MalaItem {
 
-    public PremiumMalaItem(ItemCondition itemCondition,
+    public PremiumMalaItem(String alphanumericId,
+                           ItemCondition itemCondition,
                            String description,
                            String brand,
-                           String alphanumericCode,
                            BigDecimal basePrice,
                            UUID parcelCarrierUuid,
                            int dimensionArea,
                            String material,
                            int collectionYear,
                            int appreciationRateOverYears) {
-        super(itemCondition, description, brand, alphanumericCode, basePrice, parcelCarrierUuid, dimensionArea, material, collectionYear, appreciationRateOverYears);
+        super(alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid, dimensionArea, material, collectionYear, appreciationRateOverYears);
     }
 
     @Override
