@@ -47,4 +47,13 @@ public abstract class ParcelCarrier {
 
     public abstract boolean canDeliverItemType(ItemType itemType);
 
+    @Override
+    public String toString() {
+        return "ParcelCarrier{" +
+                "uuid=" + uuid +
+                ", name='" + name + '\'' +
+                ", expeditionPriceExpression='" + expeditionPriceExpression + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }
