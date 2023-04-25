@@ -6,8 +6,8 @@ import java.util.UUID;
 
 public class NormalParcelCarrier extends ParcelCarrier {
 
-    public NormalParcelCarrier(UUID uuid, String name) {
-        super(uuid, name, ParcelCarrierType.NORMAL);
+    public NormalParcelCarrier(UUID uuid, String name, String expeditionPriceExpression) {
+        super(uuid, name, expeditionPriceExpression, ParcelCarrierType.NORMAL);
     }
 
     @Override

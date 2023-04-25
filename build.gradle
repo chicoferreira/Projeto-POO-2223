@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 group = 'com.marketplace.vintage'
@@ -15,6 +16,7 @@ dependencies {
     implementation 'org.jetbrains:annotations:24.0.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:2.19.0'
     testImplementation 'org.mockito:mockito-core:2.19.0'
+    implementation 'net.objecthunter:exp4j:0.4.8'
 }
 
 test {
@@ -25,4 +27,20 @@ tasks.jar {
     manifest {
         attributes 'Main-Class': 'com.marketplace.vintage.Main'
     }
+}
+
+build {
+    dependsOn shadowJar
+
+    jar {
+        enabled = false
+    }
+}
+
+shadowJar {
+    relocate 'net.objecthunter.exp4j', 'com.marketplace.vintage.libs.exp4j'
+    relocate 'org.jetbrains', 'com.marketplace.vintage.libs.jetbrains'
+
+    archiveClassifier.set('')
+    minimize()
 }

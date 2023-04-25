@@ -1,5 +1,8 @@
 package com.marketplace.vintage.input;
 
+import com.marketplace.vintage.expression.ExpressionSolver;
+
+import java.util.List;
 import java.util.function.Function;
 
 public final class InputMapper {
@@ -32,4 +35,19 @@ public final class InputMapper {
             throw new IllegalArgumentException("Value must be 'y' or 'n'");
         }
     };
+
+    public static Function<String, String> ofExpression(ExpressionSolver expressionSolver, List<String> variables) {
+        return (String input) -> {
+            try {
+                boolean isValid = expressionSolver.isValid(input, variables);
+                if (!isValid) {
+                    throw new IllegalArgumentException("Expression must be valid");
+                }
+                return input;
+            } catch (Exception e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        };
+    }
+
 }
