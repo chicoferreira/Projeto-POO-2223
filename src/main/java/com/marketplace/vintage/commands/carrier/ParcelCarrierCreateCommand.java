@@ -35,7 +35,7 @@ public class ParcelCarrierCreateCommand extends BaseCommand {
             logger.info("Please enter the expression using the following variables: ");
             logger.info(StringUtils.joinQuoted(VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_VARIABLES, ", "));
 
-            String expression = getInputPrompter().askForInput(logger, ">", InputMapper.ofExpression(expressionSolver, VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_VARIABLES));
+            String expression = getInputPrompter().askForInput(logger, "Expression >", InputMapper.ofExpression(expressionSolver, VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_VARIABLES));
             parcelCarrier.setExpeditionPriceExpression(expression);
         }
 
