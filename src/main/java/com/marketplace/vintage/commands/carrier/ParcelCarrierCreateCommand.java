@@ -5,7 +5,6 @@ import com.marketplace.vintage.carrier.ParcelCarrier;
 import com.marketplace.vintage.carrier.ParcelCarrierFactory;
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.command.BaseCommand;
-import com.marketplace.vintage.expression.Expression;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.utils.StringUtils;
@@ -33,8 +32,7 @@ public class ParcelCarrierCreateCommand extends BaseCommand {
             logger.info("Please enter the expression using the following variables: ");
             logger.info(StringUtils.joinQuoted(VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_VARIABLES, ", "));
 
-            Expression expression = getInputPrompter().askForInput(logger, ">", InputMapper.ofExpression(VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_VARIABLES));
-
+            String expression = getInputPrompter().askForInput(logger, ">", InputMapper.ofExpression(VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_VARIABLES));
             parcelCarrier.setExpeditionPriceExpression(expression);
         }
 

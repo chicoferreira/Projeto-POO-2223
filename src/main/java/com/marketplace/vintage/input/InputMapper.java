@@ -1,7 +1,6 @@
 package com.marketplace.vintage.input;
 
-import com.marketplace.vintage.expression.Expression;
-import com.marketplace.vintage.expression.ExpressionFactory;
+import com.marketplace.vintage.expression.ExpressionSolver;
 
 import java.util.List;
 import java.util.function.Function;
@@ -37,13 +36,18 @@ public final class InputMapper {
         }
     };
 
-    public static Function<String, Expression> ofExpression(List<String> variables) {
+    public static Function<String, String> ofExpression(List<String> variables) {
         return (String input) -> {
             try {
-                return ExpressionFactory.createExpression(input, variables);
+                boolean isValid = ExpressionSolver.isValid(input, variables);
+                if (!isValid) {
+                    throw new IllegalArgumentException("Expression must be valid");
+                }
+                return input;
             } catch (Exception e) {
-                throw new IllegalArgumentException("Variables must be in " + variables);
+                throw new IllegalArgumentException(e.getMessage());
             }
         };
     }
+
 }
