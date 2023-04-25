@@ -1,6 +1,8 @@
 package com.marketplace.vintage;
 
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
+import com.marketplace.vintage.expression.Exp4jExpressionSolver;
+import com.marketplace.vintage.expression.ExpressionSolver;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.JavaLogger;
 import com.marketplace.vintage.logging.Logger;
@@ -22,7 +24,8 @@ public class VintageApplication {
         UserManager userManager = new UserManager();
         ParcelCarrierManager parcelCarrierManager = new ParcelCarrierManager();
         this.inputPrompter = new InputPrompter();
-        this.viewFactory = new ViewFactory(logger, inputPrompter, userManager, parcelCarrierManager);
+        ExpressionSolver expressionSolver = new Exp4jExpressionSolver();
+        this.viewFactory = new ViewFactory(logger, inputPrompter, userManager, parcelCarrierManager, expressionSolver);
     }
 
     public void start() {
