@@ -43,6 +43,7 @@ public class ParcelCarrierManager {
         if (carrier == null) {
             throw new EntityNotFoundException("A carrier with the id " + id + " was not found");
         }
+
         return carrier;
     }
 
@@ -52,6 +53,7 @@ public class ParcelCarrierManager {
         if (carrier == null) {
             throw new EntityNotFoundException("A carrier with the name " + name + " was not found");
         }
+
         return carrier;
     }
 

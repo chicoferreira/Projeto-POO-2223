@@ -6,8 +6,8 @@ import java.util.UUID;
 
 public class PremiumParcelCarrier extends ParcelCarrier {
 
-    public PremiumParcelCarrier(UUID uuid, String name) {
-        super(uuid, name, ParcelCarrierType.PREMIUM);
+    public PremiumParcelCarrier(UUID uuid, String name, String expeditionPriceExpression) {
+        super(uuid, name, expeditionPriceExpression, ParcelCarrierType.PREMIUM);
     }
 
     @Override
