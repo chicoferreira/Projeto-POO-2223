@@ -20,7 +20,7 @@ public class TshirtItem extends Item {
     private final TshirtItemSize size;
     private final TshirtItemPattern pattern;
 
-    public TshirtItem(String alphanumericID,
+    public TshirtItem(String alphanumericId,
                       ItemCondition itemCondition,
                       String description,
                       String brand,
@@ -28,7 +28,7 @@ public class TshirtItem extends Item {
                       UUID parcelCarrierUuid,
                       TshirtItemSize size,
                       TshirtItemPattern pattern) {
-        super(alphanumericID, itemCondition, description, brand, basePrice, parcelCarrierUuid);
+        super(alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid);
         this.size = size;
         this.pattern = pattern;
     }

@@ -13,7 +13,7 @@ public class MalaItem extends Item {
     private final int collectionYear;
     private final int appreciationRateOverYears;
 
-    public MalaItem(String alphanumericID,
+    public MalaItem(String alphanumericId,
                     ItemCondition itemCondition,
                     String description,
                     String brand,
@@ -23,7 +23,7 @@ public class MalaItem extends Item {
                     String material,
                     int collectionYear,
                     int appreciationRateOverYears) {
-        super(alphanumericID, itemCondition, description, brand, basePrice, parcelCarrierUuid);
+        super(alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid);
         this.dimensionArea = dimensionArea;
         this.material = material;
         this.collectionYear = collectionYear;

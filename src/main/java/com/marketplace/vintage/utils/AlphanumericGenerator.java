@@ -19,8 +19,10 @@ public class AlphanumericGenerator {
         char[] arrayFormat = format.toCharArray();
 
         for (int i = 0; i < format.length(); i++) {
-            int randomIndex = RANDOM.nextInt(ALPHANUMERIC_CHARACTERS.length);
-            if (arrayFormat[i]  == FORMAT_PLACEHOLDER) arrayFormat[i] = ALPHANUMERIC_CHARACTERS[randomIndex];
+            if (arrayFormat[i] == FORMAT_PLACEHOLDER) {
+                int randomIndex = RANDOM.nextInt(ALPHANUMERIC_CHARACTERS.length);
+                arrayFormat[i] = ALPHANUMERIC_CHARACTERS[randomIndex];
+            }
         }
 
         return new String(arrayFormat);
