@@ -8,11 +8,13 @@ import java.util.Map;
 
 public class Exp4jExpressionSolver implements ExpressionSolver {
 
+    @Override
     public BigDecimal solve(String expression, Map<String, Double> variables) {
         List<String> variablesList = variables.keySet().stream().toList();
         return BigDecimal.valueOf(build(expression, variablesList).setVariables(variables).evaluate());
     }
 
+    @Override
     public boolean isValid(String expression, List<String> possibleVariables) {
         return build(expression, possibleVariables).validate(false).isValid();
     }
