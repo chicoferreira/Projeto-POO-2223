@@ -49,9 +49,11 @@ public abstract class ParcelCarrier {
 
     @Override
     public String toString() {
-        return "Name: " + name +
-                "\nType: " + type +
-                "\nExpedition price expression: " + expeditionPriceExpression;
+        return "ParcelCarrier{" +
+                "uuid=" + uuid +
+                ", name='" + name + '\'' +
+                ", expeditionPriceExpression='" + expeditionPriceExpression + '\'' +
+                ", type=" + type +
+                '}';
     }
-
 }

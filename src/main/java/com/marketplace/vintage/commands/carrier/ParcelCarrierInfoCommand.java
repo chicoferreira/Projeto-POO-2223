@@ -21,7 +21,9 @@ public class ParcelCarrierInfoCommand extends BaseCommand {
 
         try {
             ParcelCarrier parcelCarrier = parcelCarrierManager.getCarrierByName(name);
-            logger.info(parcelCarrier.toString());
+            logger.info("Name: " + name);
+            logger.info("Type: " + parcelCarrier.getType());
+            logger.info("Expedition price expression: " + parcelCarrier.getExpeditionPriceExpression());
         } catch (EntityNotFoundException e) {
             logger.warn(e.getMessage());
         }
