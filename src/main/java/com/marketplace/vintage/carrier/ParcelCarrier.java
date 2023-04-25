@@ -47,4 +47,11 @@ public abstract class ParcelCarrier {
 
     public abstract boolean canDeliverItemType(ItemType itemType);
 
+    @Override
+    public String toString() {
+        return "Name: " + name +
+                "\nType: " + type +
+                "\nExpedition price expression: " + expeditionPriceExpression;
+    }
+
 }

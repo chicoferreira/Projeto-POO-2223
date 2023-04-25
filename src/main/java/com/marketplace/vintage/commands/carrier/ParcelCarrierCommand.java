@@ -10,6 +10,7 @@ public class ParcelCarrierCommand extends ParentCommand {
         super("carrier", "Parcel Carrier commands");
         registerCommand(new ParcelCarrierCreateCommand(parcelCarrierManager, expressionSolver));
         registerCommand(new ParcelCarrierCreatePremiumCommand(parcelCarrierManager));
+        registerCommand(new ParcelCarrierInfoCommand(parcelCarrierManager));
         registerCommand(new ParcelCarrierListCommand(parcelCarrierManager));
     }
 }

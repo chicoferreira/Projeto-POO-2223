@@ -27,7 +27,7 @@ public class ParcelCarrierCreateCommand extends BaseCommand {
 
         ParcelCarrier parcelCarrier = ParcelCarrierFactory.createNormalParcelCarrier(parcelCarrierName);
 
-        logger.info("Do you want to set a custom price expression? (y/n)");
+        logger.info("Do you want to set a custom expedition price expression? (y/n)");
         logger.info("The default one is: " + VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_STRING);
         boolean response = getInputPrompter().askForInput(logger, ">", InputMapper.BOOLEAN);
 
