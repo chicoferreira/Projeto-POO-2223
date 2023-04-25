@@ -20,11 +20,9 @@ public class AlphanumericGenerator {
 
         for (int i = 0; i < format.length(); i++) {
             int randomIndex = RANDOM.nextInt(ALPHANUMERIC_CHARACTERS.length);
-            if (arrayFormat[i]  == FORMAT_PLACEHOLDER ) arrayFormat[i] = ALPHANUMERIC_CHARACTERS[randomIndex];
+            if (arrayFormat[i]  == FORMAT_PLACEHOLDER) arrayFormat[i] = ALPHANUMERIC_CHARACTERS[randomIndex];
         }
-        String idString = new String(arrayFormat);
 
-        return idString;
-
+        return new String(arrayFormat);
     }
 }
