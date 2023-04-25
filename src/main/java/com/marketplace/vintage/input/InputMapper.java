@@ -36,10 +36,10 @@ public final class InputMapper {
         }
     };
 
-    public static Function<String, String> ofExpression(List<String> variables) {
+    public static Function<String, String> ofExpression(ExpressionSolver expressionSolver, List<String> variables) {
         return (String input) -> {
             try {
-                boolean isValid = ExpressionSolver.isValid(input, variables);
+                boolean isValid = expressionSolver.isValid(input, variables);
                 if (!isValid) {
                     throw new IllegalArgumentException("Expression must be valid");
                 }

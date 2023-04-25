@@ -5,6 +5,7 @@ import com.marketplace.vintage.carrier.ParcelCarrier;
 import com.marketplace.vintage.carrier.ParcelCarrierFactory;
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.command.BaseCommand;
+import com.marketplace.vintage.expression.ExpressionSolver;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.utils.StringUtils;
@@ -12,10 +13,12 @@ import com.marketplace.vintage.utils.StringUtils;
 public class ParcelCarrierCreateCommand extends BaseCommand {
 
     private final ParcelCarrierManager parcelCarrierManager;
+    private final ExpressionSolver expressionSolver;
 
-    public ParcelCarrierCreateCommand(ParcelCarrierManager parcelCarrierManager) {
+    public ParcelCarrierCreateCommand(ParcelCarrierManager parcelCarrierManager, ExpressionSolver expressionSolver) {
         super("create", "carrier create <carrier name>", 1, "Create a new parcel carrier");
         this.parcelCarrierManager = parcelCarrierManager;
+        this.expressionSolver = expressionSolver;
     }
 
     @Override
@@ -32,7 +35,7 @@ public class ParcelCarrierCreateCommand extends BaseCommand {
             logger.info("Please enter the expression using the following variables: ");
             logger.info(StringUtils.joinQuoted(VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_VARIABLES, ", "));
 
-            String expression = getInputPrompter().askForInput(logger, ">", InputMapper.ofExpression(VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_VARIABLES));
+            String expression = getInputPrompter().askForInput(logger, ">", InputMapper.ofExpression(expressionSolver, VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_VARIABLES));
             parcelCarrier.setExpeditionPriceExpression(expression);
         }
 
