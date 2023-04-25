@@ -13,17 +13,17 @@ public class MalaItem extends Item {
     private final int collectionYear;
     private final int appreciationRateOverYears;
 
-    public MalaItem(ItemCondition itemCondition,
+    public MalaItem(String alphanumericId,
+                    ItemCondition itemCondition,
                     String description,
                     String brand,
-                    String alphanumericCode,
                     BigDecimal basePrice,
                     UUID parcelCarrierUuid,
                     int dimensionArea,
                     String material,
                     int collectionYear,
                     int appreciationRateOverYears) {
-        super(itemCondition, description, brand, alphanumericCode, basePrice, parcelCarrierUuid);
+        super(alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid);
         this.dimensionArea = dimensionArea;
         this.material = material;
         this.collectionYear = collectionYear;

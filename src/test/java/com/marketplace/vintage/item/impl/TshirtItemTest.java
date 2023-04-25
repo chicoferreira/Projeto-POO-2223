@@ -15,10 +15,10 @@ public class TshirtItemTest {
         ItemCondition usedItemCondition = ItemConditions.createUsed(5, 1);
 
         TshirtItem tshirtItem = new TshirtItem(
+                null,
                 usedItemCondition,
                 "description",
                 "brand",
-                "alphanumericCode",
                 BigDecimal.valueOf(100),
                 null,
                 TshirtItem.TshirtItemSize.SMALL,

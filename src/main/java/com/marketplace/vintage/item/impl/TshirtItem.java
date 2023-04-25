@@ -20,15 +20,15 @@ public class TshirtItem extends Item {
     private final TshirtItemSize size;
     private final TshirtItemPattern pattern;
 
-    public TshirtItem(ItemCondition itemCondition,
+    public TshirtItem(String alphanumericId,
+                      ItemCondition itemCondition,
                       String description,
                       String brand,
-                      String alphanumericCode,
                       BigDecimal basePrice,
                       UUID parcelCarrierUuid,
                       TshirtItemSize size,
                       TshirtItemPattern pattern) {
-        super(itemCondition, description, brand, alphanumericCode, basePrice, parcelCarrierUuid);
+        super(alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid);
         this.size = size;
         this.pattern = pattern;
     }
@@ -43,8 +43,7 @@ public class TshirtItem extends Item {
 
     @Override
     public BigDecimal getPriceCorrection(int currentYear) {
-        if (getItemCondition().getType() == ItemConditionType.USED &&
-            getPattern() != TshirtItemPattern.PLAIN) {
+        if (getItemCondition().getType() == ItemConditionType.USED && getPattern() != TshirtItemPattern.PLAIN) {
             return getBasePrice().negate().multiply(BigDecimal.valueOf(0.5));
         }
 

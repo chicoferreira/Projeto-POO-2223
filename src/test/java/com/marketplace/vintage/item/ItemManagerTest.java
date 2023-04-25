@@ -16,26 +16,32 @@ public class ItemManagerTest {
     @Test
     void testItemManager() {
         ItemManager itemManager = new ItemManager();
-        Item testItem = createTestItem();
-        UUID testItemID = testItem.getItemUuid();
+        String id = itemManager.generateUniqueCode("XXX-XXX");
+        Item testItem = createTestItem(id);
+        String alphanumericID = testItem.getAlphanumericID();
+
+        assertEquals(id,alphanumericID);
 
         itemManager.addItem(testItem);
-        Item testGetItem = itemManager.getItem(testItemID);
+        Item testGetItem = itemManager.getItem(alphanumericID);
 
-        assertEquals(testItemID, testGetItem.getItemUuid());
+        assertEquals(alphanumericID, testGetItem.getAlphanumericID());
 
-        assertThrowsExactly(EntityNotFoundException.class, () -> itemManager.getItem(UUID.randomUUID()));
+        String secondAlphanumericID = itemManager.generateUniqueCode("XXX-XXX");
+        final String finalTestID = secondAlphanumericID;
+
+        assertThrowsExactly(EntityNotFoundException.class, () -> itemManager.getItem(finalTestID));
         assertThrowsExactly(EntityAlreadyExistsException.class, () -> itemManager.addItem(testGetItem));
     }
 
-    private Item createTestItem() {
+    private Item createTestItem(String id) {
+        String alphaNumericID = id;
         String testDescription = "TEST";
         String testBrand = "BRAND";
-        String testNumericCode = "1";
         BigDecimal testBasePrice = BigDecimal.valueOf(100);
         UUID testCarrier = UUID.randomUUID();
 
-        return new Item(NEW, testDescription, testBrand, testNumericCode, testBasePrice, testCarrier) {
+        return new Item(alphaNumericID, NEW, testDescription, testBrand, testBasePrice, testCarrier) {
             @Override
             public BigDecimal getPriceCorrection(int currentYear) {
                 return new BigDecimal(0);
