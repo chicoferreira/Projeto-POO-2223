@@ -43,8 +43,7 @@ public class TshirtItem extends Item {
 
     @Override
     public BigDecimal getPriceCorrection(int currentYear) {
-        if (getItemCondition().getType() == ItemConditionType.USED &&
-                getPattern() != TshirtItemPattern.PLAIN) {
+        if (getItemCondition().getType() == ItemConditionType.USED && getPattern() != TshirtItemPattern.PLAIN) {
             return getBasePrice().negate().multiply(BigDecimal.valueOf(0.5));
         }
 

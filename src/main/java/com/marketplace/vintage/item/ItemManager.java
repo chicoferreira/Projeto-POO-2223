@@ -34,11 +34,10 @@ public class ItemManager {
         this.itemsById.put(itemId, item);
     }
 
-    public String generateUniqueID(String format) {
-        String uniqueID = AlphanumericGenerator.generateAlphanumericID(format);
-        while (this.itemsById.containsKey(uniqueID)) uniqueID = AlphanumericGenerator.generateAlphanumericID(format);
+    public String generateUniqueCode(String format) {
+        String uniqueCode = AlphanumericGenerator.generateAlphanumericCode(format);
+        while (this.itemsById.containsKey(uniqueCode)) uniqueCode = AlphanumericGenerator.generateAlphanumericCode(format);
 
-        return uniqueID;
-
+        return uniqueCode;
     }
 }

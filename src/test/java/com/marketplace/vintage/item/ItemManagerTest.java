@@ -16,7 +16,7 @@ public class ItemManagerTest {
     @Test
     void testItemManager() {
         ItemManager itemManager = new ItemManager();
-        String id = itemManager.generateUniqueID("XXX-XXX");
+        String id = itemManager.generateUniqueCode("XXX-XXX");
         Item testItem = createTestItem(id);
         String alphanumericID = testItem.getAlphanumericID();
 
@@ -27,7 +27,7 @@ public class ItemManagerTest {
 
         assertEquals(alphanumericID, testGetItem.getAlphanumericID());
 
-        String secondAlphanumericID = itemManager.generateUniqueID("XXX-XXX");
+        String secondAlphanumericID = itemManager.generateUniqueCode("XXX-XXX");
         final String finalTestID = secondAlphanumericID;
 
         assertThrowsExactly(EntityNotFoundException.class, () -> itemManager.getItem(finalTestID));

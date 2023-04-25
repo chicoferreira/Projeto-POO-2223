@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class AlphanumericGenerator {
 
-    private static final char[] LIST_OF_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+    private static final char[] ALPHANUMERIC_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
     private static final Random RANDOM = new Random();
     private static final char FORMAT_PLACEHOLDER = 'X';
 
@@ -15,12 +15,12 @@ public class AlphanumericGenerator {
      * format = XXX-XXX => GF3-56D
      * format = XXX-XXX-XX => E32-JKL-68
      */
-    public static String generateAlphanumericID(String format) {
+    public static String generateAlphanumericCode(String format) {
         char[] arrayFormat = format.toCharArray();
 
         for (int i = 0; i < format.length(); i++) {
-            int randomIndex = RANDOM.nextInt(LIST_OF_CHARACTERS.length);
-            if (arrayFormat[i]  == FORMAT_PLACEHOLDER ) arrayFormat[i] = LIST_OF_CHARACTERS[randomIndex];
+            int randomIndex = RANDOM.nextInt(ALPHANUMERIC_CHARACTERS.length);
+            if (arrayFormat[i]  == FORMAT_PLACEHOLDER ) arrayFormat[i] = ALPHANUMERIC_CHARACTERS[randomIndex];
         }
         String idString = new String(arrayFormat);
 
