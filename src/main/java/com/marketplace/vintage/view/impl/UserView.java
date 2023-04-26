@@ -1,6 +1,7 @@
 package com.marketplace.vintage.view.impl;
 
 import com.marketplace.vintage.commands.item.ItemCommand;
+import com.marketplace.vintage.commands.user.UserInfoCommand;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.input.questionnaire.Questionnaire;
@@ -31,6 +32,7 @@ public class UserView extends BaseView {
         this.userManager = userManager;
 
         this.getCommandManager().registerCommand(new ItemCommand());
+        this.getCommandManager().registerCommand(new UserInfoCommand(this));
     }
 
     @Override
