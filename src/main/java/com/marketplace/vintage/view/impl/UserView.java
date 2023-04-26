@@ -16,12 +16,13 @@ import com.marketplace.vintage.view.BaseView;
 public class UserView extends BaseView {
 
     public static final Questionnaire CREATE_USER_QUESTIONNAIRE = QuestionnaireBuilder.newBuilder()
-                                                                                      .withQuestion("name", "Enter your name:", InputMapper.STRING)
-                                                                                      .withQuestion("address", "Enter your address:", InputMapper.STRING)
-                                                                                      .withQuestion("taxNumber", "Enter your tax number:", InputMapper.STRING)
-                                                                                      .build();
+            .withQuestion("name", "Enter your name:", InputMapper.STRING)
+            .withQuestion("address", "Enter your address:", InputMapper.STRING)
+            .withQuestion("taxNumber", "Enter your tax number:", InputMapper.STRING)
+            .build();
     private final UserManager userManager;
     private final Logger baseLogger;
+    private User currentUser;
 
     public UserView(Logger logger, InputPrompter inputPrompter, UserManager userManager) {
         super(PrefixLogger.of("USER", logger), inputPrompter);
@@ -61,8 +62,9 @@ public class UserView extends BaseView {
             getLogger().info("User with email " + email + " does not exist.");
             return askForRegistration(email);
         }
+        this.currentUser = userManager.getUserByEmail(email);
 
-        return userManager.getUserByEmail(email);
+        return this.currentUser;
     }
 
     public User askForRegistration(String email) {
@@ -81,5 +83,10 @@ public class UserView extends BaseView {
         String taxNumber = answers.getAnswer("taxNumber", String.class);
 
         return userManager.createUser(email, name, address, taxNumber);
+    }
+
+    public User getCurrentLoggedInUser() {
+        if (this.currentUser == null) throw new IllegalStateException("User not logged in");
+        return this.currentUser;
     }
 }
