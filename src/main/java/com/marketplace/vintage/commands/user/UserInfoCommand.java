@@ -11,7 +11,7 @@ public class UserInfoCommand extends BaseCommand {
     private UserView userView;
 
     public UserInfoCommand(UserView userView) {
-        super("user info", "user info", 0, "Displays the current user's information");
+        super("userinfo", "userinfo", 0, "Displays the current user's information");
         this.userView = userView;
     }
 
