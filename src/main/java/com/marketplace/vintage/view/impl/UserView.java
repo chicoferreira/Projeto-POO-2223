@@ -12,14 +12,15 @@ import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.utils.EmailUtils;
 import com.marketplace.vintage.view.BaseView;
+import org.jetbrains.annotations.NotNull;
 
 public class UserView extends BaseView {
 
     public static final Questionnaire CREATE_USER_QUESTIONNAIRE = QuestionnaireBuilder.newBuilder()
-            .withQuestion("name", "Enter your name:", InputMapper.STRING)
-            .withQuestion("address", "Enter your address:", InputMapper.STRING)
-            .withQuestion("taxNumber", "Enter your tax number:", InputMapper.STRING)
-            .build();
+                                                                                      .withQuestion("name", "Enter your name:", InputMapper.STRING)
+                                                                                      .withQuestion("address", "Enter your address:", InputMapper.STRING)
+                                                                                      .withQuestion("taxNumber", "Enter your tax number:", InputMapper.STRING)
+                                                                                      .build();
     private final UserManager userManager;
     private final Logger baseLogger;
     private User currentUser;
@@ -34,13 +35,13 @@ public class UserView extends BaseView {
 
     @Override
     public void run() {
-        User user = askForLogin();
-        if (user == null) { // User cancelled login
+        this.currentUser = askForLogin();
+        if (this.currentUser == null) { // User cancelled login
             return;
         }
 
-        setLogger(PrefixLogger.of(user.getName(), baseLogger));
-        getLogger().info("Logged in as " + user.getName() + " (" + user.getEmail() + ")");
+        setLogger(PrefixLogger.of(this.currentUser.getName(), baseLogger));
+        getLogger().info("Logged in as " + this.currentUser.getName() + " (" + this.currentUser.getEmail() + ")");
 
         super.run();
     }
@@ -62,9 +63,8 @@ public class UserView extends BaseView {
             getLogger().info("User with email " + email + " does not exist.");
             return askForRegistration(email);
         }
-        this.currentUser = userManager.getUserByEmail(email);
 
-        return this.currentUser;
+        return userManager.getUserByEmail(email);
     }
 
     public User askForRegistration(String email) {
@@ -85,8 +85,11 @@ public class UserView extends BaseView {
         return userManager.createUser(email, name, address, taxNumber);
     }
 
+    @NotNull
     public User getCurrentLoggedInUser() {
-        if (this.currentUser == null) throw new IllegalStateException("User not logged in");
+        if (this.currentUser == null) {
+            throw new IllegalStateException("User not logged in");
+        }
         return this.currentUser;
     }
 }
