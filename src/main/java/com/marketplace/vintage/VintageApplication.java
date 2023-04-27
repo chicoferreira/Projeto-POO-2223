@@ -4,6 +4,8 @@ import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.expression.Exp4jExpressionSolver;
 import com.marketplace.vintage.expression.ExpressionSolver;
 import com.marketplace.vintage.input.InputPrompter;
+import com.marketplace.vintage.item.ItemFactory;
+import com.marketplace.vintage.item.ItemManager;
 import com.marketplace.vintage.logging.JavaLogger;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.user.UserManager;
@@ -25,7 +27,9 @@ public class VintageApplication {
         ParcelCarrierManager parcelCarrierManager = new ParcelCarrierManager();
         this.inputPrompter = new InputPrompter();
         ExpressionSolver expressionSolver = new Exp4jExpressionSolver();
-        this.viewFactory = new ViewFactory(logger, inputPrompter, userManager, parcelCarrierManager, expressionSolver);
+        ItemManager itemManager = new ItemManager();
+        ItemFactory itemFactory = new ItemFactory(itemManager);
+        this.viewFactory = new ViewFactory(logger, inputPrompter, userManager, parcelCarrierManager, expressionSolver, itemManager, itemFactory);
     }
 
     public void start() {
@@ -40,8 +44,8 @@ public class VintageApplication {
 
             View view = null;
             while (view == null) {
-                String viewTypeName = inputPrompter.getInput();
-                if (viewTypeName.equals("exit")) {
+                String viewTypeName = inputPrompter.askForInput(logger, ">").trim();
+                if (viewTypeName.equalsIgnoreCase("exit")) {
                     return;
                 }
                 ViewType viewType = ViewType.fromCommandName(viewTypeName);
