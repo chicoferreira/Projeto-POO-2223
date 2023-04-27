@@ -3,7 +3,9 @@ package com.marketplace.vintage.command;
 import com.marketplace.vintage.commands.HelpCommand;
 import com.marketplace.vintage.logging.Logger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ParentCommand implements CommandRepository, Command {
@@ -28,7 +30,7 @@ public class ParentCommand implements CommandRepository, Command {
         this.description = description;
         this.subCommands = new HashMap<>();
 
-        this.helpCommand = new HelpCommand(this, getUsage() + " help");
+        this.helpCommand = new HelpCommand(this, getFullName() + " help", getFullName());
         this.registerSubCommand(helpCommand);
     }
 
@@ -85,6 +87,11 @@ public class ParentCommand implements CommandRepository, Command {
     @Override
     public Command getCommand(String name) {
         return this.subCommands.get(name.toLowerCase());
+    }
+
+    @Override
+    public List<Command> getRegisteredCommands() {
+        return new ArrayList<>(this.subCommands.values());
     }
 
     public String getFullName() {

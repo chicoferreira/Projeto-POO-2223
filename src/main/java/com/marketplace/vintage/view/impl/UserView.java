@@ -30,7 +30,7 @@ public class UserView extends BaseView {
     private User currentLoggedInUser;
 
     public UserView(Logger logger, InputPrompter inputPrompter, UserManager userManager, ParcelCarrierManager parcelCarrierManager, ItemFactory itemFactory, ItemManager itemManager) {
-        super(PrefixLogger.of("USER", logger), inputPrompter);
+        super(PrefixLogger.of("USER", logger), inputPrompter, "user view");
         this.baseLogger = logger;
         this.userManager = userManager;
 
