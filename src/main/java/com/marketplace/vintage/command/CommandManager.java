@@ -4,7 +4,9 @@ import com.marketplace.vintage.logging.Logger;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -25,6 +27,11 @@ public class CommandManager implements CommandRepository { // CommandManager is 
     @Override
     public @Nullable Command getCommand(String name) {
         return this.commands.get(KEY_TRANSFORMATION.apply(name));
+    }
+
+    @Override
+    public List<Command> getRegisteredCommands() {
+        return new ArrayList<>(this.commands.values());
     }
 
     public void executeRawCommand(Logger logger, String rawCommand) {

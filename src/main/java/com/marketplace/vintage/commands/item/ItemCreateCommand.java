@@ -29,7 +29,7 @@ public class ItemCreateCommand extends BaseCommand {
     private final ItemManager itemManager;
 
     public ItemCreateCommand(ParcelCarrierManager parcelCarrierManager, ItemFactory itemFactory, ItemManager itemManager) {
-        super("create", "create", 0, "Create a new item");
+        super("create", "item create", 0, "Create a new item");
         this.parcelCarrierManager = parcelCarrierManager;
         this.itemFactory = itemFactory;
         this.itemManager = itemManager;

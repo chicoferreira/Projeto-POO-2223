@@ -13,12 +13,12 @@ public abstract class BaseView implements View {
     private Logger logger;
     private boolean shouldExit;
 
-    public BaseView(Logger logger, InputPrompter inputPrompter) {
+    public BaseView(Logger logger, InputPrompter inputPrompter, String helpTitle) {
         this.logger = logger;
         this.inputPrompter = inputPrompter;
         this.commandManager = new CommandManager();
 
-        this.getCommandManager().registerCommand(new HelpCommand(getCommandManager()));
+        this.getCommandManager().registerCommand(new HelpCommand(getCommandManager(), helpTitle));
         this.getCommandManager().registerCommand(new LogoutCommand(this));
     }
 

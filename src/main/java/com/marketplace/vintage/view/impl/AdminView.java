@@ -9,7 +9,7 @@ import com.marketplace.vintage.view.BaseView;
 
 public class AdminView extends BaseView {
     public AdminView(Logger logger, InputPrompter inputPrompter, ParcelCarrierManager parcelCarrierManager, ExpressionSolver expressionSolver) {
-        super(logger, inputPrompter);
+        super(logger, inputPrompter, "admin view");
 
         getCommandManager().registerCommand(new ParcelCarrierCommand(parcelCarrierManager, expressionSolver));
     }
