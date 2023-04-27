@@ -2,6 +2,7 @@ package com.marketplace.vintage.view.impl;
 
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.commands.item.ItemCommand;
+import com.marketplace.vintage.commands.user.UserInfoCommand;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.input.questionnaire.Questionnaire;
@@ -15,6 +16,7 @@ import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.utils.EmailUtils;
 import com.marketplace.vintage.view.BaseView;
+import org.jetbrains.annotations.NotNull;
 
 public class UserView extends BaseView {
 
@@ -25,6 +27,7 @@ public class UserView extends BaseView {
                                                                                       .build();
     private final UserManager userManager;
     private final Logger baseLogger;
+    private User currentLoggedInUser;
 
     public UserView(Logger logger, InputPrompter inputPrompter, UserManager userManager, ParcelCarrierManager parcelCarrierManager, ItemFactory itemFactory, ItemManager itemManager) {
         super(PrefixLogger.of("USER", logger), inputPrompter);
@@ -32,6 +35,7 @@ public class UserView extends BaseView {
         this.userManager = userManager;
 
         this.getCommandManager().registerCommand(new ItemCommand(parcelCarrierManager, itemFactory, itemManager));
+        this.getCommandManager().registerCommand(new UserInfoCommand(this));
     }
 
     @Override
@@ -41,6 +45,7 @@ public class UserView extends BaseView {
             return;
         }
 
+        setCurrentLoggedInUser(user);
         setLogger(PrefixLogger.of(user.getName(), baseLogger));
         getLogger().info("Logged in as " + user.getName() + " (" + user.getEmail() + ")");
 
@@ -84,5 +89,17 @@ public class UserView extends BaseView {
         String taxNumber = answers.getAnswer("taxNumber", String.class);
 
         return userManager.createUser(email, name, address, taxNumber);
+    }
+
+    private void setCurrentLoggedInUser(User currentLoggedInUser) {
+        this.currentLoggedInUser = currentLoggedInUser;
+    }
+
+    @NotNull
+    public User getCurrentLoggedInUser() {
+        if (this.currentLoggedInUser == null) {
+            throw new IllegalStateException("User not logged in");
+        }
+        return this.currentLoggedInUser;
     }
 }
