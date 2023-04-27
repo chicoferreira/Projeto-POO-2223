@@ -24,7 +24,7 @@ public class UserView extends BaseView {
                                                                                       .build();
     private final UserManager userManager;
     private final Logger baseLogger;
-    private User currentUser;
+    private User currentLoggedInUser;
 
     public UserView(Logger logger, InputPrompter inputPrompter, UserManager userManager) {
         super(PrefixLogger.of("USER", logger), inputPrompter);
@@ -37,13 +37,14 @@ public class UserView extends BaseView {
 
     @Override
     public void run() {
-        this.currentUser = askForLogin();
-        if (this.currentUser == null) { // User cancelled login
+        User user = askForLogin();
+        if (user == null) { // User cancelled login
             return;
         }
 
-        setLogger(PrefixLogger.of(this.currentUser.getName(), baseLogger));
-        getLogger().info("Logged in as " + this.currentUser.getName() + " (" + this.currentUser.getEmail() + ")");
+        setCurrentLoggedInUser(user);
+        setLogger(PrefixLogger.of(user.getName(), baseLogger));
+        getLogger().info("Logged in as " + user.getName() + " (" + user.getEmail() + ")");
 
         super.run();
     }
@@ -87,11 +88,15 @@ public class UserView extends BaseView {
         return userManager.createUser(email, name, address, taxNumber);
     }
 
+    private void setCurrentLoggedInUser(User currentLoggedInUser) {
+        this.currentLoggedInUser = currentLoggedInUser;
+    }
+
     @NotNull
     public User getCurrentLoggedInUser() {
-        if (this.currentUser == null) {
+        if (this.currentLoggedInUser == null) {
             throw new IllegalStateException("User not logged in");
         }
-        return this.currentUser;
+        return this.currentLoggedInUser;
     }
 }

@@ -8,7 +8,7 @@ import com.marketplace.vintage.view.impl.UserView;
 
 public class UserInfoCommand extends BaseCommand {
 
-    private UserView userView;
+    private final UserView userView;
 
     public UserInfoCommand(UserView userView) {
         super("userinfo", "userinfo", 0, "Displays the current user's information");
@@ -18,13 +18,11 @@ public class UserInfoCommand extends BaseCommand {
     @Override
     protected void executeSafely(Logger logger, String[] args) {
         User currentUser = userView.getCurrentLoggedInUser();
-        if(currentUser == null) logger.warn("User not logged in");
 
-        logger.info("Current User Info:");
-        logger.info("ID: " + currentUser.getId());
-        logger.info("Name: " + currentUser.getName());
-        logger.info("E-mail: " + currentUser.getEmail());
-        logger.info("Address:  " + currentUser.getAddress());
-        logger.info("Tax Number: " + currentUser.getTaxNumber());
+        logger.info(currentUser.getName() + "'s information");
+        logger.info(" - Email: " + currentUser.getEmail());
+        logger.info(" - Address: " + currentUser.getAddress());
+        logger.info(" - Tax Number: " + currentUser.getTaxNumber());
+        logger.info(" - Internal identifier: " + currentUser.getId());
     }
 }
