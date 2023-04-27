@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class ParcelCarrierManager {
 
@@ -67,5 +69,9 @@ public class ParcelCarrierManager {
 
     public List<ParcelCarrier> getAll() {
         return new ArrayList<>(carriersById.values());
+    }
+
+    public <T> List<T> getAll(Function<ParcelCarrier, T> apply) {
+        return carriersById.values().stream().map(apply).collect(Collectors.toList());
     }
 }
