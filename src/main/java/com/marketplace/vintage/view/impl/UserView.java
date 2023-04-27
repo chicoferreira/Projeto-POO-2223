@@ -1,5 +1,6 @@
 package com.marketplace.vintage.view.impl;
 
+import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.commands.item.ItemCommand;
 import com.marketplace.vintage.commands.user.UserInfoCommand;
 import com.marketplace.vintage.input.InputMapper;
@@ -7,6 +8,8 @@ import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.input.questionnaire.Questionnaire;
 import com.marketplace.vintage.input.questionnaire.QuestionnaireAnswers;
 import com.marketplace.vintage.input.questionnaire.QuestionnaireBuilder;
+import com.marketplace.vintage.item.ItemFactory;
+import com.marketplace.vintage.item.ItemManager;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.logging.PrefixLogger;
 import com.marketplace.vintage.user.User;
@@ -26,12 +29,12 @@ public class UserView extends BaseView {
     private final Logger baseLogger;
     private User currentLoggedInUser;
 
-    public UserView(Logger logger, InputPrompter inputPrompter, UserManager userManager) {
+    public UserView(Logger logger, InputPrompter inputPrompter, UserManager userManager, ParcelCarrierManager parcelCarrierManager, ItemFactory itemFactory, ItemManager itemManager) {
         super(PrefixLogger.of("USER", logger), inputPrompter);
         this.baseLogger = logger;
         this.userManager = userManager;
 
-        this.getCommandManager().registerCommand(new ItemCommand());
+        this.getCommandManager().registerCommand(new ItemCommand(parcelCarrierManager, itemFactory, itemManager));
         this.getCommandManager().registerCommand(new UserInfoCommand(this));
     }
 
