@@ -68,4 +68,20 @@ public class MalaItem extends Item {
 
         return this.getBasePrice().subtract(result).negate();
     }
+
+    @Override
+    public String toString() {
+        return "MalaItem{" +
+               "dimensionArea=" + getDimensionArea() +
+               ", material='" + getMaterial() + '\'' +
+               ", collectionYear=" + getCollectionYear() +
+               ", appreciationRateOverYears=" + getAppreciationRateOverYears() +
+               ", alphanumericID='" + getAlphanumericID() + '\'' +
+               ", itemCondition=" + getItemCondition() +
+               ", description='" + getDescription() + '\'' +
+               ", brand='" + getBrand() + '\'' +
+               ", basePrice=" + getBasePrice() +
+               ", parcelCarrierUuid=" + getParcelCarrierUuid() +
+               '}';
+    }
 }
