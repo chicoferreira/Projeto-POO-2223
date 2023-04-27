@@ -5,7 +5,6 @@ import com.marketplace.vintage.item.condition.ItemCondition;
 import com.marketplace.vintage.item.condition.UsedItemCondition;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.UUID;
 
 public class SapatilhasItem extends Item {
@@ -60,5 +59,21 @@ public class SapatilhasItem extends Item {
         }
 
         return BigDecimal.ZERO;
+    }
+
+    @Override
+    public String toString() {
+        return "SapatilhasItem{" +
+               "size=" + getSize() +
+               ", hasLaces=" + hasLaces() +
+               ", color='" + getColor() + '\'' +
+               ", collectionYear=" + getCollectionYear() +
+               ", alphanumericID='" + getAlphanumericID() + '\'' +
+               ", itemCondition=" + getItemCondition() +
+               ", description='" + getDescription() + '\'' +
+               ", brand='" + getBrand() + '\'' +
+               ", basePrice=" + getBasePrice() +
+               ", parcelCarrierUuid=" + getParcelCarrierUuid() +
+               '}';
     }
 }

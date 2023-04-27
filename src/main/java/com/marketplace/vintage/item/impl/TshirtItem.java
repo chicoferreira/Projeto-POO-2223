@@ -50,4 +50,17 @@ public class TshirtItem extends Item {
         return BigDecimal.ZERO;
     }
 
+    @Override
+    public String toString() {
+        return "TshirtItem{" +
+               "size=" + getSize() +
+               ", pattern=" + getPattern() +
+               ", alphanumericID='" + getAlphanumericID() + '\'' +
+               ", itemCondition=" + getItemCondition() +
+               ", description='" + getDescription() + '\'' +
+               ", brand='" + getBrand() + '\'' +
+               ", basePrice=" + getBasePrice() +
+               ", parcelCarrierUuid=" + getParcelCarrierUuid() +
+               '}';
+    }
 }
