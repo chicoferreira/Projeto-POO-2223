@@ -2,6 +2,7 @@ package com.marketplace.vintage.view;
 
 import com.marketplace.vintage.command.CommandManager;
 import com.marketplace.vintage.commands.HelpCommand;
+import com.marketplace.vintage.commands.LogoutCommand;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
 
@@ -18,6 +19,7 @@ public abstract class BaseView implements View {
         this.commandManager = new CommandManager();
 
         this.getCommandManager().registerCommand(new HelpCommand(getCommandManager()));
+        this.getCommandManager().registerCommand(new LogoutCommand(this));
     }
 
     public CommandManager getCommandManager() {
@@ -34,6 +36,10 @@ public abstract class BaseView implements View {
 
     public InputPrompter getInputPrompter() {
         return inputPrompter;
+    }
+
+    public void setShouldExit() {
+        this.shouldExit = true;
     }
 
     public void run() {

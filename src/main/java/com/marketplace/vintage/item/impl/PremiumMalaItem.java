@@ -3,7 +3,6 @@ package com.marketplace.vintage.item.impl;
 import com.marketplace.vintage.item.condition.ItemCondition;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.UUID;
 
 public class PremiumMalaItem extends MalaItem {
@@ -24,5 +23,21 @@ public class PremiumMalaItem extends MalaItem {
     @Override
     public BigDecimal getPriceCorrection(int currentYear) {
         return super.getPriceCorrection(currentYear).negate();
+    }
+
+    @Override
+    public String toString() {
+        return "PremiumMalaItem{" +
+               "alphanumericID='" + getAlphanumericID() + '\'' +
+               ", itemCondition=" + getItemCondition() +
+               ", description='" + getDescription() + '\'' +
+               ", brand='" + getBrand() + '\'' +
+               ", basePrice=" + getBasePrice() +
+               ", parcelCarrierUuid=" + getParcelCarrierUuid() +
+               ", dimensionArea=" + getDimensionArea() +
+               ", material='" + getMaterial() + '\'' +
+               ", collectionYear=" + getCollectionYear() +
+               ", appreciationRateOverYears=" + getAppreciationRateOverYears() +
+               '}';
     }
 }

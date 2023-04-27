@@ -27,4 +27,8 @@ public class QuestionnaireAnswers {
 
         return stringClass.cast(answer);
     }
+
+    public Map<String, Object> getAnswersMap() {
+        return new HashMap<>(this.answers);
+    }
 }

@@ -3,7 +3,6 @@ package com.marketplace.vintage.item.impl;
 import com.marketplace.vintage.item.condition.ItemCondition;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.UUID;
 
 public class PremiumSapatilhasItem extends SapatilhasItem {
@@ -52,4 +51,20 @@ public class PremiumSapatilhasItem extends SapatilhasItem {
         return this.getBasePrice().subtract(result);
     }
 
+    @Override
+    public String toString() {
+        return "PremiumSapatilhasItem{" +
+               "appreciationRateOverYears=" + getAppreciationRateOverYears() +
+               ", alphanumericID='" + getAlphanumericID() + '\'' +
+               ", itemCondition=" + getItemCondition() +
+               ", description='" + getDescription() + '\'' +
+               ", brand='" + getBrand() + '\'' +
+               ", basePrice=" + getBasePrice() +
+               ", parcelCarrierUuid=" + getParcelCarrierUuid() +
+               ", size=" + getSize() +
+               ", hasLaces=" + hasLaces() +
+               ", color='" + getColor() + '\'' +
+               ", collectionYear=" + getCollectionYear() +
+               '}';
+    }
 }

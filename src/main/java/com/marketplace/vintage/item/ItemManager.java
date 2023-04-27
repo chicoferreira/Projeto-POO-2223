@@ -6,11 +6,12 @@ import com.marketplace.vintage.utils.AlphanumericGenerator;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class ItemManager {
 
     private final Map<String, Item> itemsById;
+
+    private static final String ITEM_ID_FORMAT = "XXX-XXX";
 
     public ItemManager() {
         this.itemsById = new HashMap<>();
@@ -24,7 +25,7 @@ public class ItemManager {
         return this.itemsById.get(id);
     }
 
-    public void addItem(Item item) {
+    public void registerItem(Item item) {
         String itemId = item.getAlphanumericID();
 
         if (itemsById.containsKey(itemId)) {
@@ -34,9 +35,11 @@ public class ItemManager {
         this.itemsById.put(itemId, item);
     }
 
-    public String generateUniqueCode(String format) {
-        String uniqueCode = AlphanumericGenerator.generateAlphanumericCode(format);
-        while (this.itemsById.containsKey(uniqueCode)) uniqueCode = AlphanumericGenerator.generateAlphanumericCode(format);
+    public String generateUniqueCode() {
+        String uniqueCode = AlphanumericGenerator.generateAlphanumericCode(ITEM_ID_FORMAT);
+        while (this.itemsById.containsKey(uniqueCode)) {
+            uniqueCode = AlphanumericGenerator.generateAlphanumericCode(ITEM_ID_FORMAT);
+        }
 
         return uniqueCode;
     }
