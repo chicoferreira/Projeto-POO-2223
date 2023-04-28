@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import static com.marketplace.vintage.item.condition.ItemConditions.NEW;
+import static com.marketplace.vintage.item.impl.TshirtItem.TshirtItemPattern.STRIPES;
+import static com.marketplace.vintage.item.impl.TshirtItem.TshirtItemSize.LARGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -86,18 +88,18 @@ public class ItemFactoryTest {
         itemProperties.put(ItemProperty.BRAND, "MyBrand");
         itemProperties.put(ItemProperty.BASE_PRICE, BigDecimal.valueOf(50.00));
         itemProperties.put(ItemProperty.PARCEL_CARRIER_UUID, UUID.randomUUID());
-        itemProperties.put(ItemProperty.TSHIRT_SIZE, 100);
-        itemProperties.put(ItemProperty.TSHIRT_PATTERN, "no");
+        itemProperties.put(ItemProperty.TSHIRT_SIZE, LARGE);
+        itemProperties.put(ItemProperty.TSHIRT_PATTERN, STRIPES);
 
-        TshirtItem tshirtItem = (TshirtItem) itemFactory.createItem(ItemType.SAPATILHAS, itemProperties);
+        TshirtItem tshirtItem = (TshirtItem) itemFactory.createItem(ItemType.TSHIRT, itemProperties);
 
         assertEquals(NEW, tshirtItem.getItemCondition());
         assertEquals("A beautiful tshirt", tshirtItem.getDescription());
         assertEquals("MyBrand", tshirtItem.getBrand());
         assertEquals(BigDecimal.valueOf(50.00), tshirtItem.getBasePrice());
         assertEquals(itemProperties.get(ItemProperty.PARCEL_CARRIER_UUID), tshirtItem.getParcelCarrierUuid());
-        assertEquals(100, tshirtItem.getSize());
-        assertEquals("no", tshirtItem.getPattern());
+        assertEquals(LARGE, tshirtItem.getSize());
+        assertEquals(STRIPES, tshirtItem.getPattern());
 
     }
 
@@ -140,8 +142,9 @@ public class ItemFactoryTest {
         itemProperties.put(ItemProperty.HAS_LACES, false);
         itemProperties.put(ItemProperty.COLOR, "blue");
         itemProperties.put(ItemProperty.COLLECTION_YEAR, 2022);
+        itemProperties.put(ItemProperty.APPRECIATION_RATE_OVER_YEARS, 5);
 
-        PremiumSapatilhasItem sapatilhasItem = (PremiumSapatilhasItem) itemFactory.createItem(ItemType.SAPATILHAS, itemProperties);
+        PremiumSapatilhasItem sapatilhasItem = (PremiumSapatilhasItem) itemFactory.createItem(ItemType.SAPATILHAS_PREMIUM, itemProperties);
 
         assertEquals(NEW, sapatilhasItem.getItemCondition());
         assertEquals("A beautiful sapatilha", sapatilhasItem.getDescription());
@@ -152,6 +155,7 @@ public class ItemFactoryTest {
         assertFalse(sapatilhasItem.hasLaces());
         assertEquals("blue", sapatilhasItem.getColor());
         assertEquals(2022, sapatilhasItem.getCollectionYear());
+        assertEquals(5, sapatilhasItem.getAppreciationRateOverYears());
 
     }
 
