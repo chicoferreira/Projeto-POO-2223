@@ -49,7 +49,6 @@ public class ItemFactoryTest {
         assertEquals("Wood", malaItem.getMaterial());
         assertEquals(2022, malaItem.getCollectionYear());
         assertEquals(5, malaItem.getAppreciationRateOverYears());
-
     }
 
     @Test
@@ -76,7 +75,6 @@ public class ItemFactoryTest {
         assertFalse(sapatilhasItem.hasLaces());
         assertEquals("blue", sapatilhasItem.getColor());
         assertEquals(2022, sapatilhasItem.getCollectionYear());
-
     }
 
     @Test
@@ -99,7 +97,6 @@ public class ItemFactoryTest {
         assertEquals(itemProperties.get(ItemProperty.PARCEL_CARRIER_UUID), tshirtItem.getParcelCarrierUuid());
         assertEquals(LARGE, tshirtItem.getSize());
         assertEquals(STRIPES, tshirtItem.getPattern());
-
     }
 
     @Test
@@ -126,7 +123,6 @@ public class ItemFactoryTest {
         assertEquals("Wood", malaItem.getMaterial());
         assertEquals(2022, malaItem.getCollectionYear());
         assertEquals(5, malaItem.getAppreciationRateOverYears());
-
     }
 
     @Test
@@ -155,7 +151,5 @@ public class ItemFactoryTest {
         assertEquals("blue", sapatilhasItem.getColor());
         assertEquals(2022, sapatilhasItem.getCollectionYear());
         assertEquals(5, sapatilhasItem.getAppreciationRateOverYears());
-
     }
-
 }
