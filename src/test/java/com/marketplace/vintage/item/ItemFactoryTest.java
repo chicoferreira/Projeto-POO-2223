@@ -18,11 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class ItemFactoryTest {
 
     private ItemFactory itemFactory;
-    private ItemManager itemManager;
 
     @BeforeEach
     void setUp() {
-        this.itemManager = new ItemManager();
+        ItemManager itemManager = new ItemManager();
         this.itemFactory = new ItemFactory(itemManager);
     }
 
