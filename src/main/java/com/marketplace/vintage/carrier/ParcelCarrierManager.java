@@ -2,6 +2,7 @@ package com.marketplace.vintage.carrier;
 
 import com.marketplace.vintage.exceptions.EntityAlreadyExistsException;
 import com.marketplace.vintage.exceptions.EntityNotFoundException;
+import com.marketplace.vintage.item.ItemType;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -10,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ParcelCarrierManager {
@@ -71,7 +71,7 @@ public class ParcelCarrierManager {
         return new ArrayList<>(carriersById.values());
     }
 
-    public <T> List<T> getAll(Function<ParcelCarrier, T> apply) {
-        return carriersById.values().stream().map(apply).collect(Collectors.toList());
+    public List<ParcelCarrier> getAllCompatibleWith(ItemType itemType) {
+        return carriersById.values().stream().filter(carrier -> carrier.canDeliverItemType(itemType)).collect(Collectors.toList());
     }
 }

@@ -14,11 +14,14 @@ import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.utils.StringUtils;
 import com.marketplace.vintage.view.impl.UserView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -57,12 +60,12 @@ public class ItemCreateCommand extends BaseCommand {
         };
     }
 
-    private Function<String, ?> getMapper(ItemProperty itemProperty, Logger logger) {
+    private Function<String, ?> getMapper(ItemProperty itemProperty, Logger logger, Function<String, UUID> parcelCarrierNameToIdMapper) {
         return switch (itemProperty) {
             case ITEM_CONDITION -> InputMapper.ofItemCondition(getInputPrompter(), logger);
             case DESCRIPTION, BRAND, MATERIAL, COLOR -> InputMapper.STRING;
             case BASE_PRICE -> InputMapper.BIG_DECIMAL;
-            case PARCEL_CARRIER_UUID -> InputMapper.ofParcelCarrier(parcelCarrierManager).andThen(ParcelCarrier::getId);
+            case PARCEL_CARRIER_UUID -> parcelCarrierNameToIdMapper;
             case DIMENSION_AREA -> InputMapper.ofIntRange(1, 100);
             case COLLECTION_YEAR -> InputMapper.ofIntRange(1000, 3000);
             case APPRECIATION_RATE_OVER_YEARS -> InputMapper.ofIntRange(0, 100);
@@ -75,22 +78,26 @@ public class ItemCreateCommand extends BaseCommand {
 
     @Override
     protected void executeSafely(Logger logger, String[] args) {
-        if (parcelCarrierManager.getAll().isEmpty()) {
-            logger.warn("There are no parcel carriers available. Please contact the administrator.");
-            return;
-        }
-
         logger.info("Choose the type of item you want to create:");
         logger.info(StringUtils.joinQuoted(ITEM_TYPES_DISPLAY_NAMES, ", "));
 
         ItemType itemType = getInputPrompter().askForInput(logger, "Insert the item type:", ItemType::fromDisplayName);
 
+        List<ParcelCarrier> parcelCarrierCompatibleList = parcelCarrierManager.getAllCompatibleWith(itemType);
+
+        if (parcelCarrierCompatibleList.isEmpty()) {
+            logger.warn("There are no parcel carriers compatible with " + itemType.getDisplayName() + ". Please contact the administrator.");
+            return;
+        }
+
         QuestionnaireBuilder questionnaireBuilder = QuestionnaireBuilder.newBuilder();
 
         Set<ItemProperty> itemProperties = itemType.getRequiredProperties();
 
+        Function<String, UUID> parcelCarrierNameToIdMapper = getParcelCarrierNameToIdMapper(itemType, parcelCarrierCompatibleList);
+
         for (ItemProperty itemProperty : itemProperties) {
-            questionnaireBuilder.withQuestion(itemProperty.name(), getQuestion(itemProperty), getMapper(itemProperty, logger));
+            questionnaireBuilder.withQuestion(itemProperty.name(), getQuestion(itemProperty), getMapper(itemProperty, logger, parcelCarrierNameToIdMapper));
         }
 
         Map<String, Object> answersMap = questionnaireBuilder.build().ask(getInputPrompter(), logger).getAnswersMap();
@@ -103,5 +110,20 @@ public class ItemCreateCommand extends BaseCommand {
         Item item = vintageController.registerNewItem(userView.getCurrentLoggedInUser(), itemType, itemPropertiesMap);
 
         logger.info("Registered item " + itemType.getDisplayName() + " (" + item.getAlphanumericId() + ") successfully.");
+    }
+
+    @NotNull
+    private Function<String, UUID> getParcelCarrierNameToIdMapper(ItemType itemType, List<ParcelCarrier> parcelCarrierCompatibleList) {
+        return (String input) -> {
+            if (!parcelCarrierManager.containsCarrierByName(input)) {
+                throw new IllegalArgumentException("Parcel carrier must be one of " + StringUtils.joinQuoted(parcelCarrierCompatibleList, ParcelCarrier::getName, ", "));
+            }
+
+            ParcelCarrier carrier = parcelCarrierManager.getCarrierByName(input);
+            if (!carrier.canDeliverItemType(itemType)) {
+                throw new IllegalArgumentException("Parcel carrier " + carrier.getName() + " cannot deliver item type " + itemType.getDisplayName());
+            }
+            return carrier.getId();
+        };
     }
 }
