@@ -104,7 +104,7 @@ public class UserView extends BaseView {
         String address = answers.getAnswer("address", String.class);
         String taxNumber = answers.getAnswer("taxNumber", String.class);
 
-        return userManager.createUser(email, username, name, address, taxNumber);
+        return userManager.createUser(username, email, name, address, taxNumber);
     }
 
     private void setCurrentLoggedInUser(User currentLoggedInUser) {

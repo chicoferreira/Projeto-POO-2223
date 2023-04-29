@@ -6,7 +6,9 @@ import com.marketplace.vintage.exceptions.EntityNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UserManagerTest {
     @Test
@@ -19,7 +21,11 @@ public class UserManagerTest {
         String address = "123 Main St";
         String taxNumber = "123456789";
 
+        assertFalse(userManager.existsUserWithEmail(testEmail));
+
         userManager.registerUser(new User(testUsername, testEmail, name, address, taxNumber));
+
+        assertTrue(userManager.existsUserWithEmail(testEmail));
 
         User user = userManager.getUserByEmail(testEmail);
         assertEquals(testEmail, user.getEmail());

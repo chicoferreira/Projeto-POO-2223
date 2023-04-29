@@ -60,7 +60,7 @@ public class UserManager {
         }
 
         if (this.usersByUsername.containsKey(username)) {
-            throw new EntityAlreadyExistsException("A user with that id already exists");
+            throw new EntityAlreadyExistsException("A user with that username already exists");
         }
     }
 
