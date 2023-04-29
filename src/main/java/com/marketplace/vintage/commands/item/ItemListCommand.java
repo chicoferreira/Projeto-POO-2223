@@ -51,7 +51,7 @@ public class ItemListCommand extends BaseCommand {
                                                                  .replace("<itemType>", item.getItemType().getDisplayName())
                                                                  .replace("<description>", item.getDescription())
                                                                  .replace("<brand>", item.getBrand())
-                                                                 .replace("<finalPrice>", StringUtils.formatBigDecimal(item.getFinalPrice(currentYear)))
+                                                                 .replace("<finalPrice>", StringUtils.formatCurrency(item.getFinalPrice(currentYear)))
                                                                  .replace("<parcelCarrier>", carrier.getName());
 
             logger.info(message);
