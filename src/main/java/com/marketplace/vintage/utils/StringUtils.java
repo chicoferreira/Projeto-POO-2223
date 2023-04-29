@@ -4,12 +4,18 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Collection;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class StringUtils {
 
     public static String joinQuoted(Collection<String> strings, String delimiter) {
-        return strings.stream()
+        return joinQuoted(strings, Function.identity(), delimiter);
+    }
+
+    public static <T> String joinQuoted(Collection<T> objects, Function<T, String> mapper, String delimiter) {
+        return objects.stream()
+                      .map(mapper)
                       .map(s -> "'" + s + "'")
                       .collect(Collectors.joining(delimiter));
     }

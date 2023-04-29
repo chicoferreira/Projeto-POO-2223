@@ -1,7 +1,5 @@
 package com.marketplace.vintage.input;
 
-import com.marketplace.vintage.carrier.ParcelCarrier;
-import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.expression.ExpressionSolver;
 import com.marketplace.vintage.item.condition.ItemCondition;
 import com.marketplace.vintage.item.condition.ItemConditions;
@@ -101,14 +99,5 @@ public final class InputMapper {
 
     public static <T extends Enum<T>> Function<String, T> ofEnumValues(Class<T> enumClass) {
         return ofPossibleValues(EnumSet.allOf(enumClass).stream().collect(Collectors.toMap(Enum::name, Function.identity())));
-    }
-
-    public static Function<String, ParcelCarrier> ofParcelCarrier(ParcelCarrierManager parcelCarrierManager) {
-        return (String input) -> {
-            if (!parcelCarrierManager.containsCarrierByName(input)) {
-                throw new IllegalArgumentException("Parcel carrier must be one of " + StringUtils.joinQuoted(parcelCarrierManager.getAll(ParcelCarrier::getName), ", "));
-            }
-            return parcelCarrierManager.getCarrierByName(input);
-        };
     }
 }
