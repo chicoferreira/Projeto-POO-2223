@@ -1,5 +1,6 @@
 package com.marketplace.vintage.item.impl;
 
+import com.marketplace.vintage.item.ItemType;
 import com.marketplace.vintage.item.condition.ItemCondition;
 
 import java.math.BigDecimal;
@@ -7,7 +8,8 @@ import java.util.UUID;
 
 public class PremiumMalaItem extends MalaItem {
 
-    public PremiumMalaItem(String alphanumericId,
+    public PremiumMalaItem(UUID ownerUuid,
+                           String alphanumericId,
                            ItemCondition itemCondition,
                            String description,
                            String brand,
@@ -17,7 +19,7 @@ public class PremiumMalaItem extends MalaItem {
                            String material,
                            int collectionYear,
                            int appreciationRateOverYears) {
-        super(alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid, dimensionArea, material, collectionYear, appreciationRateOverYears);
+        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid, dimensionArea, material, collectionYear, appreciationRateOverYears);
     }
 
     @Override
@@ -26,9 +28,14 @@ public class PremiumMalaItem extends MalaItem {
     }
 
     @Override
+    public ItemType getItemType() {
+        return ItemType.MALA_PREMIUM;
+    }
+
+    @Override
     public String toString() {
         return "PremiumMalaItem{" +
-               "alphanumericID='" + getAlphanumericID() + '\'' +
+               "alphanumericID='" + getAlphanumericId() + '\'' +
                ", itemCondition=" + getItemCondition() +
                ", description='" + getDescription() + '\'' +
                ", brand='" + getBrand() + '\'' +

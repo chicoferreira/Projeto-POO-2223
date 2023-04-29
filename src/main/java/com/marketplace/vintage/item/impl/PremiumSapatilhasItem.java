@@ -1,5 +1,6 @@
 package com.marketplace.vintage.item.impl;
 
+import com.marketplace.vintage.item.ItemType;
 import com.marketplace.vintage.item.condition.ItemCondition;
 
 import java.math.BigDecimal;
@@ -9,7 +10,7 @@ public class PremiumSapatilhasItem extends SapatilhasItem {
 
     private final int appreciationRateOverYears;
 
-    public PremiumSapatilhasItem(String alphanumericId,
+    public PremiumSapatilhasItem(UUID ownerUuid, String alphanumericId,
                                  ItemCondition itemCondition,
                                  String description,
                                  String brand,
@@ -20,7 +21,7 @@ public class PremiumSapatilhasItem extends SapatilhasItem {
                                  String color,
                                  int collectionYear,
                                  int appreciationRateOverYears) {
-        super(alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid, size, hasLaces, color, collectionYear);
+        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid, size, hasLaces, color, collectionYear);
         this.appreciationRateOverYears = appreciationRateOverYears;
     }
 
@@ -52,10 +53,15 @@ public class PremiumSapatilhasItem extends SapatilhasItem {
     }
 
     @Override
+    public ItemType getItemType() {
+        return ItemType.SAPATILHAS_PREMIUM;
+    }
+
+    @Override
     public String toString() {
         return "PremiumSapatilhasItem{" +
                "appreciationRateOverYears=" + getAppreciationRateOverYears() +
-               ", alphanumericID='" + getAlphanumericID() + '\'' +
+               ", alphanumericID='" + getAlphanumericId() + '\'' +
                ", itemCondition=" + getItemCondition() +
                ", description='" + getDescription() + '\'' +
                ", brand='" + getBrand() + '\'' +

@@ -13,24 +13,19 @@ import java.util.UUID;
 
 public class ItemFactory {
 
-    private final ItemManager itemManager;
-
-    public ItemFactory(ItemManager itemManager) {
-        this.itemManager = itemManager;
-    }
-
-    public Item createItem(ItemType itemType, Map<ItemProperty, Object> itemProperties) {
+    public Item createItem(UUID ownerUuid, String alphanumericId, ItemType itemType, Map<ItemProperty, Object> itemProperties) {
         return switch (itemType) {
-            case MALA -> createMala(itemProperties);
-            case SAPATILHAS -> createSapatilhas(itemProperties);
-            case TSHIRT -> createTshirt(itemProperties);
-            case MALA_PREMIUM -> createMalaPremium(itemProperties);
-            case SAPATILHAS_PREMIUM -> createSapatilhasPremium(itemProperties);
+            case MALA -> createMala(ownerUuid, alphanumericId, itemProperties);
+            case SAPATILHAS -> createSapatilhas(ownerUuid, alphanumericId, itemProperties);
+            case TSHIRT -> createTshirt(ownerUuid, alphanumericId, itemProperties);
+            case MALA_PREMIUM -> createMalaPremium(ownerUuid, alphanumericId, itemProperties);
+            case SAPATILHAS_PREMIUM -> createSapatilhasPremium(ownerUuid, alphanumericId, itemProperties);
         };
     }
 
-    private Item createMala(Map<ItemProperty, Object> itemProperties) {
-        return new MalaItem(itemManager.generateUniqueCode(),
+    private Item createMala(UUID ownerUuid, String alphanumericId, Map<ItemProperty, Object> itemProperties) {
+        return new MalaItem(ownerUuid,
+                            alphanumericId,
                             getProperty(itemProperties, ItemProperty.ITEM_CONDITION, ItemCondition.class),
                             getProperty(itemProperties, ItemProperty.DESCRIPTION, String.class),
                             getProperty(itemProperties, ItemProperty.BRAND, String.class),
@@ -42,8 +37,9 @@ public class ItemFactory {
                             getProperty(itemProperties, ItemProperty.APPRECIATION_RATE_OVER_YEARS, Integer.class));
     }
 
-    private Item createSapatilhas(Map<ItemProperty, Object> itemProperties) {
-        return new SapatilhasItem(itemManager.generateUniqueCode(),
+    private Item createSapatilhas(UUID ownerUuid, String alphanumericId, Map<ItemProperty, Object> itemProperties) {
+        return new SapatilhasItem(ownerUuid,
+                                  alphanumericId,
                                   getProperty(itemProperties, ItemProperty.ITEM_CONDITION, ItemCondition.class),
                                   getProperty(itemProperties, ItemProperty.DESCRIPTION, String.class),
                                   getProperty(itemProperties, ItemProperty.BRAND, String.class),
@@ -55,8 +51,9 @@ public class ItemFactory {
                                   getProperty(itemProperties, ItemProperty.COLLECTION_YEAR, Integer.class));
     }
 
-    private Item createTshirt(Map<ItemProperty, Object> itemProperties) {
-        return new TshirtItem(itemManager.generateUniqueCode(),
+    private Item createTshirt(UUID ownerUuid, String alphanumericId, Map<ItemProperty, Object> itemProperties) {
+        return new TshirtItem(ownerUuid,
+                              alphanumericId,
                               getProperty(itemProperties, ItemProperty.ITEM_CONDITION, ItemCondition.class),
                               getProperty(itemProperties, ItemProperty.DESCRIPTION, String.class),
                               getProperty(itemProperties, ItemProperty.BRAND, String.class),
@@ -66,8 +63,9 @@ public class ItemFactory {
                               getProperty(itemProperties, ItemProperty.TSHIRT_PATTERN, TshirtItem.TshirtItemPattern.class));
     }
 
-    private Item createMalaPremium(Map<ItemProperty, Object> itemProperties) {
-        return new PremiumMalaItem(itemManager.generateUniqueCode(),
+    private Item createMalaPremium(UUID ownerUuid, String alphanumericId, Map<ItemProperty, Object> itemProperties) {
+        return new PremiumMalaItem(ownerUuid,
+                                   alphanumericId,
                                    getProperty(itemProperties, ItemProperty.ITEM_CONDITION, ItemCondition.class),
                                    getProperty(itemProperties, ItemProperty.DESCRIPTION, String.class),
                                    getProperty(itemProperties, ItemProperty.BRAND, String.class),
@@ -79,8 +77,9 @@ public class ItemFactory {
                                    getProperty(itemProperties, ItemProperty.APPRECIATION_RATE_OVER_YEARS, Integer.class));
     }
 
-    private Item createSapatilhasPremium(Map<ItemProperty, Object> itemProperties) {
-        return new PremiumSapatilhasItem(itemManager.generateUniqueCode(),
+    private Item createSapatilhasPremium(UUID ownerUuid, String alphanumericId, Map<ItemProperty, Object> itemProperties) {
+        return new PremiumSapatilhasItem(ownerUuid,
+                                         alphanumericId,
                                          getProperty(itemProperties, ItemProperty.ITEM_CONDITION, ItemCondition.class),
                                          getProperty(itemProperties, ItemProperty.DESCRIPTION, String.class),
                                          getProperty(itemProperties, ItemProperty.BRAND, String.class),

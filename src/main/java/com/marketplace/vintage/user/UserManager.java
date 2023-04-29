@@ -12,24 +12,28 @@ import java.util.UUID;
 public class UserManager {
 
     private final Map<UUID, User> usersById;
+    private final Map<String, User> usersByUsername;
     private final Map<String, User> usersByEmail;
 
     public UserManager() {
         this.usersById = new HashMap<>();
+        this.usersByUsername = new HashMap<>();
         this.usersByEmail = new HashMap<>();
     }
 
-    public User createUser(String email, String name, String address, String taxNumber) {
-        User user = new User(email, name, address, taxNumber);
+    public User createUser(String username, String email, String name, String address, String taxNumber) {
+        User user = new User(username, email, name, address, taxNumber);
         this.registerUser(user);
         return user;
     }
 
     public void registerUser(@NotNull User user) {
-        UUID userId = user.getId();
+        String userUsername = user.getUsername();
         String userEmail = user.getEmail().toLowerCase();
 
-        if (this.usersById.containsKey(userId)) {
+        checkUsername(userUsername);
+
+        if (this.usersById.containsKey(user.getId())) {
             throw new EntityAlreadyExistsException("A user with that id already exists");
         }
 
@@ -37,7 +41,8 @@ public class UserManager {
             throw new EntityAlreadyExistsException("A user with that email already exists");
         }
 
-        this.usersById.put(userId, user);
+        this.usersById.put(user.getId(), user);
+        this.usersByUsername.put(userUsername, user);
         this.usersByEmail.put(userEmail, user);
     }
 
@@ -45,11 +50,35 @@ public class UserManager {
         return this.usersByEmail.containsKey(email.toLowerCase());
     }
 
-    public User getUserById(UUID id) {
-        User user = this.usersById.get(id);
+    public void checkUsername(String username) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("The user's username cannot be null or empty");
+        }
+
+        if (username.contains(" ")) {
+            throw new IllegalArgumentException("The user's username cannot contain spaces");
+        }
+
+        if (this.usersByUsername.containsKey(username)) {
+            throw new EntityAlreadyExistsException("A user with that id already exists");
+        }
+    }
+
+    public User getUserById(UUID userId) {
+        User user = this.usersById.get(userId);
 
         if (user == null) {
-            throw new EntityNotFoundException("A user with the id " + id + " was not found");
+            throw new EntityNotFoundException("A user with the id " + userId + " was not found");
+        }
+
+        return user;
+    }
+
+    public User getUserByUsername(String userUsername) {
+        User user = this.usersByUsername.get(userUsername);
+
+        if (user == null) {
+            throw new EntityNotFoundException("A user with the username " + userUsername + " was not found");
         }
 
         return user;

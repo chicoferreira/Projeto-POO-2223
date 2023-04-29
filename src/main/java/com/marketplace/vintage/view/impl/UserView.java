@@ -1,5 +1,7 @@
 package com.marketplace.vintage.view.impl;
 
+import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.VintageTimeManager;
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.commands.item.ItemCommand;
 import com.marketplace.vintage.commands.user.UserInfoCommand;
@@ -8,7 +10,6 @@ import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.input.questionnaire.Questionnaire;
 import com.marketplace.vintage.input.questionnaire.QuestionnaireAnswers;
 import com.marketplace.vintage.input.questionnaire.QuestionnaireBuilder;
-import com.marketplace.vintage.item.ItemFactory;
 import com.marketplace.vintage.item.ItemManager;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.logging.PrefixLogger;
@@ -16,25 +17,39 @@ import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.utils.EmailUtils;
 import com.marketplace.vintage.view.BaseView;
+
 import org.jetbrains.annotations.NotNull;
 
 public class UserView extends BaseView {
 
-    public static final Questionnaire CREATE_USER_QUESTIONNAIRE = QuestionnaireBuilder.newBuilder()
-                                                                                      .withQuestion("name", "Enter your name:", InputMapper.STRING)
-                                                                                      .withQuestion("address", "Enter your address:", InputMapper.STRING)
-                                                                                      .withQuestion("taxNumber", "Enter your tax number:", InputMapper.STRING)
-                                                                                      .build();
     private final UserManager userManager;
     private final Logger baseLogger;
+    private final Questionnaire createUserQuestionnaire;
     private User currentLoggedInUser;
 
-    public UserView(Logger logger, InputPrompter inputPrompter, UserManager userManager, ParcelCarrierManager parcelCarrierManager, ItemFactory itemFactory, ItemManager itemManager) {
+    public UserView(Logger logger,
+                    InputPrompter inputPrompter,
+                    UserManager userManager,
+                    ParcelCarrierManager parcelCarrierManager,
+                    VintageController vintageController,
+                    ItemManager itemManager,
+                    VintageTimeManager vintageTimeManager) {
         super(PrefixLogger.of("USER", logger), inputPrompter, "user view");
         this.baseLogger = logger;
         this.userManager = userManager;
 
-        this.getCommandManager().registerCommand(new ItemCommand(parcelCarrierManager, itemFactory, itemManager));
+        createUserQuestionnaire = QuestionnaireBuilder.newBuilder()
+                                                      .withQuestion("username", "Enter your username:", username -> {
+                                                          userManager.checkUsername(username);
+                                                          return username;
+                                                      })
+                                                      .withQuestion("name", "Enter your name:", InputMapper.STRING)
+                                                      .withQuestion("address", "Enter your address:", InputMapper.STRING)
+                                                      .withQuestion("taxNumber", "Enter your tax number:", InputMapper.STRING)
+                                                      .build();
+
+
+        this.getCommandManager().registerCommand(new ItemCommand(this, parcelCarrierManager, vintageController, itemManager, vintageTimeManager));
         this.getCommandManager().registerCommand(new UserInfoCommand(this));
     }
 
@@ -80,15 +95,16 @@ public class UserView extends BaseView {
             return askForLogin();
         }
 
-        QuestionnaireAnswers answers = CREATE_USER_QUESTIONNAIRE.ask(getInputPrompter(), getLogger());
+        QuestionnaireAnswers answers = createUserQuestionnaire.ask(getInputPrompter(), getLogger());
 
         getLogger().info("Creating user with email " + email + "...");
 
+        String username = answers.getAnswer("username", String.class);
         String name = answers.getAnswer("name", String.class);
         String address = answers.getAnswer("address", String.class);
         String taxNumber = answers.getAnswer("taxNumber", String.class);
 
-        return userManager.createUser(email, name, address, taxNumber);
+        return userManager.createUser(email, username, name, address, taxNumber);
     }
 
     private void setCurrentLoggedInUser(User currentLoggedInUser) {

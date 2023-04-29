@@ -1,18 +1,18 @@
 package com.marketplace.vintage.commands.item;
 
+import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.carrier.ParcelCarrier;
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.input.questionnaire.QuestionnaireBuilder;
 import com.marketplace.vintage.item.Item;
-import com.marketplace.vintage.item.ItemFactory;
-import com.marketplace.vintage.item.ItemManager;
 import com.marketplace.vintage.item.ItemProperty;
 import com.marketplace.vintage.item.ItemType;
 import com.marketplace.vintage.item.impl.TshirtItem;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.utils.StringUtils;
+import com.marketplace.vintage.view.impl.UserView;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,15 +24,15 @@ import java.util.stream.Collectors;
 
 public class ItemCreateCommand extends BaseCommand {
 
+    private final UserView userView;
     private final ParcelCarrierManager parcelCarrierManager;
-    private final ItemFactory itemFactory;
-    private final ItemManager itemManager;
+    private final VintageController vintageController;
 
-    public ItemCreateCommand(ParcelCarrierManager parcelCarrierManager, ItemFactory itemFactory, ItemManager itemManager) {
+    public ItemCreateCommand(UserView userView, ParcelCarrierManager parcelCarrierManager, VintageController vintageController) {
         super("create", "item create", 0, "Create a new item");
+        this.userView = userView;
         this.parcelCarrierManager = parcelCarrierManager;
-        this.itemFactory = itemFactory;
-        this.itemManager = itemManager;
+        this.vintageController = vintageController;
     }
 
     private static final List<String> ITEM_TYPES_DISPLAY_NAMES = Arrays.stream(ItemType.values()).map(ItemType::getDisplayName).collect(Collectors.toList());
@@ -100,9 +100,8 @@ public class ItemCreateCommand extends BaseCommand {
             itemPropertiesMap.put(ItemProperty.valueOf(entry.getKey()), entry.getValue());
         }
 
-        Item item = itemFactory.createItem(itemType, itemPropertiesMap);
-        itemManager.registerItem(item);
+        Item item = vintageController.registerNewItem(userView.getCurrentLoggedInUser(), itemType, itemPropertiesMap);
 
-        logger.info("Registered item " + itemType.getDisplayName() + " (" + item.getAlphanumericID() + ") successfully.");
+        logger.info("Registered item " + itemType.getDisplayName() + " (" + item.getAlphanumericId() + ") successfully.");
     }
 }

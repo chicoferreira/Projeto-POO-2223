@@ -28,8 +28,13 @@ public class VintageApplication {
         this.inputPrompter = new InputPrompter();
         ExpressionSolver expressionSolver = new Exp4jExpressionSolver();
         ItemManager itemManager = new ItemManager();
-        ItemFactory itemFactory = new ItemFactory(itemManager);
-        this.viewFactory = new ViewFactory(logger, inputPrompter, userManager, parcelCarrierManager, expressionSolver, itemManager, itemFactory);
+        ItemFactory itemFactory = new ItemFactory();
+
+        VintageController vintageController = new VintageController(itemManager, itemFactory);
+
+        VintageTimeManager vintageTimeManager = new VintageTimeManager();
+
+        this.viewFactory = new ViewFactory(logger, inputPrompter, userManager, parcelCarrierManager, expressionSolver, vintageController, itemManager, vintageTimeManager);
     }
 
     public void start() {

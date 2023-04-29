@@ -1,6 +1,7 @@
 package com.marketplace.vintage.item.impl;
 
 import com.marketplace.vintage.item.Item;
+import com.marketplace.vintage.item.ItemType;
 import com.marketplace.vintage.item.condition.ItemCondition;
 import com.marketplace.vintage.item.condition.ItemConditionType;
 
@@ -20,7 +21,8 @@ public class TshirtItem extends Item {
     private final TshirtItemSize size;
     private final TshirtItemPattern pattern;
 
-    public TshirtItem(String alphanumericId,
+    public TshirtItem(UUID ownerUuid,
+                      String alphanumericId,
                       ItemCondition itemCondition,
                       String description,
                       String brand,
@@ -28,7 +30,7 @@ public class TshirtItem extends Item {
                       UUID parcelCarrierUuid,
                       TshirtItemSize size,
                       TshirtItemPattern pattern) {
-        super(alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid);
+        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid);
         this.size = size;
         this.pattern = pattern;
     }
@@ -39,6 +41,11 @@ public class TshirtItem extends Item {
 
     public TshirtItemPattern getPattern() {
         return pattern;
+    }
+
+    @Override
+    public ItemType getItemType() {
+        return ItemType.TSHIRT;
     }
 
     @Override
@@ -55,7 +62,7 @@ public class TshirtItem extends Item {
         return "TshirtItem{" +
                "size=" + getSize() +
                ", pattern=" + getPattern() +
-               ", alphanumericID='" + getAlphanumericID() + '\'' +
+               ", alphanumericID='" + getAlphanumericId() + '\'' +
                ", itemCondition=" + getItemCondition() +
                ", description='" + getDescription() + '\'' +
                ", brand='" + getBrand() + '\'' +
