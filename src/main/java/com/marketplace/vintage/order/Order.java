@@ -18,7 +18,7 @@ public class Order {
     private Date returnDate;
 
     public Order(UUID userId) {
-        this(UUID.randomUUID(), userId, BigDecimal.valueOf(0), new ArrayList<String>(), OrderStatus.ORDERED);
+        this(UUID.randomUUID(), userId, BigDecimal.valueOf(0), new ArrayList<String>(), OrderStatus.DOING);
     }
 
     public Order(UUID orderId, UUID userId, BigDecimal totalPrice, ArrayList<String> array, OrderStatus status) {
@@ -27,6 +27,10 @@ public class Order {
         this.totalPrice = totalPrice;
         this.itemsInOrder = array;
         this.orderState = status;
+    }
+
+    public UUID getOrderId() {
+        return this.orderId;
     }
 
     public void addItem(Item item) {
