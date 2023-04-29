@@ -1,8 +1,9 @@
 package com.marketplace.vintage.utils;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.Collection;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class StringUtils {
@@ -13,8 +14,10 @@ public class StringUtils {
                       .collect(Collectors.joining(delimiter));
     }
 
+    private static final NumberFormat FORMAT = NumberFormat.getCurrencyInstance(Locale.GERMANY);
+
     public static String formatBigDecimal(BigDecimal bigDecimal) {
-        return bigDecimal.setScale(2, RoundingMode.HALF_UP).toString().replace(".", ",");
+        return FORMAT.format(bigDecimal);
     }
 
 }
