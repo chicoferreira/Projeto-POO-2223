@@ -1,6 +1,7 @@
 package com.marketplace.vintage.item;
 
 import com.marketplace.vintage.item.impl.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,8 +22,7 @@ public class ItemFactoryTest {
 
     @BeforeEach
     void setUp() {
-        ItemManager itemManager = new ItemManager();
-        this.itemFactory = new ItemFactory(itemManager);
+        this.itemFactory = new ItemFactory();
     }
 
     @Test
@@ -38,8 +38,13 @@ public class ItemFactoryTest {
         itemProperties.put(ItemProperty.COLLECTION_YEAR, 2022);
         itemProperties.put(ItemProperty.APPRECIATION_RATE_OVER_YEARS, 5);
 
-        MalaItem malaItem = (MalaItem) itemFactory.createItem(ItemType.MALA, itemProperties);
+        UUID ownerUuid = UUID.randomUUID();
+        String id = "TEST_ID";
 
+        MalaItem malaItem = (MalaItem) itemFactory.createItem(ownerUuid, id, ItemType.MALA, itemProperties);
+
+        assertEquals(ownerUuid, malaItem.getOwnerUuid());
+        assertEquals(id, malaItem.getAlphanumericId());
         assertEquals(NEW, malaItem.getItemCondition());
         assertEquals("A beautiful mala", malaItem.getDescription());
         assertEquals("MyBrand", malaItem.getBrand());
@@ -64,7 +69,10 @@ public class ItemFactoryTest {
         itemProperties.put(ItemProperty.COLOR, "blue");
         itemProperties.put(ItemProperty.COLLECTION_YEAR, 2022);
 
-        SapatilhasItem sapatilhasItem = (SapatilhasItem) itemFactory.createItem(ItemType.SAPATILHAS, itemProperties);
+        UUID ownerUuid = UUID.randomUUID();
+        String id = "TEST_ID";
+
+        SapatilhasItem sapatilhasItem = (SapatilhasItem) itemFactory.createItem(ownerUuid, id, ItemType.SAPATILHAS, itemProperties);
 
         assertEquals(NEW, sapatilhasItem.getItemCondition());
         assertEquals("A beautiful sapatilha", sapatilhasItem.getDescription());
@@ -88,7 +96,10 @@ public class ItemFactoryTest {
         itemProperties.put(ItemProperty.TSHIRT_SIZE, LARGE);
         itemProperties.put(ItemProperty.TSHIRT_PATTERN, STRIPES);
 
-        TshirtItem tshirtItem = (TshirtItem) itemFactory.createItem(ItemType.TSHIRT, itemProperties);
+        UUID ownerUuid = UUID.randomUUID();
+        String id = "TEST_ID";
+
+        TshirtItem tshirtItem = (TshirtItem) itemFactory.createItem(ownerUuid, id, ItemType.TSHIRT, itemProperties);
 
         assertEquals(NEW, tshirtItem.getItemCondition());
         assertEquals("A beautiful tshirt", tshirtItem.getDescription());
@@ -112,7 +123,10 @@ public class ItemFactoryTest {
         itemProperties.put(ItemProperty.COLLECTION_YEAR, 2022);
         itemProperties.put(ItemProperty.APPRECIATION_RATE_OVER_YEARS, 5);
 
-        PremiumMalaItem malaItem = (PremiumMalaItem) itemFactory.createItem(ItemType.MALA_PREMIUM, itemProperties);
+        UUID ownerUuid = UUID.randomUUID();
+        String id = "TEST_ID";
+
+        PremiumMalaItem malaItem = (PremiumMalaItem) itemFactory.createItem(ownerUuid, id, ItemType.MALA_PREMIUM, itemProperties);
 
         assertEquals(NEW, malaItem.getItemCondition());
         assertEquals("A beautiful mala", malaItem.getDescription());
@@ -139,7 +153,10 @@ public class ItemFactoryTest {
         itemProperties.put(ItemProperty.COLLECTION_YEAR, 2022);
         itemProperties.put(ItemProperty.APPRECIATION_RATE_OVER_YEARS, 5);
 
-        PremiumSapatilhasItem sapatilhasItem = (PremiumSapatilhasItem) itemFactory.createItem(ItemType.SAPATILHAS_PREMIUM, itemProperties);
+        UUID ownerUuid = UUID.randomUUID();
+        String id = "TEST_ID";
+
+        PremiumSapatilhasItem sapatilhasItem = (PremiumSapatilhasItem) itemFactory.createItem(ownerUuid, id, ItemType.SAPATILHAS_PREMIUM, itemProperties);
 
         assertEquals(NEW, sapatilhasItem.getItemCondition());
         assertEquals("A beautiful sapatilha", sapatilhasItem.getDescription());

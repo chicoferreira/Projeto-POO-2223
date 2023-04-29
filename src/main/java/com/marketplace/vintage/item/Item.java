@@ -1,22 +1,23 @@
 package com.marketplace.vintage.item;
 
 import com.marketplace.vintage.item.condition.ItemCondition;
-import com.marketplace.vintage.utils.AlphanumericGenerator;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 public abstract class Item {
 
-    private final String alphanumericID;
+    private final UUID ownerUuid;
+    private final String alphanumericId;
     private final ItemCondition itemCondition;
     private final String description;
     private final String brand;
     private final BigDecimal basePrice;
     private final UUID parcelCarrierUuid;
 
-    public Item(String alphanumericCode, ItemCondition itemCondition, String description, String brand, BigDecimal basePrice, UUID parcelCarrierUuid) {
-        this.alphanumericID = alphanumericCode;
+    public Item(UUID ownerUuid, String alphanumericCode, ItemCondition itemCondition, String description, String brand, BigDecimal basePrice, UUID parcelCarrierUuid) {
+        this.ownerUuid = ownerUuid;
+        this.alphanumericId = alphanumericCode;
         this.itemCondition = itemCondition;
         this.description = description;
         this.brand = brand;
@@ -24,8 +25,12 @@ public abstract class Item {
         this.parcelCarrierUuid = parcelCarrierUuid;
     }
 
-    public String getAlphanumericID() {
-        return alphanumericID;
+    public UUID getOwnerUuid() {
+        return ownerUuid;
+    }
+
+    public String getAlphanumericId() {
+        return alphanumericId;
     }
 
     public ItemCondition getItemCondition() {
@@ -47,6 +52,8 @@ public abstract class Item {
     public UUID getParcelCarrierUuid() {
         return parcelCarrierUuid;
     }
+
+    public abstract ItemType getItemType();
 
     /**
      * @return the final price of the item, after applying the price correction

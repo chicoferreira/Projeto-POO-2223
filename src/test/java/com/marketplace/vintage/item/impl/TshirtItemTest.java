@@ -5,6 +5,7 @@ import com.marketplace.vintage.item.condition.ItemConditions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,7 +16,7 @@ public class TshirtItemTest {
         ItemCondition usedItemCondition = ItemConditions.createUsed(5, 1);
 
         TshirtItem tshirtItem = new TshirtItem(
-                null,
+                UUID.randomUUID(), null,
                 usedItemCondition,
                 "description",
                 "brand",

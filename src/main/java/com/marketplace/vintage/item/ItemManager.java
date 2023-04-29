@@ -26,7 +26,7 @@ public class ItemManager {
     }
 
     public void registerItem(Item item) {
-        String itemId = item.getAlphanumericID();
+        String itemId = item.getAlphanumericId();
 
         if (itemsById.containsKey(itemId)) {
             throw new EntityAlreadyExistsException("An item with that id already exists");

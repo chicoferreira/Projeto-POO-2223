@@ -5,6 +5,7 @@ import com.marketplace.vintage.item.condition.ItemConditions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -15,7 +16,7 @@ public class SapatilhasItemTest {
         BigDecimal basePrice = BigDecimal.valueOf(100);
 
         ItemCondition usedItemCondition = ItemConditions.createUsed(5, 1);
-        SapatilhasItem sapatilhasItem = new SapatilhasItem(null, usedItemCondition, null, null, basePrice, null, 0, false, "Red", 2022);
+        SapatilhasItem sapatilhasItem = new SapatilhasItem(UUID.randomUUID(), null, usedItemCondition, null, null, basePrice, null, 0, false, "Red", 2022);
 
         assertEquals(sapatilhasItem.getPriceCorrection(2022).compareTo(BigDecimal.valueOf(-25)), 0);
     }

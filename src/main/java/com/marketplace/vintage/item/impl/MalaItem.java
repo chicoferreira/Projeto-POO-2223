@@ -1,6 +1,7 @@
 package com.marketplace.vintage.item.impl;
 
 import com.marketplace.vintage.item.Item;
+import com.marketplace.vintage.item.ItemType;
 import com.marketplace.vintage.item.condition.ItemCondition;
 
 import java.math.BigDecimal;
@@ -13,7 +14,8 @@ public class MalaItem extends Item {
     private final int collectionYear;
     private final int appreciationRateOverYears;
 
-    public MalaItem(String alphanumericId,
+    public MalaItem(UUID ownerUuid,
+                    String alphanumericId,
                     ItemCondition itemCondition,
                     String description,
                     String brand,
@@ -23,7 +25,7 @@ public class MalaItem extends Item {
                     String material,
                     int collectionYear,
                     int appreciationRateOverYears) {
-        super(alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid);
+        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid);
         this.dimensionArea = dimensionArea;
         this.material = material;
         this.collectionYear = collectionYear;
@@ -47,6 +49,11 @@ public class MalaItem extends Item {
      */
     public int getAppreciationRateOverYears() {
         return appreciationRateOverYears;
+    }
+
+    @Override
+    public ItemType getItemType() {
+        return ItemType.MALA;
     }
 
     @Override
@@ -76,7 +83,7 @@ public class MalaItem extends Item {
                ", material='" + getMaterial() + '\'' +
                ", collectionYear=" + getCollectionYear() +
                ", appreciationRateOverYears=" + getAppreciationRateOverYears() +
-               ", alphanumericID='" + getAlphanumericID() + '\'' +
+               ", alphanumericID='" + getAlphanumericId() + '\'' +
                ", itemCondition=" + getItemCondition() +
                ", description='" + getDescription() + '\'' +
                ", brand='" + getBrand() + '\'' +

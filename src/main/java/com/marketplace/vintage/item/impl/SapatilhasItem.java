@@ -1,6 +1,7 @@
 package com.marketplace.vintage.item.impl;
 
 import com.marketplace.vintage.item.Item;
+import com.marketplace.vintage.item.ItemType;
 import com.marketplace.vintage.item.condition.ItemCondition;
 import com.marketplace.vintage.item.condition.UsedItemCondition;
 
@@ -14,7 +15,8 @@ public class SapatilhasItem extends Item {
     private final String color;
     private final int collectionYear;
 
-    public SapatilhasItem(String alphanumericId,
+    public SapatilhasItem(UUID ownerUuid,
+                          String alphanumericId,
                           ItemCondition itemCondition,
                           String description,
                           String brand,
@@ -24,7 +26,7 @@ public class SapatilhasItem extends Item {
                           boolean hasLaces,
                           String color,
                           int collectionYear) {
-        super(alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid);
+        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid);
         this.size = size;
         this.hasLaces = hasLaces;
         this.color = color;
@@ -48,6 +50,11 @@ public class SapatilhasItem extends Item {
     }
 
     @Override
+    public ItemType getItemType() {
+        return ItemType.SAPATILHAS;
+    }
+
+    @Override
     public BigDecimal getPriceCorrection(int currentYear) {
         ItemCondition itemCondition = getItemCondition();
         if (itemCondition instanceof UsedItemCondition usedItemCondition) {
@@ -68,7 +75,7 @@ public class SapatilhasItem extends Item {
                ", hasLaces=" + hasLaces() +
                ", color='" + getColor() + '\'' +
                ", collectionYear=" + getCollectionYear() +
-               ", alphanumericID='" + getAlphanumericID() + '\'' +
+               ", alphanumericID='" + getAlphanumericId() + '\'' +
                ", itemCondition=" + getItemCondition() +
                ", description='" + getDescription() + '\'' +
                ", brand='" + getBrand() + '\'' +

@@ -9,13 +9,15 @@ public class UserTest {
 
     @Test
     void testUser() {
+        String username = "user";
         String email = "user@gmail.com";
         String name = "User";
         String address = "123 Main St.";
         String taxNumber = "123456789";
 
-        User user = new User(email, name, address, taxNumber);
+        User user = new User(username, email, name, address, taxNumber);
 
+        assertEquals(username, user.getUsername());
         assertEquals(email, user.getEmail());
         assertEquals(name, user.getName());
         assertEquals(address, user.getAddress());
