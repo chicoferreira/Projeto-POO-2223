@@ -6,6 +6,7 @@ import com.marketplace.vintage.item.ItemManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class Order {
@@ -17,8 +18,11 @@ public class Order {
     private OrderStatus orderState;
     private Date returnDate;
 
+    public Order(UUID userId, BigDecimal totalPrice, ArrayList<String> itemsInOrder) {
+        this(UUID.randomUUID(), userId, totalPrice, itemsInOrder, OrderStatus.ORDERED);
+    }
     public Order(UUID userId) {
-        this(UUID.randomUUID(), userId, BigDecimal.valueOf(0), new ArrayList<String>(), OrderStatus.DOING);
+        this(UUID.randomUUID(), userId, BigDecimal.valueOf(0), new ArrayList<String>(), OrderStatus.ORDERED);
     }
 
     public Order(UUID orderId, UUID userId, BigDecimal totalPrice, ArrayList<String> array, OrderStatus status) {

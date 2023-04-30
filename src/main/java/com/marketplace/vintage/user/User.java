@@ -15,7 +15,7 @@ public class User {
     private final String address;
     private final String taxNumber;
     private final List<String> itemsBeingSold;
-    private Order currentOrder;
+    private final List<String> shoppingCart;
     private final List<Order> ordersMade;
 
     public User(String username, String email, String name, String address, String taxNumber) {
@@ -30,6 +30,7 @@ public class User {
         this.address = address;
         this.taxNumber = taxNumber;
         this.itemsBeingSold = new ArrayList<>();
+        this.shoppingCart = new ArrayList<>();
         this.ordersMade = new ArrayList<>();
     }
 
@@ -69,9 +70,7 @@ public class User {
         itemsBeingSold.remove(itemId);
     }
 
-    public void startNewOrder() { this.currentOrder = new Order(this.uuid); }
-
-    public Order getCurrentOrder() { return this.currentOrder; }
+    public List<String> getShoppingCart() { return this.shoppingCart; }
 
     public List<Order> getOrdersMade() { return new ArrayList<>(ordersMade); }
     public void addOrder(Order order) { ordersMade.add(order); }

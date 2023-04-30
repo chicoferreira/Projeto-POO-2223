@@ -11,6 +11,7 @@ import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.view.impl.UserView;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderFinishCommand extends BaseCommand {
@@ -31,11 +32,18 @@ public class OrderFinishCommand extends BaseCommand {
     @Override
     protected void executeSafely(Logger logger, String[] args) {
         User currentLoggedInUser = userView.getCurrentLoggedInUser();
-        Order currentOrder = currentLoggedInUser.getCurrentOrder();
+        List<String> currentOrder = currentLoggedInUser.getShoppingCart();
         List<Order> ordersMadeByUser = currentLoggedInUser.getOrdersMade();
 
-        BigDecimal orderTotal = currentOrder.calculateTotalPrice(this.itemManager, vintageTimeManager.getCurrentYear());
-        logger.info("The total value to pay is " + orderTotal.toString());
+        int numberOfItems = currentOrder.size();
+        int currentYear = vintageTimeManager.getCurrentYear();
+
+        BigDecimal orderTotal = BigDecimal.valueOf(0);
+        for(int i = 0; i < numberOfItems; i++ ) {
+            Item indexedItem = itemManager.getItem(currentOrder.get(i));
+            orderTotal.add(indexedItem.getFinalPrice(currentYear));
+        }
+        logger.info("The total value to pay is " + orderTotal);
         String proceed = getInputPrompter().askForInput(logger, "Do you want to proceed with the order: (Y/n)", String::toLowerCase);
 
         if(proceed.equals("n")) {
@@ -43,8 +51,8 @@ public class OrderFinishCommand extends BaseCommand {
             return;
         }
 
-        currentOrder.setOrdered();
-        orderManager.registerOrder(currentOrder);
-        ordersMadeByUser.add(currentOrder);
+        Order newOrder = new Order(currentLoggedInUser.getId(), orderTotal, (ArrayList<String>) currentOrder);
+        this.orderManager.registerOrder(newOrder);
+        ordersMadeByUser.add(newOrder);
     }
 }

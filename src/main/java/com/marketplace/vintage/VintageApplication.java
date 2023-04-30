@@ -8,6 +8,7 @@ import com.marketplace.vintage.item.ItemFactory;
 import com.marketplace.vintage.item.ItemManager;
 import com.marketplace.vintage.logging.JavaLogger;
 import com.marketplace.vintage.logging.Logger;
+import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.view.View;
 import com.marketplace.vintage.view.ViewFactory;
@@ -29,12 +30,13 @@ public class VintageApplication {
         ExpressionSolver expressionSolver = new Exp4jExpressionSolver();
         ItemManager itemManager = new ItemManager();
         ItemFactory itemFactory = new ItemFactory();
+        OrderManager orderManager = new OrderManager();
 
         VintageController vintageController = new VintageController(itemManager, itemFactory);
 
         VintageTimeManager vintageTimeManager = new VintageTimeManager();
 
-        this.viewFactory = new ViewFactory(logger, inputPrompter, userManager, parcelCarrierManager, expressionSolver, vintageController, itemManager, vintageTimeManager);
+        this.viewFactory = new ViewFactory(logger, inputPrompter, userManager, parcelCarrierManager, expressionSolver, vintageController, itemManager, orderManager, vintageTimeManager);
     }
 
     public void start() {
