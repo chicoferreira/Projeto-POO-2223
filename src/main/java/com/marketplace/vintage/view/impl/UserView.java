@@ -4,6 +4,7 @@ import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.VintageTimeManager;
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.commands.item.ItemCommand;
+import com.marketplace.vintage.commands.order.OrderCommand;
 import com.marketplace.vintage.commands.user.UserInfoCommand;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.input.InputPrompter;
@@ -13,6 +14,7 @@ import com.marketplace.vintage.input.questionnaire.QuestionnaireBuilder;
 import com.marketplace.vintage.item.ItemManager;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.logging.PrefixLogger;
+import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.utils.EmailUtils;
@@ -33,6 +35,7 @@ public class UserView extends BaseView {
                     ParcelCarrierManager parcelCarrierManager,
                     VintageController vintageController,
                     ItemManager itemManager,
+                    OrderManager orderManager,
                     VintageTimeManager vintageTimeManager) {
         super(PrefixLogger.of("USER", logger), inputPrompter, "user view");
         this.baseLogger = logger;
@@ -51,6 +54,7 @@ public class UserView extends BaseView {
 
         this.getCommandManager().registerCommand(new ItemCommand(this, parcelCarrierManager, vintageController, itemManager, vintageTimeManager));
         this.getCommandManager().registerCommand(new UserInfoCommand(this));
+        this.getCommandManager().registerCommand(new OrderCommand(this, vintageTimeManager, itemManager, orderManager));
     }
 
     @Override
