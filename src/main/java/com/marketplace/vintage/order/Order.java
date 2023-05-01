@@ -13,19 +13,19 @@ public class Order {
 
     private final UUID orderId;
     private final UUID userId;
-    private final ArrayList<String> itemsInOrder;
+    private final List<String> itemsInOrder;
     private BigDecimal totalPrice;
     private OrderStatus orderState;
     private Date returnDate;
 
-    public Order(UUID userId, BigDecimal totalPrice, ArrayList<String> itemsInOrder) {
+    public Order(UUID userId, BigDecimal totalPrice, List<String> itemsInOrder) {
         this(UUID.randomUUID(), userId, totalPrice, itemsInOrder, OrderStatus.ORDERED);
     }
     public Order(UUID userId) {
-        this(UUID.randomUUID(), userId, BigDecimal.valueOf(0), new ArrayList<String>(), OrderStatus.ORDERED);
+        this(UUID.randomUUID(), userId, BigDecimal.valueOf(-1), new ArrayList<String>(), OrderStatus.ORDERED);
     }
 
-    public Order(UUID orderId, UUID userId, BigDecimal totalPrice, ArrayList<String> array, OrderStatus status) {
+    public Order(UUID orderId, UUID userId, BigDecimal totalPrice, List<String> array, OrderStatus status) {
         this.orderId = orderId;
         this.userId = userId;
         this.totalPrice = totalPrice;
@@ -37,19 +37,24 @@ public class Order {
         return this.orderId;
     }
 
-    public ArrayList<String> getItemsInOrder() { return this.itemsInOrder; }
-
-    public BigDecimal getTotalPrice() { return totalPrice; }
+    public List<String> getItemsInOrder() { return this.itemsInOrder; }
 
     public BigDecimal calculateTotalPrice(ItemManager itemManager, int year) {
-        int arraySize = this.itemsInOrder.size();
-        for (int i = 0; i < arraySize; i++) {
-            BigDecimal itemValue = itemManager.getItem(this.itemsInOrder.get(i)).getFinalPrice(year);
-            this.totalPrice = this.totalPrice.add(itemValue);
+        if (this.totalPrice.equals(BigDecimal.valueOf(-1))) {
+
+            this.totalPrice = BigDecimal.valueOf(0);
+
+            int arraySize = this.itemsInOrder.size();
+            for (int i = 0; i < arraySize; i++) {
+                BigDecimal itemValue = itemManager.getItem(this.itemsInOrder.get(i)).getFinalPrice(year);
+                this.totalPrice = this.totalPrice.add(itemValue);
+            }
         }
 
         return this.totalPrice;
     }
+
+    public OrderStatus getOrderState() { return this.orderState; }
 
     public void setOrdered() {
         this.orderState = OrderStatus.ORDERED;

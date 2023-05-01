@@ -1,6 +1,8 @@
 package com.marketplace.vintage.commands.order;
 
+import com.marketplace.vintage.VintageTimeManager;
 import com.marketplace.vintage.command.BaseCommand;
+import com.marketplace.vintage.item.ItemManager;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.order.Order;
 import com.marketplace.vintage.order.OrderManager;
@@ -13,13 +15,17 @@ import java.util.UUID;
 
 public class OrderListCommand extends BaseCommand {
 
+    private final ItemManager itemManager;
     private final UserView userView;
     private final OrderManager orderManager;
+    private final VintageTimeManager vintageTimeManager;
 
-    public OrderListCommand(OrderManager orderManager, UserView userView) {
+    public OrderListCommand(ItemManager itemManager, OrderManager orderManager, UserView userView, VintageTimeManager vintageTimeManager) {
         super("list", "list", 0, "Lists the orders done by the user");
+        this.itemManager = itemManager;
         this.orderManager = orderManager;
         this.userView = userView;
+        this.vintageTimeManager = vintageTimeManager;
     }
 
     @Override
@@ -37,13 +43,14 @@ public class OrderListCommand extends BaseCommand {
             Order indexedOrder = orderManager.getOrder(indexedOrderId);
 
             logger.info("Order " + i+1 +"# - " + indexedOrderId + " :");
-            ArrayList<String> itemsInOrder = indexedOrder.getItemsInOrder();
+            List<String> itemsInOrder = indexedOrder.getItemsInOrder();
 
-            for(int j = 0; j < itemsInOrder.size(); i++ ) {
+            for(int j = 0; j < itemsInOrder.size(); j++ ) {
                 String indexedItem = itemsInOrder.get(j);
-                logger.info(" - Item " + j+1 + "# - ID: " + indexedItem);
+                logger.info(" - Item " + j + "# - ID: " + indexedItem);
             }
-            logger.info("Paid Total: " + indexedOrder.getTotalPrice());
+            logger.info("Paid Total: " + indexedOrder.calculateTotalPrice(itemManager, vintageTimeManager.getCurrentYear()));
+            logger.info("Status: " + indexedOrder.getOrderState());
         }
 
     }

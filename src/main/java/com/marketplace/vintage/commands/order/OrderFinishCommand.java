@@ -36,7 +36,6 @@ public class OrderFinishCommand extends BaseCommand {
     protected void executeSafely(Logger logger, String[] args) {
         User currentLoggedInUser = userView.getCurrentLoggedInUser();
         List<String> currentOrder = currentLoggedInUser.getShoppingCart();
-        List<UUID> ordersMadeByUser = currentLoggedInUser.getOrdersMade();
 
         if(currentOrder.isEmpty()) {
             logger.warn("You haven't added any items to the shopping cart");
@@ -53,11 +52,11 @@ public class OrderFinishCommand extends BaseCommand {
             BigDecimal valueOfItem = indexedItem.getFinalPrice(currentYear);
 
             if(indexedItem.getItemCondition() == NEW) {
-                valueOfItem.add(BigDecimal.valueOf(0.25));
+                valueOfItem = valueOfItem.add(BigDecimal.valueOf(0.25));
             }
 
-            valueOfItem.add(BigDecimal.valueOf(0.25));
-            orderTotal.add(valueOfItem);
+            valueOfItem = valueOfItem.add(BigDecimal.valueOf(0.25));
+            orderTotal = orderTotal.add(valueOfItem);
 
             logger.info(" - " + indexedItem.getItemType() + " " + indexedItem.getBrand() + " - " + valueOfItem );
         }
@@ -72,6 +71,10 @@ public class OrderFinishCommand extends BaseCommand {
 
         Order newOrder = new Order(currentLoggedInUser.getId(), orderTotal, (ArrayList<String>) currentOrder);
         this.orderManager.registerOrder(newOrder);
-        ordersMadeByUser.add(newOrder.getOrderId());
+        currentLoggedInUser.addOrder(newOrder);
+        logger.info("Order (" + newOrder.getOrderId() + ") has been made");
+
+        currentLoggedInUser.cleanShoppingCart();
+
     }
 }
