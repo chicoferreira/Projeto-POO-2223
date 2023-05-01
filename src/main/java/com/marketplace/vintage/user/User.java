@@ -72,6 +72,10 @@ public class User {
 
     public List<String> getShoppingCart() { return this.shoppingCart; }
 
+    public void addItemToShoppingCart(String id) { shoppingCart.add(id); }
+
+    public void removeItemFromShoppingCart(String id) { shoppingCart.remove(id); }
+
     public List<Order> getOrdersMade() { return new ArrayList<>(ordersMade); }
     public void addOrder(Order order) { ordersMade.add(order); }
 }

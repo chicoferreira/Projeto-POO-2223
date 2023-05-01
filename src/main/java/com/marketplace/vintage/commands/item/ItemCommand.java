@@ -11,6 +11,7 @@ public class ItemCommand extends ParentCommand {
 
     public ItemCommand(UserView userView, ParcelCarrierManager parcelCarrierManager, VintageController vintageController, ItemManager itemManager, VintageTimeManager vintageTimeManager) {
         super("item", "Item management commands");
+        registerCommand(new ItemAddToShoppingCartCommand(itemManager, userView, vintageTimeManager));
         registerCommand(new ItemCreateCommand(userView, parcelCarrierManager, vintageController));
         registerCommand(new ItemListCommand(itemManager, userView, parcelCarrierManager, vintageTimeManager));
     }
