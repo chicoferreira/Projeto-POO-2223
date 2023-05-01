@@ -16,7 +16,7 @@ public class User {
     private final String taxNumber;
     private final List<String> itemsBeingSold;
     private final List<String> shoppingCart;
-    private final List<Order> ordersMade;
+    private final List<UUID> ordersMade;
 
     public User(String username, String email, String name, String address, String taxNumber) {
         this(UUID.randomUUID(), username, email, name, address, taxNumber);
@@ -76,6 +76,6 @@ public class User {
 
     public void removeItemFromShoppingCart(String id) { shoppingCart.remove(id); }
 
-    public List<Order> getOrdersMade() { return new ArrayList<>(ordersMade); }
-    public void addOrder(Order order) { ordersMade.add(order); }
+    public List<UUID> getOrdersMade() { return new ArrayList<>(ordersMade); }
+    public void addOrder(Order order) { ordersMade.add(order.getOrderId()); }
 }
