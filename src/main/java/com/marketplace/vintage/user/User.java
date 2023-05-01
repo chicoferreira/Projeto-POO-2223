@@ -76,6 +76,8 @@ public class User {
 
     public void removeItemFromShoppingCart(String id) { shoppingCart.remove(id); }
 
+    public void cleanShoppingCart() { shoppingCart.clear(); }
+
     public List<UUID> getOrdersMade() { return new ArrayList<>(ordersMade); }
     public void addOrder(Order order) { ordersMade.add(order.getOrderId()); }
 }

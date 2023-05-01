@@ -3,6 +3,8 @@ package com.marketplace.vintage.item;
 import com.marketplace.vintage.item.condition.ItemCondition;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.UUID;
 
 public abstract class Item {
@@ -59,7 +61,7 @@ public abstract class Item {
      * @return the final price of the item, after applying the price correction
      */
     public BigDecimal getFinalPrice(int currentYear) {
-        return basePrice.add(getPriceCorrection(currentYear));
+        return (basePrice.add(getPriceCorrection(currentYear))).setScale(2, RoundingMode.HALF_UP);
     }
 
     /**
