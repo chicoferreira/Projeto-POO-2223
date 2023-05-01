@@ -43,4 +43,8 @@ public class ItemManager {
 
         return uniqueCode;
     }
+
+    public boolean containsItemById(String id) {
+        return itemsById.containsKey(id);
+    }
 }

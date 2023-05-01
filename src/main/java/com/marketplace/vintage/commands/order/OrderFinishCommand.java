@@ -14,6 +14,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.marketplace.vintage.item.condition.ItemConditions.NEW;
+
 public class OrderFinishCommand extends BaseCommand {
 
     private final OrderManager orderManager;
@@ -41,7 +43,10 @@ public class OrderFinishCommand extends BaseCommand {
         BigDecimal orderTotal = BigDecimal.valueOf(0);
         for(int i = 0; i < numberOfItems; i++ ) {
             Item indexedItem = itemManager.getItem(currentOrder.get(i));
-            orderTotal.add(indexedItem.getFinalPrice(currentYear));
+            if(indexedItem.getItemCondition() == NEW) {
+                orderTotal.add(BigDecimal.valueOf(0.25));
+            }
+            orderTotal.add(indexedItem.getFinalPrice(currentYear)).add(BigDecimal.valueOf(0.25));
         }
         logger.info("The total value to pay is " + orderTotal);
         String proceed = getInputPrompter().askForInput(logger, "Do you want to proceed with the order: (Y/n)", String::toLowerCase);
