@@ -13,6 +13,7 @@ import com.marketplace.vintage.view.impl.UserView;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static com.marketplace.vintage.item.condition.ItemConditions.NEW;
 
@@ -24,7 +25,7 @@ public class OrderFinishCommand extends BaseCommand {
     private VintageTimeManager vintageTimeManager;
 
     public OrderFinishCommand(OrderManager orderManager, ItemManager itemManager, UserView userView, VintageTimeManager vintageTimeManager) {
-        super("finish", "finish order", 0, "Finishes the current order");
+        super("finish", "finish", 0, "Finishes the current order");
         this.orderManager = orderManager;
         this.itemManager = itemManager;
         this.userView = userView;
@@ -35,19 +36,32 @@ public class OrderFinishCommand extends BaseCommand {
     protected void executeSafely(Logger logger, String[] args) {
         User currentLoggedInUser = userView.getCurrentLoggedInUser();
         List<String> currentOrder = currentLoggedInUser.getShoppingCart();
-        List<Order> ordersMadeByUser = currentLoggedInUser.getOrdersMade();
+        List<UUID> ordersMadeByUser = currentLoggedInUser.getOrdersMade();
+
+        if(currentOrder.isEmpty()) {
+            logger.warn("You haven't added any items to the shopping cart");
+            return;
+        }
 
         int numberOfItems = currentOrder.size();
         int currentYear = vintageTimeManager.getCurrentYear();
 
         BigDecimal orderTotal = BigDecimal.valueOf(0);
+
         for(int i = 0; i < numberOfItems; i++ ) {
             Item indexedItem = itemManager.getItem(currentOrder.get(i));
+            BigDecimal valueOfItem = indexedItem.getFinalPrice(currentYear);
+
             if(indexedItem.getItemCondition() == NEW) {
-                orderTotal.add(BigDecimal.valueOf(0.25));
+                valueOfItem.add(BigDecimal.valueOf(0.25));
             }
-            orderTotal.add(indexedItem.getFinalPrice(currentYear)).add(BigDecimal.valueOf(0.25));
+
+            valueOfItem.add(BigDecimal.valueOf(0.25));
+            orderTotal.add(valueOfItem);
+
+            logger.info(" - " + indexedItem.getItemType() + " " + indexedItem.getBrand() + " - " + valueOfItem );
         }
+
         logger.info("The total value to pay is " + orderTotal);
         String proceed = getInputPrompter().askForInput(logger, "Do you want to proceed with the order: (Y/n)", String::toLowerCase);
 
@@ -58,6 +72,6 @@ public class OrderFinishCommand extends BaseCommand {
 
         Order newOrder = new Order(currentLoggedInUser.getId(), orderTotal, (ArrayList<String>) currentOrder);
         this.orderManager.registerOrder(newOrder);
-        ordersMadeByUser.add(newOrder);
+        ordersMadeByUser.add(newOrder.getOrderId());
     }
 }

@@ -11,6 +11,7 @@ public class OrderCommand extends ParentCommand {
     public OrderCommand(UserView userView, VintageTimeManager vintageTimeManager, ItemManager itemManager, OrderManager orderManager) {
         super("order", "Order commands");
         registerCommand(new OrderFinishCommand(orderManager, itemManager, userView, vintageTimeManager));
+        registerCommand(new OrderListCommand(orderManager, userView));
     }
 
 }

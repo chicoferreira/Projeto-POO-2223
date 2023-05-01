@@ -37,13 +37,9 @@ public class Order {
         return this.orderId;
     }
 
-    public void addItem(Item item) {
-        this.itemsInOrder.add(item.getAlphanumericId());
-    }
+    public ArrayList<String> getItemsInOrder() { return this.itemsInOrder; }
 
-    public void removeItem(Item item) {
-        this.itemsInOrder.remove(item.getAlphanumericId());
-    }
+    public BigDecimal getTotalPrice() { return totalPrice; }
 
     public BigDecimal calculateTotalPrice(ItemManager itemManager, int year) {
         int arraySize = this.itemsInOrder.size();

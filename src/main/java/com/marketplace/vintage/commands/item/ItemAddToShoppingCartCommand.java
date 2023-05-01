@@ -16,7 +16,7 @@ public class ItemAddToShoppingCartCommand extends BaseCommand {
     private final VintageTimeManager vintageTimeManager;
 
     public ItemAddToShoppingCartCommand(ItemManager itemManager, UserView userView, VintageTimeManager vintageTimeManager) {
-        super("add item", "add", 1, "Adds the item given to the User's shopping Cart.");
+        super("add", "add", 1, "Adds the item given to the User's shopping Cart.");
         this.itemManager = itemManager;
         this.userView = userView;
         this.vintageTimeManager = vintageTimeManager;
@@ -33,10 +33,10 @@ public class ItemAddToShoppingCartCommand extends BaseCommand {
         }
 
         Item item = itemManager.getItem(itemId);
-        logger.info("Type: " + item.getItemType());
-        logger.info("Brand: " + item.getBrand());
-        logger.info("Base Price: " + item.getBasePrice());
-        logger.info("Final Price: " + item.getFinalPrice(vintageTimeManager.getCurrentYear()));
+        logger.info(" - Type: " + item.getItemType());
+        logger.info(" - Brand: " + item.getBrand());
+        logger.info(" - Base Price: " + item.getBasePrice());
+        logger.info(" - Final Price: " + item.getFinalPrice(vintageTimeManager.getCurrentYear()));
         String proceed = getInputPrompter().askForInput(logger, "Do you want to add this item to the shopping cart? (Y/n) ", String::toLowerCase);
 
         if(proceed.equals("n")) {
