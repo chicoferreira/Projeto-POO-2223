@@ -1,9 +1,15 @@
 package com.marketplace.vintage.utils;
 
+import com.marketplace.vintage.VintageConstants;
+import com.marketplace.vintage.carrier.ParcelCarrierManager;
+import com.marketplace.vintage.item.Item;
+import com.marketplace.vintage.item.ItemManager;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Collection;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -33,6 +39,20 @@ public class StringUtils {
 
     public static String formatCurrency(BigDecimal bigDecimal) {
         return FORMAT.format(bigDecimal);
+    }
+
+    public static String printItem(String itemId, ItemManager itemManager, int currentYear, ParcelCarrierManager parcelCarrierManager) {
+        Item item = itemManager.getItem(itemId);
+        UUID parcelcarrierId = item.getParcelCarrierUuid();
+
+        String message = VintageConstants.DISPLAY_ITEM_FORMAT.replace("<id>", item.getAlphanumericId())
+                                                             .replace("<itemType>", item.getItemType().getDisplayName())
+                                                             .replace("<description>", item.getDescription())
+                                                             .replace("<brand>", item.getBrand())
+                                                             .replace("<finalPrice>", StringUtils.formatCurrency(item.getFinalPrice(currentYear)))
+                                                             .replace("<parcelCarrier>", parcelCarrierManager.getCarrierById(parcelcarrierId).getName());
+
+        return message;
     }
 
 }
