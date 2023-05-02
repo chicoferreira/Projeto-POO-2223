@@ -1,6 +1,7 @@
 package com.marketplace.vintage.commands.shoppingcart;
 
 import com.marketplace.vintage.VintageTimeManager;
+import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.item.Item;
 import com.marketplace.vintage.item.ItemManager;
@@ -8,6 +9,7 @@ import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.order.Order;
 import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.user.User;
+import com.marketplace.vintage.utils.StringUtils;
 import com.marketplace.vintage.view.impl.UserView;
 
 import java.math.BigDecimal;
@@ -20,15 +22,17 @@ public class ShoppingCartOrderCommand extends BaseCommand {
 
     private final OrderManager orderManager;
     private final ItemManager itemManager;
+    private final ParcelCarrierManager parcelCarrierManager;
     private final UserView userView;
     private VintageTimeManager vintageTimeManager;
 
-    public ShoppingCartOrderCommand(OrderManager orderManager, ItemManager itemManager, UserView userView, VintageTimeManager vintageTimeManager) {
+    public ShoppingCartOrderCommand(OrderManager orderManager, ItemManager itemManager, ParcelCarrierManager parcelCarrierManager, UserView userView, VintageTimeManager vintageTimeManager) {
         super("order", "order", 0, "Makes an order out of the current shopping cart");
         this.orderManager = orderManager;
         this.itemManager = itemManager;
         this.userView = userView;
         this.vintageTimeManager = vintageTimeManager;
+        this.parcelCarrierManager = parcelCarrierManager;
     }
 
     @Override
@@ -57,7 +61,9 @@ public class ShoppingCartOrderCommand extends BaseCommand {
             valueOfItem = valueOfItem.add(BigDecimal.valueOf(0.25));
             orderTotal = orderTotal.add(valueOfItem);
 
-            logger.info(" - " + indexedItem.getItemType() + " " + indexedItem.getBrand() + " - " + valueOfItem );
+            String message = StringUtils.printItem(currentOrder.get(i), itemManager, currentYear, parcelCarrierManager);
+
+            logger.info(" - " + message );
         }
 
         logger.info("The total value to pay is " + orderTotal);

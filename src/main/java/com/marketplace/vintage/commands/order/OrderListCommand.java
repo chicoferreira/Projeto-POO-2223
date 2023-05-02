@@ -1,15 +1,16 @@
 package com.marketplace.vintage.commands.order;
 
 import com.marketplace.vintage.VintageTimeManager;
+import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.item.ItemManager;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.order.Order;
 import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.user.User;
+import com.marketplace.vintage.utils.StringUtils;
 import com.marketplace.vintage.view.impl.UserView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,13 +20,15 @@ public class OrderListCommand extends BaseCommand {
     private final UserView userView;
     private final OrderManager orderManager;
     private final VintageTimeManager vintageTimeManager;
+    private final ParcelCarrierManager parcelCarrierManager;
 
-    public OrderListCommand(ItemManager itemManager, OrderManager orderManager, UserView userView, VintageTimeManager vintageTimeManager) {
+    public OrderListCommand(ItemManager itemManager, OrderManager orderManager, UserView userView, VintageTimeManager vintageTimeManager, ParcelCarrierManager parcelCarrierManager) {
         super("list", "list", 0, "Lists the orders done by the user");
         this.itemManager = itemManager;
         this.orderManager = orderManager;
         this.userView = userView;
         this.vintageTimeManager = vintageTimeManager;
+        this.parcelCarrierManager = parcelCarrierManager;
     }
 
     @Override
@@ -47,7 +50,8 @@ public class OrderListCommand extends BaseCommand {
 
             for(int j = 0; j < itemsInOrder.size(); j++ ) {
                 String indexedItem = itemsInOrder.get(j);
-                logger.info(" - Item " + j + "# - ID: " + indexedItem);
+                String message = StringUtils.printItem(indexedItem, itemManager, vintageTimeManager.getCurrentYear(), parcelCarrierManager);
+                logger.info(message);
             }
             logger.info("Paid Total: " + indexedOrder.calculateTotalPrice(itemManager, vintageTimeManager.getCurrentYear()));
             logger.info("Status: " + indexedOrder.getOrderState());
