@@ -1,4 +1,4 @@
-package com.marketplace.vintage.commands.order;
+package com.marketplace.vintage.commands.shoppingcart;
 
 import com.marketplace.vintage.VintageTimeManager;
 import com.marketplace.vintage.command.BaseCommand;
@@ -13,19 +13,18 @@ import com.marketplace.vintage.view.impl.UserView;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static com.marketplace.vintage.item.condition.ItemConditions.NEW;
 
-public class OrderFinishCommand extends BaseCommand {
+public class ShoppingCartOrderCommand extends BaseCommand {
 
     private final OrderManager orderManager;
     private final ItemManager itemManager;
     private final UserView userView;
     private VintageTimeManager vintageTimeManager;
 
-    public OrderFinishCommand(OrderManager orderManager, ItemManager itemManager, UserView userView, VintageTimeManager vintageTimeManager) {
-        super("finish", "finish", 0, "Finishes the current order");
+    public ShoppingCartOrderCommand(OrderManager orderManager, ItemManager itemManager, UserView userView, VintageTimeManager vintageTimeManager) {
+        super("order", "order", 0, "Makes an order out of the current shopping cart");
         this.orderManager = orderManager;
         this.itemManager = itemManager;
         this.userView = userView;

@@ -3,7 +3,7 @@ package com.marketplace.vintage.view.impl;
 import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.VintageTimeManager;
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
-import com.marketplace.vintage.commands.ShoppingCartCommand;
+import com.marketplace.vintage.commands.shoppingcart.ShoppingCartCommand;
 import com.marketplace.vintage.commands.item.ItemCommand;
 import com.marketplace.vintage.commands.order.OrderCommand;
 import com.marketplace.vintage.commands.user.UserInfoCommand;
@@ -56,7 +56,7 @@ public class UserView extends BaseView {
         this.getCommandManager().registerCommand(new ItemCommand(this, parcelCarrierManager, vintageController, itemManager, vintageTimeManager));
         this.getCommandManager().registerCommand(new UserInfoCommand(this));
         this.getCommandManager().registerCommand(new OrderCommand(this, vintageTimeManager, itemManager, orderManager));
-        this.getCommandManager().registerCommand(new ShoppingCartCommand(itemManager, this, vintageTimeManager));
+        this.getCommandManager().registerCommand(new ShoppingCartCommand(itemManager, orderManager, this, vintageTimeManager));
     }
 
     @Override

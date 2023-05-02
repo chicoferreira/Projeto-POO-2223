@@ -21,6 +21,7 @@ public class Order {
     public Order(UUID userId, BigDecimal totalPrice, List<String> itemsInOrder) {
         this(UUID.randomUUID(), userId, totalPrice, itemsInOrder, OrderStatus.ORDERED);
     }
+
     public Order(UUID userId) {
         this(UUID.randomUUID(), userId, BigDecimal.valueOf(-1), new ArrayList<String>(), OrderStatus.ORDERED);
     }

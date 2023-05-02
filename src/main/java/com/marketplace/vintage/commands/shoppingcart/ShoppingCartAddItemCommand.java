@@ -1,7 +1,6 @@
-package com.marketplace.vintage.commands.item;
+package com.marketplace.vintage.commands.shoppingcart;
 
 import com.marketplace.vintage.VintageTimeManager;
-import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.item.Item;
 import com.marketplace.vintage.item.ItemManager;
@@ -9,14 +8,14 @@ import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.view.impl.UserView;
 
-public class ItemAddToShoppingCartCommand extends BaseCommand {
+public class ShoppingCartAddItemCommand extends BaseCommand {
 
     private final ItemManager itemManager;
     private final UserView userView;
     private final VintageTimeManager vintageTimeManager;
 
-    public ItemAddToShoppingCartCommand(ItemManager itemManager, UserView userView, VintageTimeManager vintageTimeManager) {
-        super("add", "add", 1, "Adds the item given to the User's shopping Cart.");
+    public ShoppingCartAddItemCommand(ItemManager itemManager, UserView userView, VintageTimeManager vintageTimeManager) {
+        super("add", "add", 1, "Adds the item given to the User's shopping cart.");
         this.itemManager = itemManager;
         this.userView = userView;
         this.vintageTimeManager = vintageTimeManager;
