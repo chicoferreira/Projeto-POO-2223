@@ -1,14 +1,13 @@
 package com.marketplace.vintage.commands.order;
 
-import com.marketplace.vintage.VintageTimeManager;
-import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.command.BaseCommand;
-import com.marketplace.vintage.item.ItemManager;
 import com.marketplace.vintage.logging.Logger;
+import com.marketplace.vintage.order.ItemOrder;
 import com.marketplace.vintage.order.Order;
 import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.utils.StringUtils;
+import com.marketplace.vintage.utils.VintageDate;
 import com.marketplace.vintage.view.impl.UserView;
 
 import java.util.List;
@@ -16,19 +15,13 @@ import java.util.UUID;
 
 public class OrderListCommand extends BaseCommand {
 
-    private final ItemManager itemManager;
     private final UserView userView;
     private final OrderManager orderManager;
-    private final VintageTimeManager vintageTimeManager;
-    private final ParcelCarrierManager parcelCarrierManager;
 
-    public OrderListCommand(ItemManager itemManager, OrderManager orderManager, UserView userView, VintageTimeManager vintageTimeManager, ParcelCarrierManager parcelCarrierManager) {
+    public OrderListCommand(OrderManager orderManager, UserView userView) {
         super("list", "list", 0, "Lists the orders done by the user");
-        this.itemManager = itemManager;
         this.orderManager = orderManager;
         this.userView = userView;
-        this.vintageTimeManager = vintageTimeManager;
-        this.parcelCarrierManager = parcelCarrierManager;
     }
 
     @Override
@@ -37,25 +30,24 @@ public class OrderListCommand extends BaseCommand {
 
         List<UUID> ordersMadeByUser = currentLoggedInUser.getOrdersMade();
 
-        if(ordersMadeByUser.isEmpty()) {
+        if (ordersMadeByUser.isEmpty()) {
             logger.warn("You haven't made any orders yet");
         }
 
-        for(int i = 0; i < ordersMadeByUser.size(); i++) {
-            UUID indexedOrderId = ordersMadeByUser.get(i);
-            Order indexedOrder = orderManager.getOrder(indexedOrderId);
+        List<Order> sortedOrders = ordersMadeByUser.stream().map(orderManager::getOrder).sorted((o1, o2) -> VintageDate.COMPARATOR.compare(o1.getOrderDate(), o2.getOrderDate())).toList();
 
-            logger.info("Order " + i+1 +"# - " + indexedOrderId + " :");
-            List<String> itemsInOrder = indexedOrder.getItemsInOrder();
+        for (Order order : sortedOrders) {
+            logger.info("[" + order.getOrderStatus() + "] " + "Order #" + order.getOrderId() + " made on " + order.getOrderDate()); // TODO: format date
 
-            for(int j = 0; j < itemsInOrder.size(); j++ ) {
-                String indexedItem = itemsInOrder.get(j);
-                String message = StringUtils.printItem(indexedItem, itemManager, vintageTimeManager.getCurrentYear(), parcelCarrierManager);
-                logger.info(message);
+            for (String parcelCarrierName : order.getAllParcelCarrierNames()) {
+                logger.info("  Shipped with " + parcelCarrierName + ":");
+                for (ItemOrder itemOrder : order.getOrderedItemsByParcelCarrier(parcelCarrierName)) {
+                    logger.info("   - " + itemOrder.getItemId() + " x" + itemOrder.getQuantity() + " - " + StringUtils.formatCurrency(itemOrder.getTotalPrice()));
+                }
+                logger.info("   Shipping Cost: " + StringUtils.formatCurrency(order.getParcelCarrierShippingCost(parcelCarrierName)));
             }
-            logger.info("Paid Total: " + indexedOrder.calculateTotalPrice(itemManager, vintageTimeManager.getCurrentYear()));
-            logger.info("Status: " + indexedOrder.getOrderState());
-        }
 
+            logger.info("Total: " + order.getTotalPrice());
+        }
     }
 }

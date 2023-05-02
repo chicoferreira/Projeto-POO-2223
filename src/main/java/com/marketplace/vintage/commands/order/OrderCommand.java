@@ -9,9 +9,9 @@ import com.marketplace.vintage.view.impl.UserView;
 
 public class OrderCommand extends ParentCommand {
 
-    public OrderCommand(UserView userView, VintageTimeManager vintageTimeManager, ItemManager itemManager, OrderManager orderManager, ParcelCarrierManager parcelCarrierManager) {
+    public OrderCommand(UserView userView, OrderManager orderManager) {
         super("order", "Order commands");
-        registerCommand(new OrderListCommand(itemManager, orderManager, userView, vintageTimeManager, parcelCarrierManager));
+        registerCommand(new OrderListCommand(orderManager, userView));
     }
 
 }

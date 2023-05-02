@@ -1,72 +1,74 @@
 package com.marketplace.vintage.order;
 
-import com.marketplace.vintage.item.Item;
-import com.marketplace.vintage.item.ItemManager;
+import com.marketplace.vintage.utils.VintageDate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class Order {
 
-    private final UUID orderId;
+    private final String orderId;
     private final UUID userId;
-    private final List<String> itemsInOrder;
-    private BigDecimal totalPrice;
-    private OrderStatus orderState;
-    private Date returnDate;
+    private final List<ItemOrder> orderedItems;
+    private final Map<String, BigDecimal> parcelCarrierPrices;
+    private final BigDecimal totalPrice;
+    private final VintageDate orderDate;
+    private OrderStatus orderStatus;
 
-    public Order(UUID userId, BigDecimal totalPrice, List<String> itemsInOrder) {
-        this(UUID.randomUUID(), userId, totalPrice, itemsInOrder, OrderStatus.ORDERED);
+    public Order(String orderId, UUID userId, List<ItemOrder> orderedItems, Map<String, BigDecimal> parcelCarrierPrices, BigDecimal totalPrice, VintageDate orderDate) {
+        this(orderId, userId, orderedItems, parcelCarrierPrices, totalPrice, orderDate, OrderStatus.ORDERED);
     }
 
-    public Order(UUID userId) {
-        this(UUID.randomUUID(), userId, BigDecimal.valueOf(-1), new ArrayList<String>(), OrderStatus.ORDERED);
-    }
-
-    public Order(UUID orderId, UUID userId, BigDecimal totalPrice, List<String> array, OrderStatus status) {
+    public Order(String orderId, UUID userId, List<ItemOrder> orderedItems, Map<String, BigDecimal> parcelCarrierPrices, BigDecimal totalPrice, VintageDate orderDate, OrderStatus orderStatus) {
         this.orderId = orderId;
         this.userId = userId;
+        this.orderedItems = orderedItems;
+        this.parcelCarrierPrices = parcelCarrierPrices;
         this.totalPrice = totalPrice;
-        this.itemsInOrder = array;
-        this.orderState = status;
+        this.orderDate = orderDate;
+        this.orderStatus = orderStatus;
     }
 
-    public UUID getOrderId() {
-        return this.orderId;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public List<String> getItemsInOrder() { return this.itemsInOrder; }
-
-    public BigDecimal calculateTotalPrice(ItemManager itemManager, int year) {
-        if (this.totalPrice.equals(BigDecimal.valueOf(-1))) {
-
-            this.totalPrice = BigDecimal.valueOf(0);
-
-            int arraySize = this.itemsInOrder.size();
-            for (int i = 0; i < arraySize; i++) {
-                BigDecimal itemValue = itemManager.getItem(this.itemsInOrder.get(i)).getFinalPrice(year);
-                this.totalPrice = this.totalPrice.add(itemValue);
-            }
-        }
-
-        return this.totalPrice;
+    public UUID getUserId() {
+        return userId;
     }
 
-    public OrderStatus getOrderState() { return this.orderState; }
-
-    public void setOrdered() {
-        this.orderState = OrderStatus.ORDERED;
+    public List<ItemOrder> getOrderedItems() {
+        return new ArrayList<>(orderedItems); // ItemOrder is immutable
     }
 
-    public void setIssued() {
-        this.orderState = OrderStatus.ISSUED;
+    public List<ItemOrder> getOrderedItemsByParcelCarrier(String parcelCarrierName) {
+        return orderedItems.stream().filter(itemOrder -> itemOrder.getParcelCarrierName().equals(parcelCarrierName)).toList();
     }
 
-    public void setDelivered() {
-        this.orderState = OrderStatus.DELIVERED;
+    public BigDecimal getParcelCarrierShippingCost(String parcelCarrierName) {
+        BigDecimal bigDecimal = parcelCarrierPrices.get(parcelCarrierName);
+        if (bigDecimal == null) throw new IllegalArgumentException("Parcel carrier name not found");
+
+        return bigDecimal;
     }
 
+    public List<String> getAllParcelCarrierNames() {
+        return new ArrayList<>(parcelCarrierPrices.keySet());
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public VintageDate getOrderDate() {
+        return orderDate;
+    }
 }
