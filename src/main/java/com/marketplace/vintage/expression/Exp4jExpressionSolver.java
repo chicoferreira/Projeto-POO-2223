@@ -3,15 +3,22 @@ package com.marketplace.vintage.expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Exp4jExpressionSolver implements ExpressionSolver {
 
     @Override
-    public BigDecimal solve(String expression, Map<String, Double> variables) {
+    public BigDecimal solve(String expression, Map<String, BigDecimal> variables) {
         List<String> variablesList = variables.keySet().stream().toList();
-        return BigDecimal.valueOf(build(expression, variablesList).setVariables(variables).evaluate());
+
+        Map<String, Double> transformedVariables = new HashMap<>();
+        for (Map.Entry<String, BigDecimal> entry : variables.entrySet()) {
+            transformedVariables.put(entry.getKey(), entry.getValue().doubleValue());
+        }
+
+        return BigDecimal.valueOf(build(expression, variablesList).setVariables(transformedVariables).evaluate());
     }
 
     @Override

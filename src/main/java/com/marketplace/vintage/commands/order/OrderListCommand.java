@@ -2,7 +2,7 @@ package com.marketplace.vintage.commands.order;
 
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.logging.Logger;
-import com.marketplace.vintage.order.ItemOrder;
+import com.marketplace.vintage.order.OrderedItem;
 import com.marketplace.vintage.order.Order;
 import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.user.User;
@@ -40,8 +40,8 @@ public class OrderListCommand extends BaseCommand {
 
             for (String parcelCarrierName : order.getAllParcelCarrierNames()) {
                 logger.info("  Shipped with " + parcelCarrierName + ":");
-                for (ItemOrder itemOrder : order.getOrderedItemsByParcelCarrier(parcelCarrierName)) {
-                    logger.info("   - " + itemOrder.getItemId() + " x" + itemOrder.getQuantity() + " - " + StringUtils.formatCurrency(itemOrder.getTotalPrice()));
+                for (OrderedItem orderedItem : order.getOrderedItemsByParcelCarrier(parcelCarrierName)) {
+                    logger.info("   - " + orderedItem.getItemId() + " - " + StringUtils.formatCurrency(orderedItem.getTotalPrice()));
                 }
                 logger.info("   Shipping Cost: " + StringUtils.formatCurrency(order.getParcelCarrierShippingCost(parcelCarrierName)));
             }
