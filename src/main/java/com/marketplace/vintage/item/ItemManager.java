@@ -37,10 +37,9 @@ public class ItemManager {
 
     public String generateUniqueCode() {
         String uniqueCode = AlphanumericGenerator.generateAlphanumericCode(ITEM_ID_FORMAT);
-        while (this.itemsById.containsKey(uniqueCode)) {
-            uniqueCode = AlphanumericGenerator.generateAlphanumericCode(ITEM_ID_FORMAT);
+        if (containsItemById(uniqueCode)) {
+            return generateUniqueCode();
         }
-
         return uniqueCode;
     }
 

@@ -2,6 +2,7 @@ package com.marketplace.vintage.order;
 
 import com.marketplace.vintage.exceptions.EntityAlreadyExistsException;
 import com.marketplace.vintage.exceptions.EntityNotFoundException;
+import com.marketplace.vintage.utils.AlphanumericGenerator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,5 +31,17 @@ public class OrderManager {
         }
 
         this.ordersById.put(orderId, order);
+    }
+
+    public boolean containsOrder(String id) {
+        return this.ordersById.containsKey(id);
+    }
+
+    public String generateUniqueOrderId() {
+        String code = AlphanumericGenerator.generateAlphanumericCode("ORD-XXXXXX");
+        if (containsOrder(code)) {
+            return generateUniqueOrderId();
+        }
+        return code;
     }
 }
