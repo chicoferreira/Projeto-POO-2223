@@ -16,7 +16,7 @@ public class User {
     private final String taxNumber;
     private final List<String> itemsBeingSold;
     private final List<String> shoppingCart;
-    private final List<UUID> ordersMade;
+    private final List<String> completedOrderIdsList;
 
     public User(String username, String email, String name, String address, String taxNumber) {
         this(UUID.randomUUID(), username, email, name, address, taxNumber);
@@ -31,7 +31,7 @@ public class User {
         this.taxNumber = taxNumber;
         this.itemsBeingSold = new ArrayList<>();
         this.shoppingCart = new ArrayList<>();
-        this.ordersMade = new ArrayList<>();
+        this.completedOrderIdsList = new ArrayList<>();
     }
 
     public UUID getId() {
@@ -70,14 +70,27 @@ public class User {
         itemsBeingSold.remove(itemId);
     }
 
-    public List<String> getShoppingCart() { return this.shoppingCart; }
+    public List<String> getShoppingCart() {
+        return this.shoppingCart;
+    }
 
-    public void addItemToShoppingCart(String id) { shoppingCart.add(id); }
+    public void addItemToShoppingCart(String id) {
+        shoppingCart.add(id);
+    }
 
-    public void removeItemFromShoppingCart(String id) { shoppingCart.remove(id); }
+    public void removeItemFromShoppingCart(String id) {
+        shoppingCart.remove(id);
+    }
 
-    public void cleanShoppingCart() { shoppingCart.clear(); }
+    public void cleanShoppingCart() {
+        shoppingCart.clear();
+    }
 
-    public List<UUID> getOrdersMade() { return new ArrayList<>(ordersMade); }
-    public void addOrder(Order order) { ordersMade.add(order.getOrderId()); }
+    public List<String> getCompletedOrderIdsList() {
+        return new ArrayList<>(completedOrderIdsList);
+    }
+
+    public void addOrder(Order order) {
+        completedOrderIdsList.add(order.getOrderId());
+    }
 }

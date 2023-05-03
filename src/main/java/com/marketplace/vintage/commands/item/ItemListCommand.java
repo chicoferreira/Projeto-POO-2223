@@ -45,7 +45,7 @@ public class ItemListCommand extends BaseCommand {
         for (String itemId : itemsBeingSold) {
             Item item = itemManager.getItem(itemId);
 
-            ParcelCarrier carrier = parcelCarrierManager.getCarrierById(item.getParcelCarrierUuid());
+            ParcelCarrier carrier = parcelCarrierManager.getCarrierByName(item.getParcelCarrierName());
 
             String message = VintageConstants.DISPLAY_ITEM_FORMAT.replace("<id>", item.getAlphanumericId())
                                                                  .replace("<itemType>", item.getItemType().getDisplayName())

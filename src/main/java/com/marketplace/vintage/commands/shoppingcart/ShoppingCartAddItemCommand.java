@@ -1,6 +1,5 @@
 package com.marketplace.vintage.commands.shoppingcart;
 
-import com.marketplace.vintage.VintageConstants;
 import com.marketplace.vintage.VintageTimeManager;
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.command.BaseCommand;
@@ -11,8 +10,6 @@ import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.utils.StringUtils;
 import com.marketplace.vintage.view.impl.UserView;
-
-import java.util.UUID;
 
 public class ShoppingCartAddItemCommand extends BaseCommand {
 
@@ -40,7 +37,9 @@ public class ShoppingCartAddItemCommand extends BaseCommand {
             return;
         }
 
-        String message = StringUtils.printItem(itemId, itemManager, currentYear, parcelCarrierManager);
+        Item item = itemManager.getItem(itemId);
+
+        String message = StringUtils.printItem(item, currentYear);
         logger.info(message);
 
         boolean proceed = getInputPrompter().askForInput(logger, "Do you want to add this item to the shopping cart? (y/n) ", InputMapper.BOOLEAN);

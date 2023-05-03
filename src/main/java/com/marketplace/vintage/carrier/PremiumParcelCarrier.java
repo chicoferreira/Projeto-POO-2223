@@ -2,12 +2,10 @@ package com.marketplace.vintage.carrier;
 
 import com.marketplace.vintage.item.ItemType;
 
-import java.util.UUID;
-
 public class PremiumParcelCarrier extends ParcelCarrier {
 
-    public PremiumParcelCarrier(UUID uuid, String name, String expeditionPriceExpression) {
-        super(uuid, name, expeditionPriceExpression, ParcelCarrierType.PREMIUM);
+    public PremiumParcelCarrier(String name, String expeditionPriceExpression) {
+        super(name, expeditionPriceExpression, ParcelCarrierType.PREMIUM);
     }
 
     @Override

@@ -15,13 +15,13 @@ public class PremiumSapatilhasItem extends SapatilhasItem {
                                  String description,
                                  String brand,
                                  BigDecimal basePrice,
-                                 UUID parcelCarrierUuid,
+                                 String parcelCarrierName,
                                  int size,
                                  boolean hasLaces,
                                  String color,
                                  int collectionYear,
                                  int appreciationRateOverYears) {
-        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid, size, hasLaces, color, collectionYear);
+        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierName, size, hasLaces, color, collectionYear);
         this.appreciationRateOverYears = appreciationRateOverYears;
     }
 
@@ -66,7 +66,7 @@ public class PremiumSapatilhasItem extends SapatilhasItem {
                ", description='" + getDescription() + '\'' +
                ", brand='" + getBrand() + '\'' +
                ", basePrice=" + getBasePrice() +
-               ", parcelCarrierUuid=" + getParcelCarrierUuid() +
+               ", parcelCarrierName=" + getParcelCarrierName() +
                ", size=" + getSize() +
                ", hasLaces=" + hasLaces() +
                ", color='" + getColor() + '\'' +

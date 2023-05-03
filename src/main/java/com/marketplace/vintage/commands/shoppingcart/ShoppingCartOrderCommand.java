@@ -6,14 +6,12 @@ import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.item.Item;
 import com.marketplace.vintage.item.ItemManager;
 import com.marketplace.vintage.logging.Logger;
-import com.marketplace.vintage.order.Order;
 import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.utils.StringUtils;
 import com.marketplace.vintage.view.impl.UserView;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.marketplace.vintage.item.condition.ItemConditions.NEW;
@@ -40,7 +38,7 @@ public class ShoppingCartOrderCommand extends BaseCommand {
         User currentLoggedInUser = userView.getCurrentLoggedInUser();
         List<String> currentOrder = currentLoggedInUser.getShoppingCart();
 
-        if(currentOrder.isEmpty()) {
+        if (currentOrder.isEmpty()) {
             logger.warn("You haven't added any items to the shopping cart");
             return;
         }
@@ -50,34 +48,37 @@ public class ShoppingCartOrderCommand extends BaseCommand {
 
         BigDecimal orderTotal = BigDecimal.valueOf(0);
 
-        for(int i = 0; i < numberOfItems; i++ ) {
+        for (int i = 0; i < numberOfItems; i++) {
             Item indexedItem = itemManager.getItem(currentOrder.get(i));
             BigDecimal valueOfItem = indexedItem.getFinalPrice(currentYear);
 
-            if(indexedItem.getItemCondition() == NEW) {
+            if (indexedItem.getItemCondition() == NEW) {
                 valueOfItem = valueOfItem.add(BigDecimal.valueOf(0.25));
             }
 
             valueOfItem = valueOfItem.add(BigDecimal.valueOf(0.25));
             orderTotal = orderTotal.add(valueOfItem);
 
-            String message = StringUtils.printItem(currentOrder.get(i), itemManager, currentYear, parcelCarrierManager);
+            String message = StringUtils.printItem(indexedItem, currentYear);
 
-            logger.info(" - " + message );
+            logger.info(" - " + message);
         }
 
         logger.info("The total value to pay is " + orderTotal);
         String proceed = getInputPrompter().askForInput(logger, "Do you want to proceed with the order: (Y/n)", String::toLowerCase);
 
-        if(proceed.equals("n")) {
+        if (proceed.equals("n")) {
             logger.warn("Did not finish the order");
             return;
         }
 
-        Order newOrder = new Order(currentLoggedInUser.getId(), orderTotal, (ArrayList<String>) currentOrder);
-        this.orderManager.registerOrder(newOrder);
-        currentLoggedInUser.addOrder(newOrder);
-        logger.info("Order (" + newOrder.getOrderId() + ") has been made");
+
+        // TODO: refactor this to use the VintageController and OrderFactory
+
+//        Order newOrder = new Order(currentLoggedInUser.getId(), orderTotal, (ArrayList<String>) currentOrder);
+//        this.orderManager.registerOrder(newOrder);
+//        currentLoggedInUser.addOrder(newOrder);
+//        logger.info("Order (" + newOrder.getOrderId() + ") has been made");
 
         currentLoggedInUser.cleanShoppingCart();
 
