@@ -32,7 +32,7 @@ public class VintageApplication {
         ItemFactory itemFactory = new ItemFactory();
         OrderManager orderManager = new OrderManager();
 
-        VintageController vintageController = new VintageController(itemManager, itemFactory);
+        VintageController vintageController = new VintageController(itemManager, itemFactory, orderManager, vintageTimeManager, parcelCarrierManager);
 
         VintageTimeManager vintageTimeManager = new VintageTimeManager();
 
