@@ -1,7 +1,9 @@
 package com.marketplace.vintage.carrier;
 
+import com.marketplace.vintage.VintageConstants;
 import com.marketplace.vintage.item.ItemType;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public abstract class ParcelCarrier {
@@ -36,6 +38,25 @@ public abstract class ParcelCarrier {
     }
 
     public abstract boolean canDeliverItemType(ItemType itemType);
+
+    public BigDecimal getBaseValueForExpedition(int amountOfItems) {
+        if (amountOfItems < 1) {
+            throw new IllegalArgumentException("Amount of items must be greater than 0");
+        }
+
+        if (amountOfItems == 1) {
+            return VintageConstants.SMALL_PARCEL_BASE_EXPEDITION_PRICE;
+        }
+        if (amountOfItems <= 5) {
+            return VintageConstants.MEDIUM_PARCEL_BASE_EXPEDITION_PRICE;
+        }
+
+        return VintageConstants.LARGE_PARCEL_BASE_EXPEDITION_PRICE;
+    }
+
+    public BigDecimal getExpeditionTax() {
+        return VintageConstants.PARCEL_EXPEDITION_TAX;
+    }
 
     @Override
     public boolean equals(Object o) {

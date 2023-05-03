@@ -2,14 +2,14 @@ package com.marketplace.vintage.order;
 
 import java.math.BigDecimal;
 
-public class ItemOrder {
+public class OrderedItem {
 
     private final String itemId;
 //    private final int quantity;
     private final String parcelCarrierName;
     private final BigDecimal totalPrice;
 
-    public ItemOrder(String itemId, int quantity, String parcelCarrierName, BigDecimal totalPrice) {
+    public OrderedItem(String itemId, int quantity, String parcelCarrierName, BigDecimal totalPrice) {
         this.itemId = itemId;
 //        this.quantity = quantity;
         this.parcelCarrierName = parcelCarrierName;
