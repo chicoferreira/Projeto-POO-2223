@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 public class ItemOrder {
 
     private final String itemId;
-    private final int quantity;
+//    private final int quantity;
     private final String parcelCarrierName;
     private final BigDecimal totalPrice;
 
     public ItemOrder(String itemId, int quantity, String parcelCarrierName, BigDecimal totalPrice) {
         this.itemId = itemId;
-        this.quantity = quantity;
+//        this.quantity = quantity;
         this.parcelCarrierName = parcelCarrierName;
         this.totalPrice = totalPrice;
     }
@@ -20,9 +20,11 @@ public class ItemOrder {
         return itemId;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
+    // TODO: make easy to get quantity from the shopping bag
+
+//    public int getQuantity() {
+//        return quantity;
+//    }
 
     public String getParcelCarrierName() {
         return parcelCarrierName;
