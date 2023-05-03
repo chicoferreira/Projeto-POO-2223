@@ -3,28 +3,17 @@ package com.marketplace.vintage.carrier;
 import com.marketplace.vintage.item.ItemType;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public abstract class ParcelCarrier {
 
-    private final UUID uuid;
     private final String name;
     private String expeditionPriceExpression;
     private final ParcelCarrierType type;
 
-    public ParcelCarrier(UUID uuid, String name, String expeditionPriceExpression, ParcelCarrierType type) {
-        this.uuid = uuid;
+    public ParcelCarrier(String name, String expeditionPriceExpression, ParcelCarrierType type) {
         this.name = name;
         this.expeditionPriceExpression = expeditionPriceExpression;
         this.type = type;
-    }
-
-    public ParcelCarrier(String name, String expeditionPriceExpression, ParcelCarrierType type) {
-        this(UUID.randomUUID(), name, expeditionPriceExpression, type);
-    }
-
-    public UUID getId() {
-        return uuid;
     }
 
     public String getName() {
@@ -53,19 +42,18 @@ public abstract class ParcelCarrier {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ParcelCarrier that = (ParcelCarrier) o;
-        return Objects.equals(uuid, that.uuid);
+        return Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid);
+        return Objects.hash(name);
     }
 
     @Override
     public String toString() {
         return "ParcelCarrier{" +
-               "uuid=" + uuid +
-               ", name='" + name + '\'' +
+               "name='" + name + '\'' +
                ", expeditionPriceExpression='" + expeditionPriceExpression + '\'' +
                ", type=" + type +
                '}';

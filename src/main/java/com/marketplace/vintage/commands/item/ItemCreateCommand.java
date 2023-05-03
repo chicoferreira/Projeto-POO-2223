@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -47,7 +46,7 @@ public class ItemCreateCommand extends BaseCommand {
             case DESCRIPTION -> "Insert the item description:";
             case BRAND -> "Insert the item brand:";
             case BASE_PRICE -> "Insert the item base price:";
-            case PARCEL_CARRIER_UUID -> "Insert the item parcel carrier to use:";
+            case PARCEL_CARRIER_NAME -> "Insert the item parcel carrier to use:";
             case DIMENSION_AREA -> "Insert the bag dimension area:";
             case MATERIAL -> "Insert the item material:";
             case COLLECTION_YEAR -> "Insert the item collection year:";
@@ -60,12 +59,12 @@ public class ItemCreateCommand extends BaseCommand {
         };
     }
 
-    private Function<String, ?> getMapper(ItemProperty itemProperty, Logger logger, Function<String, UUID> parcelCarrierNameToIdMapper) {
+    private Function<String, ?> getMapper(ItemProperty itemProperty, Logger logger, Function<String, String> parcelCarrierIdToNameMapper) {
         return switch (itemProperty) {
             case ITEM_CONDITION -> InputMapper.ofItemCondition(getInputPrompter(), logger);
             case DESCRIPTION, BRAND, MATERIAL, COLOR -> InputMapper.STRING;
             case BASE_PRICE -> InputMapper.BIG_DECIMAL;
-            case PARCEL_CARRIER_UUID -> parcelCarrierNameToIdMapper;
+            case PARCEL_CARRIER_NAME -> parcelCarrierIdToNameMapper;
             case DIMENSION_AREA -> InputMapper.ofIntRange(1, 100);
             case COLLECTION_YEAR -> InputMapper.ofIntRange(1000, 3000);
             case APPRECIATION_RATE_OVER_YEARS -> InputMapper.ofIntRange(0, 100);
@@ -94,7 +93,7 @@ public class ItemCreateCommand extends BaseCommand {
 
         Set<ItemProperty> itemProperties = itemType.getRequiredProperties();
 
-        Function<String, UUID> parcelCarrierNameToIdMapper = getParcelCarrierNameToIdMapper(itemType, parcelCarrierCompatibleList);
+        Function<String, String> parcelCarrierNameToIdMapper = getParcelCarrierNameToIdMapper(itemType, parcelCarrierCompatibleList);
 
         for (ItemProperty itemProperty : itemProperties) {
             questionnaireBuilder.withQuestion(itemProperty.name(), getQuestion(itemProperty), getMapper(itemProperty, logger, parcelCarrierNameToIdMapper));
@@ -113,7 +112,7 @@ public class ItemCreateCommand extends BaseCommand {
     }
 
     @NotNull
-    private Function<String, UUID> getParcelCarrierNameToIdMapper(ItemType itemType, List<ParcelCarrier> parcelCarrierCompatibleList) {
+    private Function<String, String> getParcelCarrierNameToIdMapper(ItemType itemType, List<ParcelCarrier> parcelCarrierCompatibleList) {
         return (String input) -> {
             if (!parcelCarrierManager.containsCarrierByName(input)) {
                 throw new IllegalArgumentException("Parcel carrier must be one of " + StringUtils.joinQuoted(parcelCarrierCompatibleList, ParcelCarrier::getName, ", "));
@@ -123,7 +122,7 @@ public class ItemCreateCommand extends BaseCommand {
             if (!carrier.canDeliverItemType(itemType)) {
                 throw new IllegalArgumentException("Parcel carrier " + carrier.getName() + " cannot deliver item type " + itemType.getDisplayName());
             }
-            return carrier.getId();
+            return carrier.getName();
         };
     }
 }

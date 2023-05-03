@@ -11,7 +11,6 @@ import com.marketplace.vintage.utils.VintageDate;
 import com.marketplace.vintage.view.impl.UserView;
 
 import java.util.List;
-import java.util.UUID;
 
 public class OrderListCommand extends BaseCommand {
 
@@ -28,7 +27,7 @@ public class OrderListCommand extends BaseCommand {
     protected void executeSafely(Logger logger, String[] args) {
         User currentLoggedInUser = userView.getCurrentLoggedInUser();
 
-        List<UUID> ordersMadeByUser = currentLoggedInUser.getOrdersMade();
+        List<String> ordersMadeByUser = currentLoggedInUser.getCompletedOrderIdsList();
 
         if (ordersMadeByUser.isEmpty()) {
             logger.warn("You haven't made any orders yet");

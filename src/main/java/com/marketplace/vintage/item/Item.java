@@ -3,7 +3,6 @@ package com.marketplace.vintage.item;
 import com.marketplace.vintage.item.condition.ItemCondition;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.UUID;
 
@@ -15,16 +14,16 @@ public abstract class Item {
     private final String description;
     private final String brand;
     private final BigDecimal basePrice;
-    private final UUID parcelCarrierUuid;
+    private final String parcelCarrierName;
 
-    public Item(UUID ownerUuid, String alphanumericCode, ItemCondition itemCondition, String description, String brand, BigDecimal basePrice, UUID parcelCarrierUuid) {
+    public Item(UUID ownerUuid, String alphanumericCode, ItemCondition itemCondition, String description, String brand, BigDecimal basePrice, String parcelCarrierName) {
         this.ownerUuid = ownerUuid;
         this.alphanumericId = alphanumericCode;
         this.itemCondition = itemCondition;
         this.description = description;
         this.brand = brand;
         this.basePrice = basePrice;
-        this.parcelCarrierUuid = parcelCarrierUuid;
+        this.parcelCarrierName = parcelCarrierName;
     }
 
     public UUID getOwnerUuid() {
@@ -51,8 +50,8 @@ public abstract class Item {
         return basePrice;
     }
 
-    public UUID getParcelCarrierUuid() {
-        return parcelCarrierUuid;
+    public String getParcelCarrierName() {
+        return parcelCarrierName;
     }
 
     public abstract ItemType getItemType();

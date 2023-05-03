@@ -27,10 +27,10 @@ public class TshirtItem extends Item {
                       String description,
                       String brand,
                       BigDecimal basePrice,
-                      UUID parcelCarrierUuid,
+                      String parcelCarrierName,
                       TshirtItemSize size,
                       TshirtItemPattern pattern) {
-        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid);
+        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierName);
         this.size = size;
         this.pattern = pattern;
     }
@@ -67,7 +67,7 @@ public class TshirtItem extends Item {
                ", description='" + getDescription() + '\'' +
                ", brand='" + getBrand() + '\'' +
                ", basePrice=" + getBasePrice() +
-               ", parcelCarrierUuid=" + getParcelCarrierUuid() +
+               ", parcelCarrierName=" + getParcelCarrierName() +
                '}';
     }
 }
