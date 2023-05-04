@@ -1,7 +1,6 @@
 package com.marketplace.vintage.commands.shoppingcart;
 
 import com.marketplace.vintage.VintageTimeManager;
-import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.item.Item;
@@ -14,16 +13,14 @@ import com.marketplace.vintage.view.impl.UserView;
 public class ShoppingCartAddItemCommand extends BaseCommand {
 
     private final ItemManager itemManager;
-    private final ParcelCarrierManager parcelCarrierManager;
     private final UserView userView;
     private final VintageTimeManager vintageTimeManager;
 
-    public ShoppingCartAddItemCommand(ItemManager itemManager, ParcelCarrierManager parcelCarrierManager, UserView userView, VintageTimeManager vintageTimeManager) {
-        super("add", "add", 1, "Adds the item given to the User's shopping cart.");
+    public ShoppingCartAddItemCommand(ItemManager itemManager, UserView userView, VintageTimeManager vintageTimeManager) {
+        super("add", "cart add", 1, "Adds the item given to the User's shopping cart.");
         this.itemManager = itemManager;
         this.userView = userView;
         this.vintageTimeManager = vintageTimeManager;
-        this.parcelCarrierManager = parcelCarrierManager;
     }
 
     @Override
@@ -39,13 +36,17 @@ public class ShoppingCartAddItemCommand extends BaseCommand {
 
         Item item = itemManager.getItem(itemId);
 
-        String message = StringUtils.printItem(item, currentYear);
-        logger.info(message);
+        if (item.getOwnerUuid().equals(currentLoggedInUser.getId())) {
+            logger.warn("You cannot add your own item to the shopping cart.");
+            return;
+        }
 
-        boolean proceed = getInputPrompter().askForInput(logger, "Do you want to add this item to the shopping cart? (y/n) ", InputMapper.BOOLEAN);
+        logger.info(StringUtils.printItem(item, currentYear));
+
+        boolean proceed = getInputPrompter().askForInput(logger, "Do you want to add this item to the shopping cart? (y/n)", InputMapper.BOOLEAN);
         if (!proceed) return;
 
         currentLoggedInUser.addItemToShoppingCart(itemId);
-        logger.info("Item (" + itemId + ") added to the shopping cart successfully");
+        logger.info("Item (" + itemId + ") added to the shopping cart.");
     }
 }

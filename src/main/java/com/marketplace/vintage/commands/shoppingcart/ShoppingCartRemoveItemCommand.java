@@ -12,7 +12,7 @@ public class ShoppingCartRemoveItemCommand extends BaseCommand {
     private final UserView userView;
 
     public ShoppingCartRemoveItemCommand(UserView userView) {
-        super("remove", "remove", 1, "Remove the given item from the shopping cart");
+        super("remove", "cart remove <item>", 1, "Remove the given item from the shopping cart");
         this.userView = userView;
     }
 
@@ -20,23 +20,15 @@ public class ShoppingCartRemoveItemCommand extends BaseCommand {
     protected void executeSafely(Logger logger, String[] args) {
         String itemId = args[0];
 
-
         User currentLoggedInUser = userView.getCurrentLoggedInUser();
         List<String> itemsInShoppingCart = currentLoggedInUser.getShoppingCart();
-        int indexOfItemId = itemsInShoppingCart.indexOf(itemId);
 
-        if(itemsInShoppingCart.isEmpty()) {
-            logger.warn("Your shopping cart is empty");
-            return;
-        }
-
-        if(indexOfItemId == -1 ) {
+        if (!itemsInShoppingCart.contains(itemId)) {
             logger.warn("This item isn't in your shopping cart");
             return;
         }
 
-        itemsInShoppingCart.remove(indexOfItemId);
+        itemsInShoppingCart.remove(itemId);
         logger.info("The item (" + itemId + ") was removed successfully");
-
     }
 }

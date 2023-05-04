@@ -56,7 +56,7 @@ public class UserView extends BaseView {
         this.getCommandManager().registerCommand(new ItemCommand(this, parcelCarrierManager, vintageController, itemManager, vintageTimeManager));
         this.getCommandManager().registerCommand(new UserInfoCommand(this));
         this.getCommandManager().registerCommand(new OrderCommand(this, orderManager));
-        this.getCommandManager().registerCommand(new ShoppingCartCommand(itemManager, orderManager, parcelCarrierManager, this, vintageTimeManager));
+        this.getCommandManager().registerCommand(new ShoppingCartCommand(itemManager, vintageController, this, vintageTimeManager));
     }
 
     @Override
