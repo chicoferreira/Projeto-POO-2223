@@ -1,7 +1,6 @@
 package com.marketplace.vintage.commands.shoppingcart;
 
 import com.marketplace.vintage.VintageTimeManager;
-import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.item.Item;
 import com.marketplace.vintage.item.ItemManager;
@@ -17,13 +16,10 @@ public class ShoppingCartListCommand extends BaseCommand {
     private final ItemManager itemManager;
     private final UserView userView;
     private final VintageTimeManager vintageTimeManager;
-    private final ParcelCarrierManager parcelCarrierManager;
 
-
-    public ShoppingCartListCommand(ItemManager itemManager, ParcelCarrierManager parcelCarrierManager, UserView userView, VintageTimeManager vintageTimeManager) {
-        super("list", "list", 0, "Lists the items in shopping cart");
+    public ShoppingCartListCommand(ItemManager itemManager, UserView userView, VintageTimeManager vintageTimeManager) {
+        super("list", "cart list", 0, "Lists the items in shopping cart");
         this.itemManager = itemManager;
-        this.parcelCarrierManager = parcelCarrierManager;
         this.userView = userView;
         this.vintageTimeManager = vintageTimeManager;
     }
@@ -32,19 +28,17 @@ public class ShoppingCartListCommand extends BaseCommand {
     protected void executeSafely(Logger logger, String[] args) {
         User currentLoggedInUser = userView.getCurrentLoggedInUser();
         List<String> shoppingCart = currentLoggedInUser.getShoppingCart();
-        int currentYear = vintageTimeManager.getCurrentYear();
 
         if (shoppingCart.isEmpty()) {
-            logger.warn("You don't have anything in your shopping cart");
+            logger.warn("The shopping cart is empty.");
             return;
         }
 
-        int counter = 1;
+        int currentYear = vintageTimeManager.getCurrentYear();
+
         for (String itemId : shoppingCart) {
             Item item = itemManager.getItem(itemId);
-            String message = StringUtils.printItem(item, currentYear);
-            logger.info(message);
-            counter++;
+            logger.info("\t- " + StringUtils.printItem(item, currentYear));
         }
     }
 }

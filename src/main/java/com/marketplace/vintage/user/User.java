@@ -86,11 +86,11 @@ public class User {
         shoppingCart.clear();
     }
 
-    public List<String> getCompletedOrderIdsList() {
-        return new ArrayList<>(completedOrderIdsList);
+    public void addCompletedOrderId(String orderId) {
+        completedOrderIdsList.add(orderId);
     }
 
-    public void addOrder(Order order) {
-        completedOrderIdsList.add(order.getOrderId());
+    public List<String> getCompletedOrderIdsList() {
+        return new ArrayList<>(completedOrderIdsList);
     }
 }

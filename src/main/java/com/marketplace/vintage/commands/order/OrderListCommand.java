@@ -2,7 +2,6 @@ package com.marketplace.vintage.commands.order;
 
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.logging.Logger;
-import com.marketplace.vintage.order.OrderedItem;
 import com.marketplace.vintage.order.Order;
 import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.user.User;
@@ -36,17 +35,7 @@ public class OrderListCommand extends BaseCommand {
         List<Order> sortedOrders = ordersMadeByUser.stream().map(orderManager::getOrder).sorted((o1, o2) -> VintageDate.COMPARATOR.compare(o1.getOrderDate(), o2.getOrderDate())).toList();
 
         for (Order order : sortedOrders) {
-            logger.info("[" + order.getOrderStatus() + "] " + "Order #" + order.getOrderId() + " made on " + order.getOrderDate()); // TODO: format date
-
-            for (String parcelCarrierName : order.getAllParcelCarrierNames()) {
-                logger.info("  Shipped with " + parcelCarrierName + ":");
-                for (OrderedItem orderedItem : order.getOrderedItemsByParcelCarrier(parcelCarrierName)) {
-                    logger.info("   - " + orderedItem.getItemId() + " - " + StringUtils.formatCurrency(orderedItem.getTotalPrice()));
-                }
-                logger.info("   Shipping Cost: " + StringUtils.formatCurrency(order.getParcelCarrierShippingCost(parcelCarrierName)));
-            }
-
-            logger.info("Total: " + order.getTotalPrice());
+            StringUtils.printOrderDisplayFormat(logger, order);
         }
     }
 }
