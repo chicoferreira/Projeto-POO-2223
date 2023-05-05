@@ -2,13 +2,14 @@ package com.marketplace.vintage.order;
 
 import com.marketplace.vintage.utils.VintageDate;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class Order {
+public class Order implements Serializable {
 
     private final String orderId;
     private final UUID userId;

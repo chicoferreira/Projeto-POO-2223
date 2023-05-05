@@ -1,12 +1,11 @@
 package com.marketplace.vintage.user;
 
-import com.marketplace.vintage.order.Order;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class User {
+public class User implements Serializable {
 
     private final UUID uuid;
     private final String username;
