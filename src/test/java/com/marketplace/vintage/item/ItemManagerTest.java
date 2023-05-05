@@ -33,7 +33,7 @@ public class ItemManagerTest {
     }
 
     private Item createTestItem(String id) {
-        return new Item(UUID.randomUUID(), id, NEW, "TEST", "BRAND", BigDecimal.valueOf(100), UUID.randomUUID()) {
+        return new Item(UUID.randomUUID(), id, NEW, "TEST", "BRAND", BigDecimal.valueOf(100), "DHL") {
             @Override
             public ItemType getItemType() {
                 return null;

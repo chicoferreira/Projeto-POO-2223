@@ -35,7 +35,7 @@ public enum ItemType {
                                                                              ItemProperty.DESCRIPTION,
                                                                              ItemProperty.BRAND,
                                                                              ItemProperty.BASE_PRICE,
-                                                                             ItemProperty.PARCEL_CARRIER_UUID);
+                                                                             ItemProperty.PARCEL_CARRIER_NAME);
 
     // This method needs to be like this because of the inheritance of properties
     // Enums constructors don't support access of static fields

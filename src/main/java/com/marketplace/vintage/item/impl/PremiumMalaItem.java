@@ -14,12 +14,12 @@ public class PremiumMalaItem extends MalaItem {
                            String description,
                            String brand,
                            BigDecimal basePrice,
-                           UUID parcelCarrierUuid,
+                           String parcelCarrierName,
                            int dimensionArea,
                            String material,
                            int collectionYear,
                            int appreciationRateOverYears) {
-        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid, dimensionArea, material, collectionYear, appreciationRateOverYears);
+        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierName, dimensionArea, material, collectionYear, appreciationRateOverYears);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class PremiumMalaItem extends MalaItem {
                ", description='" + getDescription() + '\'' +
                ", brand='" + getBrand() + '\'' +
                ", basePrice=" + getBasePrice() +
-               ", parcelCarrierUuid=" + getParcelCarrierUuid() +
+               ", parcelCarrierName=" + getParcelCarrierName() +
                ", dimensionArea=" + getDimensionArea() +
                ", material='" + getMaterial() + '\'' +
                ", collectionYear=" + getCollectionYear() +

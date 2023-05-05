@@ -1,30 +1,21 @@
 package com.marketplace.vintage.carrier;
 
+import com.marketplace.vintage.VintageConstants;
 import com.marketplace.vintage.item.ItemType;
 
+import java.math.BigDecimal;
 import java.util.Objects;
-import java.util.UUID;
 
 public abstract class ParcelCarrier {
 
-    private final UUID uuid;
     private final String name;
     private String expeditionPriceExpression;
     private final ParcelCarrierType type;
 
-    public ParcelCarrier(UUID uuid, String name, String expeditionPriceExpression, ParcelCarrierType type) {
-        this.uuid = uuid;
+    public ParcelCarrier(String name, String expeditionPriceExpression, ParcelCarrierType type) {
         this.name = name;
         this.expeditionPriceExpression = expeditionPriceExpression;
         this.type = type;
-    }
-
-    public ParcelCarrier(String name, String expeditionPriceExpression, ParcelCarrierType type) {
-        this(UUID.randomUUID(), name, expeditionPriceExpression, type);
-    }
-
-    public UUID getId() {
-        return uuid;
     }
 
     public String getName() {
@@ -48,24 +39,42 @@ public abstract class ParcelCarrier {
 
     public abstract boolean canDeliverItemType(ItemType itemType);
 
+    public BigDecimal getBaseValueForExpedition(int amountOfItems) {
+        if (amountOfItems < 1) {
+            throw new IllegalArgumentException("Amount of items must be greater than 0");
+        }
+
+        if (amountOfItems == 1) {
+            return VintageConstants.SMALL_PARCEL_BASE_EXPEDITION_PRICE;
+        }
+        if (amountOfItems <= 5) {
+            return VintageConstants.MEDIUM_PARCEL_BASE_EXPEDITION_PRICE;
+        }
+
+        return VintageConstants.LARGE_PARCEL_BASE_EXPEDITION_PRICE;
+    }
+
+    public BigDecimal getExpeditionTax() {
+        return VintageConstants.PARCEL_EXPEDITION_TAX;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ParcelCarrier that = (ParcelCarrier) o;
-        return Objects.equals(uuid, that.uuid);
+        return Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid);
+        return Objects.hash(name);
     }
 
     @Override
     public String toString() {
         return "ParcelCarrier{" +
-               "uuid=" + uuid +
-               ", name='" + name + '\'' +
+               "name='" + name + '\'' +
                ", expeditionPriceExpression='" + expeditionPriceExpression + '\'' +
                ", type=" + type +
                '}';
