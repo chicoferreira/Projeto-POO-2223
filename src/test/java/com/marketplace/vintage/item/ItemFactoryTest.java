@@ -32,7 +32,7 @@ public class ItemFactoryTest {
         itemProperties.put(ItemProperty.DESCRIPTION, "A beautiful mala");
         itemProperties.put(ItemProperty.BRAND, "MyBrand");
         itemProperties.put(ItemProperty.BASE_PRICE, BigDecimal.valueOf(50.00));
-        itemProperties.put(ItemProperty.PARCEL_CARRIER_UUID, UUID.randomUUID());
+        itemProperties.put(ItemProperty.PARCEL_CARRIER_NAME, "DHL");
         itemProperties.put(ItemProperty.DIMENSION_AREA, 100);
         itemProperties.put(ItemProperty.MATERIAL, "Wood");
         itemProperties.put(ItemProperty.COLLECTION_YEAR, 2022);
@@ -49,7 +49,7 @@ public class ItemFactoryTest {
         assertEquals("A beautiful mala", malaItem.getDescription());
         assertEquals("MyBrand", malaItem.getBrand());
         assertEquals(BigDecimal.valueOf(50.00), malaItem.getBasePrice());
-        assertEquals(itemProperties.get(ItemProperty.PARCEL_CARRIER_UUID), malaItem.getParcelCarrierUuid());
+        assertEquals(itemProperties.get(ItemProperty.PARCEL_CARRIER_NAME), malaItem.getParcelCarrierName());
         assertEquals(100, malaItem.getDimensionArea());
         assertEquals("Wood", malaItem.getMaterial());
         assertEquals(2022, malaItem.getCollectionYear());
@@ -63,7 +63,7 @@ public class ItemFactoryTest {
         itemProperties.put(ItemProperty.DESCRIPTION, "A beautiful sapatilha");
         itemProperties.put(ItemProperty.BRAND, "MyBrand");
         itemProperties.put(ItemProperty.BASE_PRICE, BigDecimal.valueOf(50.00));
-        itemProperties.put(ItemProperty.PARCEL_CARRIER_UUID, UUID.randomUUID());
+        itemProperties.put(ItemProperty.PARCEL_CARRIER_NAME, "DHL");
         itemProperties.put(ItemProperty.SAPATILHA_SIZE, 100);
         itemProperties.put(ItemProperty.HAS_LACES, false);
         itemProperties.put(ItemProperty.COLOR, "blue");
@@ -78,7 +78,7 @@ public class ItemFactoryTest {
         assertEquals("A beautiful sapatilha", sapatilhasItem.getDescription());
         assertEquals("MyBrand", sapatilhasItem.getBrand());
         assertEquals(BigDecimal.valueOf(50.00), sapatilhasItem.getBasePrice());
-        assertEquals(itemProperties.get(ItemProperty.PARCEL_CARRIER_UUID), sapatilhasItem.getParcelCarrierUuid());
+        assertEquals(itemProperties.get(ItemProperty.PARCEL_CARRIER_NAME), sapatilhasItem.getParcelCarrierName());
         assertEquals(100, sapatilhasItem.getSize());
         assertFalse(sapatilhasItem.hasLaces());
         assertEquals("blue", sapatilhasItem.getColor());
@@ -92,7 +92,7 @@ public class ItemFactoryTest {
         itemProperties.put(ItemProperty.DESCRIPTION, "A beautiful tshirt");
         itemProperties.put(ItemProperty.BRAND, "MyBrand");
         itemProperties.put(ItemProperty.BASE_PRICE, BigDecimal.valueOf(50.00));
-        itemProperties.put(ItemProperty.PARCEL_CARRIER_UUID, UUID.randomUUID());
+        itemProperties.put(ItemProperty.PARCEL_CARRIER_NAME, "DHL");
         itemProperties.put(ItemProperty.TSHIRT_SIZE, LARGE);
         itemProperties.put(ItemProperty.TSHIRT_PATTERN, STRIPES);
 
@@ -105,7 +105,7 @@ public class ItemFactoryTest {
         assertEquals("A beautiful tshirt", tshirtItem.getDescription());
         assertEquals("MyBrand", tshirtItem.getBrand());
         assertEquals(BigDecimal.valueOf(50.00), tshirtItem.getBasePrice());
-        assertEquals(itemProperties.get(ItemProperty.PARCEL_CARRIER_UUID), tshirtItem.getParcelCarrierUuid());
+        assertEquals(itemProperties.get(ItemProperty.PARCEL_CARRIER_NAME), tshirtItem.getParcelCarrierName());
         assertEquals(LARGE, tshirtItem.getSize());
         assertEquals(STRIPES, tshirtItem.getPattern());
     }
@@ -117,7 +117,7 @@ public class ItemFactoryTest {
         itemProperties.put(ItemProperty.DESCRIPTION, "A beautiful mala");
         itemProperties.put(ItemProperty.BRAND, "MyBrand");
         itemProperties.put(ItemProperty.BASE_PRICE, BigDecimal.valueOf(50.00));
-        itemProperties.put(ItemProperty.PARCEL_CARRIER_UUID, UUID.randomUUID());
+        itemProperties.put(ItemProperty.PARCEL_CARRIER_NAME, "DHL");
         itemProperties.put(ItemProperty.DIMENSION_AREA, 100);
         itemProperties.put(ItemProperty.MATERIAL, "Wood");
         itemProperties.put(ItemProperty.COLLECTION_YEAR, 2022);
@@ -132,7 +132,7 @@ public class ItemFactoryTest {
         assertEquals("A beautiful mala", malaItem.getDescription());
         assertEquals("MyBrand", malaItem.getBrand());
         assertEquals(BigDecimal.valueOf(50.00), malaItem.getBasePrice());
-        assertEquals(itemProperties.get(ItemProperty.PARCEL_CARRIER_UUID), malaItem.getParcelCarrierUuid());
+        assertEquals(itemProperties.get(ItemProperty.PARCEL_CARRIER_NAME), malaItem.getParcelCarrierName());
         assertEquals(100, malaItem.getDimensionArea());
         assertEquals("Wood", malaItem.getMaterial());
         assertEquals(2022, malaItem.getCollectionYear());
@@ -146,7 +146,7 @@ public class ItemFactoryTest {
         itemProperties.put(ItemProperty.DESCRIPTION, "A beautiful sapatilha");
         itemProperties.put(ItemProperty.BRAND, "MyBrand");
         itemProperties.put(ItemProperty.BASE_PRICE, BigDecimal.valueOf(50.00));
-        itemProperties.put(ItemProperty.PARCEL_CARRIER_UUID, UUID.randomUUID());
+        itemProperties.put(ItemProperty.PARCEL_CARRIER_NAME, "DHL");
         itemProperties.put(ItemProperty.SAPATILHA_SIZE, 100);
         itemProperties.put(ItemProperty.HAS_LACES, false);
         itemProperties.put(ItemProperty.COLOR, "blue");
@@ -162,7 +162,7 @@ public class ItemFactoryTest {
         assertEquals("A beautiful sapatilha", sapatilhasItem.getDescription());
         assertEquals("MyBrand", sapatilhasItem.getBrand());
         assertEquals(BigDecimal.valueOf(50.00), sapatilhasItem.getBasePrice());
-        assertEquals(itemProperties.get(ItemProperty.PARCEL_CARRIER_UUID), sapatilhasItem.getParcelCarrierUuid());
+        assertEquals(itemProperties.get(ItemProperty.PARCEL_CARRIER_NAME), sapatilhasItem.getParcelCarrierName());
         assertEquals(100, sapatilhasItem.getSize());
         assertFalse(sapatilhasItem.hasLaces());
         assertEquals("blue", sapatilhasItem.getColor());

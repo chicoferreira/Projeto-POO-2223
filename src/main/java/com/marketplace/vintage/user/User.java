@@ -1,5 +1,7 @@
 package com.marketplace.vintage.user;
 
+import com.marketplace.vintage.order.Order;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +15,8 @@ public class User {
     private final String address;
     private final String taxNumber;
     private final List<String> itemsBeingSold;
+    private final List<String> shoppingCart;
+    private final List<String> completedOrderIdsList;
 
     public User(String username, String email, String name, String address, String taxNumber) {
         this(UUID.randomUUID(), username, email, name, address, taxNumber);
@@ -26,6 +30,8 @@ public class User {
         this.address = address;
         this.taxNumber = taxNumber;
         this.itemsBeingSold = new ArrayList<>();
+        this.shoppingCart = new ArrayList<>();
+        this.completedOrderIdsList = new ArrayList<>();
     }
 
     public UUID getId() {
@@ -62,5 +68,29 @@ public class User {
 
     public void removeItemBeingSold(String itemId) {
         itemsBeingSold.remove(itemId);
+    }
+
+    public List<String> getShoppingCart() {
+        return this.shoppingCart;
+    }
+
+    public void addItemToShoppingCart(String id) {
+        shoppingCart.add(id);
+    }
+
+    public void removeItemFromShoppingCart(String id) {
+        shoppingCart.remove(id);
+    }
+
+    public void cleanShoppingCart() {
+        shoppingCart.clear();
+    }
+
+    public void addCompletedOrderId(String orderId) {
+        completedOrderIdsList.add(orderId);
+    }
+
+    public List<String> getCompletedOrderIdsList() {
+        return new ArrayList<>(completedOrderIdsList);
     }
 }

@@ -20,12 +20,12 @@ public class MalaItem extends Item {
                     String description,
                     String brand,
                     BigDecimal basePrice,
-                    UUID parcelCarrierUuid,
+                    String parcelCarrierName,
                     int dimensionArea,
                     String material,
                     int collectionYear,
                     int appreciationRateOverYears) {
-        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierUuid);
+        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierName);
         this.dimensionArea = dimensionArea;
         this.material = material;
         this.collectionYear = collectionYear;
@@ -88,7 +88,7 @@ public class MalaItem extends Item {
                ", description='" + getDescription() + '\'' +
                ", brand='" + getBrand() + '\'' +
                ", basePrice=" + getBasePrice() +
-               ", parcelCarrierUuid=" + getParcelCarrierUuid() +
+               ", parcelCarrierName=" + getParcelCarrierName() +
                '}';
     }
 }

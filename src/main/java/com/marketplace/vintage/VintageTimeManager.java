@@ -1,5 +1,9 @@
 package com.marketplace.vintage;
 
+import com.marketplace.vintage.utils.VintageDate;
+
+import java.time.LocalDateTime;
+
 public class VintageTimeManager {
 
     public int getCurrentYear() {
@@ -7,4 +11,7 @@ public class VintageTimeManager {
         return 2023;
     }
 
+    public VintageDate getCurrentDate() {
+        return VintageDate.fromDate(LocalDateTime.of(2023, 1, 1, 0, 0, 0));
+    }
 }

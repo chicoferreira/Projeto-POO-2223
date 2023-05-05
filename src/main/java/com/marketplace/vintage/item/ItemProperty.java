@@ -4,7 +4,6 @@ import com.marketplace.vintage.item.condition.ItemCondition;
 import com.marketplace.vintage.item.impl.TshirtItem;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 public enum ItemProperty {
 
@@ -12,7 +11,7 @@ public enum ItemProperty {
     DESCRIPTION(String.class),
     BRAND(String.class),
     BASE_PRICE(BigDecimal.class),
-    PARCEL_CARRIER_UUID(UUID.class),
+    PARCEL_CARRIER_NAME(String.class),
     DIMENSION_AREA(Integer.class),
     MATERIAL(String.class),
     COLLECTION_YEAR(Integer.class),

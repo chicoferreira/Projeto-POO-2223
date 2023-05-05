@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface ExpressionSolver {
 
-    BigDecimal solve(String expression, Map<String, Double> variables);
+    BigDecimal solve(String expression, Map<String, BigDecimal> variables);
 
     boolean isValid(String expression, List<String> possibleVariables);
 

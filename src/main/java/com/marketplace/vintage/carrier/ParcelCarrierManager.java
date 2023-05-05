@@ -10,43 +10,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class ParcelCarrierManager {
 
-    private final Map<UUID, ParcelCarrier> carriersById;
     private final Map<String, ParcelCarrier> carriersByName;
 
     public ParcelCarrierManager() {
-        this.carriersById = new HashMap<>();
         this.carriersByName = new HashMap<>();
     }
 
     public void registerParcelCarrier(@NotNull ParcelCarrier carrier) {
-        UUID carrierId = carrier.getId();
         String carrierName = carrier.getName();
-
-        if (this.carriersById.containsKey(carrierId)) {
-            throw new EntityAlreadyExistsException("A carrier with that id already exists");
-        }
-
         if (this.carriersByName.containsKey(carrierName)) {
             throw new EntityAlreadyExistsException("A carrier with that name already exists");
         }
 
-        this.carriersById.put(carrierId, carrier);
         this.carriersByName.put(carrierName, carrier);
-    }
-
-    public ParcelCarrier getCarrierById(UUID id) {
-        ParcelCarrier carrier = this.carriersById.get(id);
-
-        if (carrier == null) {
-            throw new EntityNotFoundException("A carrier with the id " + id + " was not found");
-        }
-
-        return carrier;
     }
 
     public ParcelCarrier getCarrierByName(String name) {
@@ -59,19 +39,15 @@ public class ParcelCarrierManager {
         return carrier;
     }
 
-    public boolean containsCarrierById(UUID id) {
-        return this.carriersById.containsKey(id);
-    }
-
     public boolean containsCarrierByName(String name) {
         return this.carriersByName.containsKey(name);
     }
 
     public List<ParcelCarrier> getAll() {
-        return new ArrayList<>(carriersById.values());
+        return new ArrayList<>(carriersByName.values());
     }
 
     public List<ParcelCarrier> getAllCompatibleWith(ItemType itemType) {
-        return carriersById.values().stream().filter(carrier -> carrier.canDeliverItemType(itemType)).collect(Collectors.toList());
+        return carriersByName.values().stream().filter(carrier -> carrier.canDeliverItemType(itemType)).collect(Collectors.toList());
     }
 }
