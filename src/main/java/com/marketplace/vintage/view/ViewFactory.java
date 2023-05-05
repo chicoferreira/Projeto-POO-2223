@@ -47,7 +47,7 @@ public class ViewFactory {
     public View createView(ViewType viewType) {
         return switch (viewType) {
             case USER -> new UserView(logger, inputPrompter, userManager, parcelCarrierManager, vintageController, itemManager, orderManager, vintageTimeManager);
-            case ADMIN -> new AdminView(logger, inputPrompter, parcelCarrierManager, expressionSolver);
+            case ADMIN -> new AdminView(logger, inputPrompter, userManager, parcelCarrierManager, expressionSolver);
         };
     }
 
