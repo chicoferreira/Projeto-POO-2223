@@ -3,10 +3,11 @@ package com.marketplace.vintage.carrier;
 import com.marketplace.vintage.VintageConstants;
 import com.marketplace.vintage.item.ItemType;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public abstract class ParcelCarrier {
+public abstract class ParcelCarrier implements Serializable {
 
     private final String name;
     private String expeditionPriceExpression;
