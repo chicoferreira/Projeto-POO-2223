@@ -4,10 +4,11 @@ import com.marketplace.vintage.exceptions.EntityAlreadyExistsException;
 import com.marketplace.vintage.exceptions.EntityNotFoundException;
 import com.marketplace.vintage.utils.AlphanumericGenerator;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OrderManager {
+public class OrderManager implements Serializable {
 
     private final Map<String, Order> ordersById;
 

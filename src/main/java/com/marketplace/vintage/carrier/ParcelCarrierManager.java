@@ -6,13 +6,14 @@ import com.marketplace.vintage.item.ItemType;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ParcelCarrierManager {
+public class ParcelCarrierManager implements Serializable {
 
     private final Map<String, ParcelCarrier> carriersByName;
 

@@ -5,11 +5,12 @@ import com.marketplace.vintage.exceptions.EntityNotFoundException;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class UserManager {
+public class UserManager implements Serializable {
 
     private final Map<UUID, User> usersById;
     private final Map<String, User> usersByUsername;
