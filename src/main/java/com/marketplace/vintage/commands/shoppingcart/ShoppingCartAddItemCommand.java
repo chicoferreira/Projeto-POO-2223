@@ -17,7 +17,7 @@ public class ShoppingCartAddItemCommand extends BaseCommand {
     private final VintageTimeManager vintageTimeManager;
 
     public ShoppingCartAddItemCommand(ItemManager itemManager, UserView userView, VintageTimeManager vintageTimeManager) {
-        super("add", "cart add", 1, "Adds the item given to the User's shopping cart.");
+        super("add", "cart add <itemId>", 1, "Adds the item given to the User's shopping cart.");
         this.itemManager = itemManager;
         this.userView = userView;
         this.vintageTimeManager = vintageTimeManager;
