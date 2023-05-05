@@ -1,8 +1,9 @@
 package com.marketplace.vintage.order;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class OrderedItem {
+public class OrderedItem implements Serializable {
 
     private final String itemId;
 //    private final int quantity;

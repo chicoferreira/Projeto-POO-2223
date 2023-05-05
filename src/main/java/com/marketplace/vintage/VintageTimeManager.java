@@ -2,9 +2,10 @@ package com.marketplace.vintage;
 
 import com.marketplace.vintage.utils.VintageDate;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class VintageTimeManager {
+public class VintageTimeManager implements Serializable {
 
     public int getCurrentYear() {
         // TODO

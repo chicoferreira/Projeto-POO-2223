@@ -2,11 +2,12 @@ package com.marketplace.vintage.item;
 
 import com.marketplace.vintage.item.condition.ItemCondition;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.UUID;
 
-public abstract class Item {
+public abstract class Item implements Serializable {
 
     private final UUID ownerUuid;
     private final String alphanumericId;
