@@ -21,4 +21,6 @@ public class VintageConstants {
     public static final BigDecimal LARGE_PARCEL_BASE_EXPEDITION_PRICE = BigDecimal.valueOf(3);
     public static final BigDecimal PARCEL_EXPEDITION_TAX = BigDecimal.valueOf(0.10); // 10%
 
+    public static final int DAYS_TO_DELIVER_ORDER = 2;
+
 }

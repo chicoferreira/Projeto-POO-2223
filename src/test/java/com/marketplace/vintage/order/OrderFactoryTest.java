@@ -25,7 +25,7 @@ class OrderFactoryTest {
 
     @Test
     void buildOrder() {
-        VintageTimeManager vintageTimeManager = new VintageTimeManager(VintageDate.of(2023, 1, 1));
+        VintageTimeManager vintageTimeManager = new VintageTimeManager(VintageDate.of(1, 1, 2023));
         ParcelCarrierManager parcelCarrierManager = new ParcelCarrierManager();
         parcelCarrierManager.registerParcelCarrier(ParcelCarrierFactory.createNormalParcelCarrier("DHL"));
 
@@ -56,7 +56,7 @@ class OrderFactoryTest {
 
     @Test
     void separateItemsByParcelCarrier() {
-        VintageTimeManager vintageTimeManager = new VintageTimeManager(VintageDate.of(2023, 1, 1));
+        VintageTimeManager vintageTimeManager = new VintageTimeManager(VintageDate.of(1, 1, 2023));
         ParcelCarrierManager parcelCarrierManager = new ParcelCarrierManager();
         parcelCarrierManager.registerParcelCarrier(ParcelCarrierFactory.createNormalParcelCarrier("DHL"));
 
