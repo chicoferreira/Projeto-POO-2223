@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class VintageTimeManager implements Serializable {
 
-    private final VintageDate currentDate;
+    private VintageDate currentDate;
 
     public VintageTimeManager(VintageDate currentDate) {
         this.currentDate = currentDate;
@@ -17,6 +17,10 @@ public class VintageTimeManager implements Serializable {
     }
 
     public VintageDate getCurrentDate() {
-        return this.currentDate;
+        return this.currentDate; // VintageDate is immutable
+    }
+
+    public VintageDate advanceTime(int days) {
+        return this.currentDate = this.currentDate.plusDays(days);
     }
 }

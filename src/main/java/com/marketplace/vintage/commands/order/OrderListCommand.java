@@ -17,7 +17,7 @@ public class OrderListCommand extends BaseCommand {
     private final OrderManager orderManager;
 
     public OrderListCommand(OrderManager orderManager, UserView userView) {
-        super("list", "list", 0, "Lists the orders done by the user");
+        super("list", "order list", 0, "Lists the orders done by the user");
         this.orderManager = orderManager;
         this.userView = userView;
     }

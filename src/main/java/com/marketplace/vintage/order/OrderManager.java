@@ -6,7 +6,9 @@ import com.marketplace.vintage.utils.AlphanumericGenerator;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 public class OrderManager implements Serializable {
 
@@ -32,6 +34,14 @@ public class OrderManager implements Serializable {
         }
 
         this.ordersById.put(orderId, order);
+    }
+
+    public List<Order> getAll(Predicate<Order> filter) {
+        return this.ordersById.values().stream().filter(filter).toList();
+    }
+
+    public List<Order> getAllWithStatus(OrderStatus orderStatus) {
+        return getAll(order -> order.getOrderStatus() == orderStatus);
     }
 
     public boolean containsOrder(String id) {

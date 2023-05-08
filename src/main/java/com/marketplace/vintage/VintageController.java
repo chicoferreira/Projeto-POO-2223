@@ -4,6 +4,7 @@ import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.expression.ExpressionSolver;
 import com.marketplace.vintage.item.*;
 import com.marketplace.vintage.order.Order;
+import com.marketplace.vintage.order.OrderController;
 import com.marketplace.vintage.order.OrderFactory;
 import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.user.User;
@@ -17,15 +18,17 @@ public class VintageController {
     private final ItemManager itemManager;
     private final ItemFactory itemFactory;
     private final OrderManager orderManager;
+    private final OrderController orderController;
     private final VintageTimeManager vintageTimeManager;
     private final ParcelCarrierManager parcelCarrierManager;
     private final ExpressionSolver expressionSolver;
     private final OrderFactory orderFactory;
 
-    public VintageController(ItemManager itemManager, ItemFactory itemFactory, OrderManager orderManager, VintageTimeManager vintageTimeManager, ParcelCarrierManager parcelCarrierManager, ExpressionSolver expressionSolver, OrderFactory orderFactory) {
+    public VintageController(ItemManager itemManager, ItemFactory itemFactory, OrderManager orderManager, OrderController orderController, VintageTimeManager vintageTimeManager, ParcelCarrierManager parcelCarrierManager, ExpressionSolver expressionSolver, OrderFactory orderFactory) {
         this.itemManager = itemManager;
         this.itemFactory = itemFactory;
         this.orderManager = orderManager;
+        this.orderController = orderController;
         this.vintageTimeManager = vintageTimeManager;
         this.parcelCarrierManager = parcelCarrierManager;
         this.expressionSolver = expressionSolver;
@@ -67,4 +70,16 @@ public class VintageController {
         return this.vintageTimeManager.getCurrentDate();
     }
 
+    /**
+     * @param days number of days to jump
+     * @return the new date
+     */
+    public VintageDate jumpTime(int days) {
+        VintageDate newDate = this.vintageTimeManager.advanceTime(days);
+
+        this.orderController.notifyTimeChange(newDate);
+        // TODO: also notify script manager
+
+        return newDate;
+    }
 }

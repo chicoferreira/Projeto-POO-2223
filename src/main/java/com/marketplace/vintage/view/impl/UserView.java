@@ -3,9 +3,10 @@ package com.marketplace.vintage.view.impl;
 import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.VintageTimeManager;
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
-import com.marketplace.vintage.commands.shoppingcart.ShoppingCartCommand;
 import com.marketplace.vintage.commands.item.ItemCommand;
 import com.marketplace.vintage.commands.order.OrderCommand;
+import com.marketplace.vintage.commands.shoppingcart.ShoppingCartCommand;
+import com.marketplace.vintage.commands.time.CurrentTimeCommand;
 import com.marketplace.vintage.commands.user.UserInfoCommand;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.input.InputPrompter;
@@ -20,7 +21,6 @@ import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.utils.EmailUtils;
 import com.marketplace.vintage.view.BaseView;
-
 import org.jetbrains.annotations.NotNull;
 
 public class UserView extends BaseView {
@@ -43,20 +43,21 @@ public class UserView extends BaseView {
         this.userManager = userManager;
 
         createUserQuestionnaire = QuestionnaireBuilder.newBuilder()
-                                                      .withQuestion("username", "Enter your username:", username -> {
-                                                          userManager.checkUsername(username);
-                                                          return username;
-                                                      })
-                                                      .withQuestion("name", "Enter your name:", InputMapper.STRING)
-                                                      .withQuestion("address", "Enter your address:", InputMapper.STRING)
-                                                      .withQuestion("taxNumber", "Enter your tax number:", InputMapper.STRING)
-                                                      .build();
+                .withQuestion("username", "Enter your username:", username -> {
+                    userManager.checkUsername(username);
+                    return username;
+                })
+                .withQuestion("name", "Enter your name:", InputMapper.STRING)
+                .withQuestion("address", "Enter your address:", InputMapper.STRING)
+                .withQuestion("taxNumber", "Enter your tax number:", InputMapper.STRING)
+                .build();
 
 
         this.getCommandManager().registerCommand(new ItemCommand(this, parcelCarrierManager, vintageController, itemManager, vintageTimeManager));
         this.getCommandManager().registerCommand(new UserInfoCommand(this));
         this.getCommandManager().registerCommand(new OrderCommand(this, orderManager));
         this.getCommandManager().registerCommand(new ShoppingCartCommand(itemManager, vintageController, this, vintageTimeManager));
+        this.getCommandManager().registerCommand(new CurrentTimeCommand(vintageController, "time"));
     }
 
     @Override

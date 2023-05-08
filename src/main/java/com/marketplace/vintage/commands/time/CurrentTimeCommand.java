@@ -4,12 +4,13 @@ import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.logging.Logger;
 
-public class UserTimeCommand extends BaseCommand {
+public class CurrentTimeCommand extends BaseCommand {
 
     private final VintageController vintageController;
 
-    public UserTimeCommand(VintageController vintageController) {
-        super("time", "time", 0, "Displays the current time");
+    // Usage is parameterized to allow for different usages in different views
+    public CurrentTimeCommand(VintageController vintageController, String usage) {
+        super("time", usage, 0, "Displays the current time");
         this.vintageController = vintageController;
     }
 
