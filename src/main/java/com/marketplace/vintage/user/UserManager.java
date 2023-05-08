@@ -7,6 +7,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
@@ -94,4 +96,9 @@ public class UserManager implements Serializable {
 
         return user;
     }
+
+    public List<User> getAll() {
+        return new ArrayList<>(this.usersById.values());
+    }
+
 }
