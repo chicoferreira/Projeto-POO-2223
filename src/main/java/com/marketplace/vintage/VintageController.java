@@ -2,15 +2,12 @@ package com.marketplace.vintage;
 
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.expression.ExpressionSolver;
-import com.marketplace.vintage.item.Item;
-import com.marketplace.vintage.item.ItemFactory;
-import com.marketplace.vintage.item.ItemManager;
-import com.marketplace.vintage.item.ItemProperty;
-import com.marketplace.vintage.item.ItemType;
+import com.marketplace.vintage.item.*;
 import com.marketplace.vintage.order.Order;
 import com.marketplace.vintage.order.OrderFactory;
 import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.user.User;
+import com.marketplace.vintage.utils.VintageDate;
 
 import java.util.List;
 import java.util.Map;
@@ -64,6 +61,10 @@ public class VintageController {
         user.cleanShoppingCart();
 
         return order;
+    }
+
+    public VintageDate getCurrentDate() {
+        return this.vintageTimeManager.getCurrentDate();
     }
 
 }

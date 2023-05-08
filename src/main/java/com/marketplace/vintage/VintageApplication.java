@@ -111,7 +111,7 @@ public class VintageApplication {
         this.parcelCarrierManager = (ParcelCarrierManager) loadedData.getOrDefault("parcelCarrierManager", new ParcelCarrierManager());
         this.itemManager = (ItemManager) loadedData.getOrDefault("itemManager", new ItemManager());
         this.orderManager = (OrderManager) loadedData.getOrDefault("orderManager", new OrderManager());
-        this.vintageTimeManager = (VintageTimeManager) loadedData.getOrDefault("timeManager", new VintageTimeManager());
+        this.vintageTimeManager = (VintageTimeManager) loadedData.getOrDefault("timeManager", new VintageTimeManager(VintageConstants.VINTAGE_START_DATE));
     }
 
     private Map<String, Object> loadSafely(PersistentManager persistentManager) {
