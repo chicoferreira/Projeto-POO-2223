@@ -6,9 +6,9 @@ import com.marketplace.vintage.order.Order;
 import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.utils.StringUtils;
-import com.marketplace.vintage.utils.VintageDate;
 import com.marketplace.vintage.view.impl.UserView;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class OrderListCommand extends BaseCommand {
@@ -32,7 +32,9 @@ public class OrderListCommand extends BaseCommand {
             logger.warn("You haven't made any orders yet");
         }
 
-        List<Order> sortedOrders = ordersMadeByUser.stream().map(orderManager::getOrder).sorted((o1, o2) -> VintageDate.COMPARATOR.compare(o1.getOrderDate(), o2.getOrderDate())).toList();
+        List<Order> sortedOrders = ordersMadeByUser.stream().map(orderManager::getOrder)
+                .sorted(Comparator.comparing(Order::getOrderDate))
+                .toList();
 
         for (Order order : sortedOrders) {
             StringUtils.printOrderDisplayFormat(logger, order);
