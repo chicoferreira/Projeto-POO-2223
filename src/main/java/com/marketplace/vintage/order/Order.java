@@ -68,6 +68,10 @@ public class Order implements Serializable {
         return orderStatus;
     }
 
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
     public VintageDate getOrderDate() {
         return orderDate;
     }

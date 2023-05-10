@@ -8,6 +8,7 @@ import com.marketplace.vintage.item.Item;
 import com.marketplace.vintage.item.ItemType;
 import com.marketplace.vintage.item.condition.ItemConditions;
 
+import com.marketplace.vintage.utils.VintageDate;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -24,7 +25,7 @@ class OrderFactoryTest {
 
     @Test
     void buildOrder() {
-        VintageTimeManager vintageTimeManager = new VintageTimeManager();
+        VintageTimeManager vintageTimeManager = new VintageTimeManager(VintageDate.of(1, 1, 2023));
         ParcelCarrierManager parcelCarrierManager = new ParcelCarrierManager();
         parcelCarrierManager.registerParcelCarrier(ParcelCarrierFactory.createNormalParcelCarrier("DHL"));
 
@@ -55,7 +56,7 @@ class OrderFactoryTest {
 
     @Test
     void separateItemsByParcelCarrier() {
-        VintageTimeManager vintageTimeManager = new VintageTimeManager();
+        VintageTimeManager vintageTimeManager = new VintageTimeManager(VintageDate.of(1, 1, 2023));
         ParcelCarrierManager parcelCarrierManager = new ParcelCarrierManager();
         parcelCarrierManager.registerParcelCarrier(ParcelCarrierFactory.createNormalParcelCarrier("DHL"));
 
