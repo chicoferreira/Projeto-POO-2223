@@ -8,6 +8,7 @@ import com.marketplace.vintage.item.ItemFactory;
 import com.marketplace.vintage.item.ItemManager;
 import com.marketplace.vintage.logging.JavaLogger;
 import com.marketplace.vintage.logging.Logger;
+import com.marketplace.vintage.order.OrderController;
 import com.marketplace.vintage.order.OrderFactory;
 import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.persistent.PersistentManager;
@@ -47,7 +48,8 @@ public class VintageApplication {
         loadSavedProgramState(this.persistentManager);
 
         OrderFactory orderFactory = new OrderFactory(vintageTimeManager, parcelCarrierManager, expressionSolver);
-        VintageController vintageController = new VintageController(itemManager, itemFactory, orderManager, vintageTimeManager, parcelCarrierManager, expressionSolver, orderFactory);
+        OrderController orderController = new OrderController(orderManager);
+        VintageController vintageController = new VintageController(itemManager, itemFactory, orderManager, orderController, vintageTimeManager, parcelCarrierManager, expressionSolver, orderFactory);
 
         this.viewFactory = new ViewFactory(logger, inputPrompter, userManager, parcelCarrierManager, expressionSolver, vintageController, itemManager, orderManager, vintageTimeManager);
 
@@ -111,7 +113,7 @@ public class VintageApplication {
         this.parcelCarrierManager = (ParcelCarrierManager) loadedData.getOrDefault("parcelCarrierManager", new ParcelCarrierManager());
         this.itemManager = (ItemManager) loadedData.getOrDefault("itemManager", new ItemManager());
         this.orderManager = (OrderManager) loadedData.getOrDefault("orderManager", new OrderManager());
-        this.vintageTimeManager = (VintageTimeManager) loadedData.getOrDefault("timeManager", new VintageTimeManager());
+        this.vintageTimeManager = (VintageTimeManager) loadedData.getOrDefault("timeManager", new VintageTimeManager(VintageConstants.VINTAGE_START_DATE));
     }
 
     private Map<String, Object> loadSafely(PersistentManager persistentManager) {
