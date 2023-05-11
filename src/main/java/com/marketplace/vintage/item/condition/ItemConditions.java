@@ -1,13 +1,13 @@
 package com.marketplace.vintage.item.condition;
 
-import com.marketplace.vintage.Lang;
+import com.marketplace.vintage.VintageConstants;
 
 public class ItemConditions {
 
     public static final ItemCondition NEW = new ItemCondition() {
         @Override
         public String getDisplayString() {
-            return Lang.NEW_ITEM_CONDITION_DISPLAY_STRING.apply();
+            return VintageConstants.ITEM_CONDITION_NEW_DISPLAY_STRING;
         }
 
         @Override

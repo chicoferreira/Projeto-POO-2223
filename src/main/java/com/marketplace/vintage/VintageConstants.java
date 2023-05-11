@@ -15,6 +15,9 @@ public class VintageConstants {
     public static final String DISPLAY_ITEM_FORMAT = "[<id>] (<itemType>) <description> (of brand '<brand>') - <finalPrice> (sent by <parcelCarrier>)";
     public static final String DISPLAY_USER_FORMAT = "[<id>] <name> (<email>)";
 
+    public static final String ITEM_CONDITION_NEW_DISPLAY_STRING = "New";
+    public static final String ITEM_CONDITION_USED_DISPLAY_STRING = "Used (<conditionLevel>/10, <numberOfPreviousOwners> previous owners)";
+
     public static final VintageDate VINTAGE_START_DATE = VintageDate.of(1, 1, 2023);
 
     public static final BigDecimal SMALL_PARCEL_BASE_EXPEDITION_PRICE = BigDecimal.valueOf(0.5);
