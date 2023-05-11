@@ -2,6 +2,7 @@ package com.marketplace.vintage.commands.shoppingcart;
 
 import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.command.BaseCommand;
+import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.item.Item;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.user.User;
@@ -22,7 +23,7 @@ public class ShoppingCartListCommand extends BaseCommand {
     }
 
     @Override
-    protected void executeSafely(Logger logger, String[] args) {
+    protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
         User currentLoggedInUser = userView.getCurrentLoggedInUser();
         List<String> shoppingCart = currentLoggedInUser.getShoppingCart();
 

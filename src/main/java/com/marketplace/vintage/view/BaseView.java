@@ -46,7 +46,7 @@ public abstract class BaseView implements View {
         this.shouldExit = false;
         while (!shouldExit) {
             String commandName = getInputPrompter().askForInput(getLogger(), ">");
-            commandManager.executeRawCommand(logger, commandName);
+            commandManager.executeRawCommand(logger, getInputPrompter(), commandName);
         }
     }
 }

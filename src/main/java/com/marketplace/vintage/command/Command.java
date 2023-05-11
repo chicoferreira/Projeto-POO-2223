@@ -1,5 +1,6 @@
 package com.marketplace.vintage.command;
 
+import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
 
 public interface Command {
@@ -12,6 +13,6 @@ public interface Command {
 
     String getDescription();
 
-    void execute(Logger logger, String[] args);
+    void execute(Logger logger, InputPrompter inputPrompter, String[] args);
 
 }

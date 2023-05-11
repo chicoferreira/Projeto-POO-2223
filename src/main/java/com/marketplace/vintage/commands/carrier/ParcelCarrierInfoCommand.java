@@ -3,6 +3,7 @@ package com.marketplace.vintage.commands.carrier;
 import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.carrier.ParcelCarrier;
 import com.marketplace.vintage.command.BaseCommand;
+import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
 
 public class ParcelCarrierInfoCommand extends BaseCommand {
@@ -15,7 +16,7 @@ public class ParcelCarrierInfoCommand extends BaseCommand {
     }
 
     @Override
-    protected void executeSafely(Logger logger, String[] args) {
+    protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
         String name = args[0];
 
         if (!vintageController.containsCarrierByName(name)) {

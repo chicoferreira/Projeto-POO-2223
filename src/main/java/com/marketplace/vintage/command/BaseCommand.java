@@ -10,8 +10,6 @@ public abstract class BaseCommand implements Command {
     private final int minArgs;
     private final String description;
 
-    private final InputPrompter inputPrompter;
-
     public BaseCommand(String name, String usage, int minArgs, String description) {
         if (name.contains(" "))
             throw new IllegalArgumentException("Command name cannot contain spaces");
@@ -20,23 +18,22 @@ public abstract class BaseCommand implements Command {
         this.usage = usage;
         this.minArgs = minArgs;
         this.description = description;
-        this.inputPrompter = new InputPrompter();
     }
 
     @Override
-    public void execute(Logger logger, String[] args) {
+    public void execute(Logger logger, InputPrompter inputPrompter, String[] args) {
         if (args.length < minArgs) {
             logger.warn("Usage: " + usage);
             return;
         }
 
-        executeSafely(logger, args);
+        executeSafely(logger, inputPrompter, args);
     }
 
     /**
      * Execute the command, assuming that the arguments are valid.
      */
-    protected abstract void executeSafely(Logger logger, String[] args); // TODO: maybe find a better name
+    protected abstract void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args); //  maybe find a better name for safely
 
     @Override
     public String getName() {
@@ -58,7 +55,4 @@ public abstract class BaseCommand implements Command {
         return description;
     }
 
-    public InputPrompter getInputPrompter() {
-        return inputPrompter;
-    }
 }

@@ -4,6 +4,7 @@ import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.carrier.ParcelCarrier;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputMapper;
+import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.input.questionnaire.QuestionnaireBuilder;
 import com.marketplace.vintage.item.Item;
 import com.marketplace.vintage.item.ItemProperty;
@@ -12,14 +13,9 @@ import com.marketplace.vintage.item.impl.TshirtItem;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.utils.StringUtils;
 import com.marketplace.vintage.view.impl.UserView;
-
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -56,9 +52,9 @@ public class ItemCreateCommand extends BaseCommand {
         };
     }
 
-    private Function<String, ?> getMapper(ItemProperty itemProperty, Logger logger, Function<String, String> parcelCarrierIdToNameMapper) {
+    private Function<String, ?> getMapper(ItemProperty itemProperty, Logger logger, InputPrompter inputPrompter, Function<String, String> parcelCarrierIdToNameMapper) {
         return switch (itemProperty) {
-            case ITEM_CONDITION -> InputMapper.ofItemCondition(getInputPrompter(), logger);
+            case ITEM_CONDITION -> InputMapper.ofItemCondition(inputPrompter, logger);
             case DESCRIPTION, BRAND, MATERIAL, COLOR -> InputMapper.STRING;
             case BASE_PRICE -> InputMapper.BIG_DECIMAL;
             case PARCEL_CARRIER_NAME -> parcelCarrierIdToNameMapper;
@@ -73,11 +69,11 @@ public class ItemCreateCommand extends BaseCommand {
     }
 
     @Override
-    protected void executeSafely(Logger logger, String[] args) {
+    protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
         logger.info("Choose the type of item you want to create:");
         logger.info(StringUtils.joinQuoted(ITEM_TYPES_DISPLAY_NAMES, ", "));
 
-        ItemType itemType = getInputPrompter().askForInput(logger, "Insert the item type:", ItemType::fromDisplayName);
+        ItemType itemType = inputPrompter.askForInput(logger, "Insert the item type:", ItemType::fromDisplayName);
 
         List<ParcelCarrier> parcelCarrierCompatibleList = vintageController.getAllParcelCarriersCompatibleWith(itemType);
 
@@ -93,10 +89,10 @@ public class ItemCreateCommand extends BaseCommand {
         Function<String, String> parcelCarrierNameToIdMapper = getParcelCarrierNameToIdMapper(itemType, parcelCarrierCompatibleList);
 
         for (ItemProperty itemProperty : itemProperties) {
-            questionnaireBuilder.withQuestion(itemProperty.name(), getQuestion(itemProperty), getMapper(itemProperty, logger, parcelCarrierNameToIdMapper));
+            questionnaireBuilder.withQuestion(itemProperty.name(), getQuestion(itemProperty), getMapper(itemProperty, logger, inputPrompter, parcelCarrierNameToIdMapper));
         }
 
-        Map<String, Object> answersMap = questionnaireBuilder.build().ask(getInputPrompter(), logger).getAnswersMap();
+        Map<String, Object> answersMap = questionnaireBuilder.build().ask(inputPrompter, logger).getAnswersMap();
 
         Map<ItemProperty, Object> itemPropertiesMap = new HashMap<>();
         for (var entry : answersMap.entrySet()) {

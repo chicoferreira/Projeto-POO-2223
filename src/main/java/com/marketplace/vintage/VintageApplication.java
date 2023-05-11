@@ -4,6 +4,7 @@ import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.expression.Exp4jExpressionSolver;
 import com.marketplace.vintage.expression.ExpressionSolver;
 import com.marketplace.vintage.input.InputPrompter;
+import com.marketplace.vintage.input.impl.StdinInputPrompter;
 import com.marketplace.vintage.item.ItemFactory;
 import com.marketplace.vintage.item.ItemManager;
 import com.marketplace.vintage.logging.JavaLogger;
@@ -37,7 +38,7 @@ public class VintageApplication {
 
     public VintageApplication() {
         this.logger = new JavaLogger();
-        this.inputPrompter = new InputPrompter();
+        this.inputPrompter = new StdinInputPrompter();
     }
 
     public void init() {

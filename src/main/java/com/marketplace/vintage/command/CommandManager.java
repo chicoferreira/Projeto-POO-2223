@@ -1,5 +1,6 @@
 package com.marketplace.vintage.command;
 
+import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
 
 import org.jetbrains.annotations.Nullable;
@@ -34,7 +35,7 @@ public class CommandManager implements CommandRepository { // CommandManager is 
         return new ArrayList<>(this.commands.values());
     }
 
-    public void executeRawCommand(Logger logger, String rawCommand) {
+    public void executeRawCommand(Logger logger, InputPrompter inputPrompter, String rawCommand) {
         rawCommand = rawCommand.trim();
         String[] parts = rawCommand.split("\\s+");
 
@@ -56,7 +57,7 @@ public class CommandManager implements CommandRepository { // CommandManager is 
         System.arraycopy(parts, 1, args, 0, args.length);
 
         try {
-            command.execute(logger, args);
+            command.execute(logger, inputPrompter, args);
         } catch (Exception e) {
             logger.warn("An error occurred while executing the command: " + e.getMessage());
             e.printStackTrace();

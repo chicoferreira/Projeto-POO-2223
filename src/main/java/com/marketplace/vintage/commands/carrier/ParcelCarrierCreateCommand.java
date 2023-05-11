@@ -5,6 +5,7 @@ import com.marketplace.vintage.carrier.ParcelCarrier;
 import com.marketplace.vintage.carrier.ParcelCarrierFactory;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputMapper;
+import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.utils.StringUtils;
 
@@ -24,7 +25,7 @@ public class ParcelCarrierCreateCommand extends BaseCommand {
     }
 
     @Override
-    protected void executeSafely(Logger logger, String[] args) {
+    protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
         String parcelCarrierName = args[0];
 
         boolean premium = args.length > 1 && args[1].equalsIgnoreCase("premium");
@@ -35,13 +36,13 @@ public class ParcelCarrierCreateCommand extends BaseCommand {
 
         logger.info("Do you want to set a custom expedition price expression? (y/n)");
         logger.info("The default one is: " + defaultExpression);
-        boolean response = getInputPrompter().askForInput(logger, "Boolean >", InputMapper.BOOLEAN);
+        boolean response = inputPrompter.askForInput(logger, "Boolean >", InputMapper.BOOLEAN);
 
         if (response) {
             logger.info("Please enter the expression using the following variables: ");
             logger.info(StringUtils.joinQuoted(expressionVariables, ", "));
 
-            String expression = getInputPrompter().askForInput(logger, "Expression >",
+            String expression = inputPrompter.askForInput(logger, "Expression >",
                     InputMapper.ofExpression(vintageController::isFormulaValid, expressionVariables));
             parcelCarrier.setExpeditionPriceExpression(expression);
         }

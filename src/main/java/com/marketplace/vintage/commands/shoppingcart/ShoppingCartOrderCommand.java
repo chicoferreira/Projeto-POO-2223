@@ -3,6 +3,7 @@ package com.marketplace.vintage.commands.shoppingcart;
 import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputMapper;
+import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.order.Order;
 import com.marketplace.vintage.user.User;
@@ -23,7 +24,7 @@ public class ShoppingCartOrderCommand extends BaseCommand {
     }
 
     @Override
-    protected void executeSafely(Logger logger, String[] args) {
+    protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
         User currentLoggedInUser = userView.getCurrentLoggedInUser();
         List<String> currentOrder = currentLoggedInUser.getShoppingCart();
 
@@ -32,7 +33,7 @@ public class ShoppingCartOrderCommand extends BaseCommand {
             return;
         }
 
-        boolean proceed = getInputPrompter().askForInput(logger, "Confirm the purchase (y/n)", InputMapper.BOOLEAN);
+        boolean proceed = inputPrompter.askForInput(logger, "Confirm the purchase (y/n)", InputMapper.BOOLEAN);
 
         // TODO: show the order details
 
