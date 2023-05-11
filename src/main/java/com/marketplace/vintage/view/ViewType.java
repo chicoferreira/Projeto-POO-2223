@@ -1,14 +1,13 @@
 package com.marketplace.vintage.view;
 
-import com.marketplace.vintage.Lang;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public enum ViewType {
 
-    USER(Lang.VIEW_TYPE_USER_DISPLAY_NAME.get()), ADMIN("Admin");
+    USER_LOGIN("User"),
+    ADMIN("Admin");
 
     private static final Map<String, ViewType> VIEW_TYPE_MAP;
 
@@ -38,6 +37,6 @@ public enum ViewType {
     }
 
     public String getCommandName() {
-        return name().toLowerCase();
+        return getDisplayName().toLowerCase();
     }
 }

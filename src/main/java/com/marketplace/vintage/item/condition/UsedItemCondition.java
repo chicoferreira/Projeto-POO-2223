@@ -1,6 +1,6 @@
 package com.marketplace.vintage.item.condition;
 
-import com.marketplace.vintage.Lang;
+import com.marketplace.vintage.VintageConstants;
 
 public final class UsedItemCondition implements ItemCondition {
     private final int conditionLevel;
@@ -13,9 +13,9 @@ public final class UsedItemCondition implements ItemCondition {
 
     @Override
     public String getDisplayString() {
-        return Lang.USED_ITEM_CONDITION_DISPLAY_STRING
-                .apply("conditionLevel", getConditionLevel(),
-                       "numberOfPreviousOwners", getNumberOfPreviousOwners());
+        return VintageConstants.ITEM_CONDITION_USED_DISPLAY_STRING
+                .replace("<conditionLevel>", String.valueOf(getConditionLevel()))
+                .replace("<numberOfPreviousOwners>", String.valueOf(getNumberOfPreviousOwners()));
     }
 
     @Override
