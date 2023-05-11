@@ -59,8 +59,7 @@ public class CommandManager implements CommandRepository { // CommandManager is 
         try {
             command.execute(logger, inputPrompter, args);
         } catch (Exception e) {
-            logger.warn("An error occurred while executing the command: " + e.getMessage());
-            e.printStackTrace();
+            throw new CommandExecuteException(e);
         }
     }
 }

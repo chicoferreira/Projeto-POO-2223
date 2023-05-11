@@ -1,6 +1,8 @@
 package com.marketplace.vintage.item.condition;
 
-public interface ItemCondition {
+import java.io.Serializable;
+
+public interface ItemCondition extends Serializable {
 
     String getDisplayString();
 
