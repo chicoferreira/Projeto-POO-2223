@@ -1,6 +1,7 @@
 package com.marketplace.vintage.command;
 
 import com.marketplace.vintage.commands.HelpCommand;
+import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
 
 import java.util.ArrayList;
@@ -35,9 +36,9 @@ public class ParentCommand implements CommandRepository, Command {
     }
 
     @Override
-    public void execute(Logger logger, String[] args) {
+    public void execute(Logger logger, InputPrompter inputPrompter, String[] args) {
         if (args.length == 0) {
-            helpCommand.execute(logger, args);
+            helpCommand.execute(logger, inputPrompter, args);
             return;
         }
 
@@ -52,7 +53,7 @@ public class ParentCommand implements CommandRepository, Command {
         String[] subCommandArgs = new String[args.length - 1];
         System.arraycopy(args, 1, subCommandArgs, 0, subCommandArgs.length);
 
-        subCommand.execute(logger, subCommandArgs);
+        subCommand.execute(logger, inputPrompter, subCommandArgs);
     }
 
     private void registerSubCommand(Command command) {

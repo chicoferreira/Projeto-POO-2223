@@ -3,6 +3,7 @@ package com.marketplace.vintage.commands.user;
 import com.marketplace.vintage.VintageConstants;
 import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.command.BaseCommand;
+import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.user.User;
 
@@ -18,7 +19,7 @@ public class UserListCommand extends BaseCommand {
     }
 
     @Override
-    protected void executeSafely(Logger logger, String[] args) {
+    protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
         List<User> usersList = vintageController.getAllUsers();
 
         if (usersList.isEmpty()) {

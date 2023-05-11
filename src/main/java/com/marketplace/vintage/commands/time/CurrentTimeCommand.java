@@ -2,6 +2,7 @@ package com.marketplace.vintage.commands.time;
 
 import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.command.BaseCommand;
+import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
 
 public class CurrentTimeCommand extends BaseCommand {
@@ -15,7 +16,7 @@ public class CurrentTimeCommand extends BaseCommand {
     }
 
     @Override
-    protected void executeSafely(Logger logger, String[] args) {
+    protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
         logger.info("The current time is: " + vintageController.getCurrentDate());
     }
 }

@@ -2,33 +2,14 @@ package com.marketplace.vintage.input;
 
 import com.marketplace.vintage.logging.Logger;
 
-import java.util.Scanner;
 import java.util.function.Function;
 
-public class InputPrompter {
+public interface InputPrompter {
 
-    private final Scanner scanner;
+    String getInput();
 
-    public InputPrompter() {
-        this.scanner = new Scanner(System.in);
-    }
+    String askForInput(Logger logger, String message);
 
-    public String getInput() {
-        return scanner.nextLine();
-    }
+    <T> T askForInput(Logger logger, String message, Function<String, T> mapper);
 
-    public String askForInput(Logger logger, String message) {
-        logger.print(message + " ");
-        return getInput();
-    }
-
-    public <T> T askForInput(Logger logger, String message, Function<String, T> mapper) {
-        String input = askForInput(logger, message);
-        try {
-            return mapper.apply(input);
-        } catch (Exception e) {
-            logger.warn("Error: " + e.getMessage());
-            return askForInput(logger, message, mapper);
-        }
-    }
 }

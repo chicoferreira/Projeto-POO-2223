@@ -3,6 +3,7 @@ package com.marketplace.vintage.commands.time;
 import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputMapper;
+import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.utils.VintageDate;
 
@@ -16,7 +17,7 @@ public class AdminTimeJumpCommand extends BaseCommand {
     }
 
     @Override
-    protected void executeSafely(Logger logger, String[] args) {
+    protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
         int days;
         try {
             days = InputMapper.ofIntRange(1, Integer.MAX_VALUE).apply(args[0]);

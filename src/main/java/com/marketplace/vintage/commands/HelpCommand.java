@@ -3,6 +3,7 @@ package com.marketplace.vintage.commands;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.command.Command;
 import com.marketplace.vintage.command.CommandRepository;
+import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
 
 import java.util.Comparator;
@@ -24,7 +25,7 @@ public class HelpCommand extends BaseCommand {
     }
 
     @Override
-    protected void executeSafely(Logger logger, String[] args) {
+    protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
         List<Command> registeredCommands = this.commandRepository.getRegisteredCommands();
         if (registeredCommands.isEmpty()) {
             logger.info("No commands to show in " + this.helpTitle);

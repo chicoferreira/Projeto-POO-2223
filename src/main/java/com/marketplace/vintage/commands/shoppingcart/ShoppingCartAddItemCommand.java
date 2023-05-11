@@ -3,6 +3,7 @@ package com.marketplace.vintage.commands.shoppingcart;
 import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputMapper;
+import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.item.Item;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.user.User;
@@ -21,7 +22,7 @@ public class ShoppingCartAddItemCommand extends BaseCommand {
     }
 
     @Override
-    protected void executeSafely(Logger logger, String[] args) {
+    protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
         String itemId = args[0];
         User currentLoggedInUser = userView.getCurrentLoggedInUser();
         int currentYear = vintageController.getCurrentYear();
@@ -40,7 +41,7 @@ public class ShoppingCartAddItemCommand extends BaseCommand {
 
         logger.info(StringUtils.printItem(item, currentYear));
 
-        boolean proceed = getInputPrompter().askForInput(logger, "Do you want to add this item to the shopping cart? (y/n)", InputMapper.BOOLEAN);
+        boolean proceed = inputPrompter.askForInput(logger, "Do you want to add this item to the shopping cart? (y/n)", InputMapper.BOOLEAN);
         if (!proceed) return;
 
         currentLoggedInUser.addItemToShoppingCart(itemId);
