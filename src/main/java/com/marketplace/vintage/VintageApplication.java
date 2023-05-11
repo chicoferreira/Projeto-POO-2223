@@ -13,13 +13,14 @@ import com.marketplace.vintage.order.OrderController;
 import com.marketplace.vintage.order.OrderFactory;
 import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.persistent.PersistentManager;
+import com.marketplace.vintage.scripting.ScriptController;
+import com.marketplace.vintage.scripting.exception.ScriptException;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.view.View;
 import com.marketplace.vintage.view.ViewFactory;
 import com.marketplace.vintage.view.ViewType;
 
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -50,9 +51,18 @@ public class VintageApplication {
 
         OrderFactory orderFactory = new OrderFactory(vintageTimeManager, parcelCarrierManager, expressionSolver);
         OrderController orderController = new OrderController(orderManager);
-        VintageController vintageController = new VintageController(itemManager, itemFactory, orderManager, orderController, vintageTimeManager, parcelCarrierManager, expressionSolver, orderFactory, userManager);
+
+        ScriptController scriptController = new ScriptController();
+        VintageController vintageController = new VintageController(itemManager, itemFactory, orderManager, orderController, vintageTimeManager, parcelCarrierManager, expressionSolver, orderFactory, userManager, scriptController);
 
         this.viewFactory = new ViewFactory(logger, inputPrompter, vintageController);
+
+        try {
+            scriptController.initialize(viewFactory, vintageController);
+            this.logger.info("Loaded " + scriptController.loadScripts() + " scripts.");
+        } catch (ScriptException exception) {
+            this.logger.warn("Failed to load scripts: " + exception.getMessage());
+        }
 
         addShutdownSaveHook();
     }
@@ -131,6 +141,6 @@ public class VintageApplication {
     }
 
     public File getPersistentFile() {
-        return Paths.get("vintage_persistent_data.bin").toFile();
+        return new File(VintageConstants.PERSISTENT_PROGRAM_STATE_SAVE_PATH);
     }
 }

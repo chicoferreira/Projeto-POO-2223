@@ -27,4 +27,7 @@ public class VintageConstants {
 
     public static final int DAYS_TO_DELIVER_ORDER = 2;
 
+    public static final String PERSISTENT_PROGRAM_STATE_SAVE_PATH = "vintage_persistent_data.bin";
+    public static final String SCRIPTS_FILE_PATH = "scripts.txt";
+
 }
