@@ -27,7 +27,7 @@ public class AdminTimeJumpCommand extends BaseCommand {
         }
 
         VintageDate beforeDate = vintageController.getCurrentDate();
-        VintageDate afterDate = vintageController.jumpTime(days);
+        VintageDate afterDate = vintageController.jumpTime(logger, days);
 
         logger.info("Time jumped from " + beforeDate + " to " + afterDate + ".");
     }

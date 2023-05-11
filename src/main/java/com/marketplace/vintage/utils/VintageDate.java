@@ -20,6 +20,23 @@ public class VintageDate implements Comparable<VintageDate>, Serializable {
         this.date = date;
     }
 
+    public static VintageDate fromString(String date) {
+        String[] split = date.trim().split("/");
+        if (split.length != 3) {
+            throw new IllegalArgumentException("Date must have the format: DD/MM/YYYY");
+        }
+
+        try {
+            int dayOfMonth = Integer.parseInt(split[0]);
+            int month = Integer.parseInt(split[1]);
+            int year = Integer.parseInt(split[2]);
+
+            return VintageDate.of(dayOfMonth, month, year);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Date must have integers in: DD/MM/YYYY");
+        }
+    }
+
     public LocalDate toJavaDate() {
         return date;
     }
@@ -42,6 +59,10 @@ public class VintageDate implements Comparable<VintageDate>, Serializable {
 
     public boolean isBeforeOrSame(VintageDate date) {
         return this.compareTo(date) <= 0;
+    }
+
+    public boolean isAfter(VintageDate date) {
+        return this.compareTo(date) > 0;
     }
 
     @Override

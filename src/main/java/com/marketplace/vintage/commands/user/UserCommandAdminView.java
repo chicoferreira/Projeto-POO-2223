@@ -5,8 +5,9 @@ import com.marketplace.vintage.command.ParentCommand;
 
 public class UserCommandAdminView extends ParentCommand {
 
-        public UserCommandAdminView(VintageController vintageController) {
-            super("user", "User commands");
-            registerCommand(new UserListCommand(vintageController));
-        }
+    public UserCommandAdminView(VintageController vintageController) {
+        super("user", "User commands");
+        registerCommand(new UserListCommand(vintageController));
+        registerCommand(new UserRegisterCommand(vintageController));
+    }
 }

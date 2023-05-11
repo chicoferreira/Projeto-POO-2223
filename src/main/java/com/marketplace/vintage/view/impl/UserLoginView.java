@@ -1,11 +1,9 @@
 package com.marketplace.vintage.view.impl;
 
 import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.commands.user.UserRegisterCommand;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.input.InputPrompter;
-import com.marketplace.vintage.input.questionnaire.Questionnaire;
-import com.marketplace.vintage.input.questionnaire.QuestionnaireAnswers;
-import com.marketplace.vintage.input.questionnaire.QuestionnaireBuilder;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.logging.PrefixLogger;
 import com.marketplace.vintage.user.User;
@@ -19,7 +17,7 @@ public class UserLoginView implements View {
     private final InputPrompter inputPrompter;
     private final ViewFactory viewFactory;
     private final VintageController vintageController;
-    private final Questionnaire createUserQuestionnaire;
+    private final UserRegisterCommand userRegisterCommand;
 
     public UserLoginView(Logger logger,
                          InputPrompter inputPrompter,
@@ -29,16 +27,7 @@ public class UserLoginView implements View {
         this.inputPrompter = inputPrompter;
         this.viewFactory = viewFactory;
         this.vintageController = vintageController;
-
-        this.createUserQuestionnaire = QuestionnaireBuilder.newBuilder()
-                .withQuestion("username", "Enter your username:", username -> {
-                    vintageController.validateUsername(username);
-                    return username;
-                })
-                .withQuestion("name", "Enter your name:", InputMapper.STRING)
-                .withQuestion("address", "Enter your address:", InputMapper.STRING)
-                .withQuestion("taxNumber", "Enter your tax number:", InputMapper.STRING)
-                .build();
+        this.userRegisterCommand = new UserRegisterCommand(vintageController);
     }
 
     @Override
@@ -80,15 +69,7 @@ public class UserLoginView implements View {
             return askForLogin();
         }
 
-        QuestionnaireAnswers answers = createUserQuestionnaire.ask(this.inputPrompter, this.logger);
-
         this.logger.info("Creating user with email " + email + "...");
-
-        String username = answers.getAnswer("username", String.class);
-        String name = answers.getAnswer("name", String.class);
-        String address = answers.getAnswer("address", String.class);
-        String taxNumber = answers.getAnswer("taxNumber", String.class);
-
-        return vintageController.createUser(username, email, name, address, taxNumber);
+        return userRegisterCommand.askUserInfoAndRegister(email, this.inputPrompter, this.logger);
     }
 }
