@@ -1,12 +1,13 @@
 package com.marketplace.vintage.view;
 
+import com.marketplace.vintage.command.CommandExecuteException;
 import com.marketplace.vintage.command.CommandManager;
 import com.marketplace.vintage.commands.HelpCommand;
 import com.marketplace.vintage.commands.LogoutCommand;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
 
-public abstract class BaseView implements View {
+public abstract class BaseView implements CommandRunnerView {
 
     private final InputPrompter inputPrompter;
     private final CommandManager commandManager;
@@ -22,6 +23,7 @@ public abstract class BaseView implements View {
         this.getCommandManager().registerCommand(new LogoutCommand(this));
     }
 
+    @Override
     public CommandManager getCommandManager() {
         return commandManager;
     }
@@ -46,7 +48,12 @@ public abstract class BaseView implements View {
         this.shouldExit = false;
         while (!shouldExit) {
             String commandName = getInputPrompter().askForInput(getLogger(), ">");
-            commandManager.executeRawCommand(logger, getInputPrompter(), commandName);
+            try {
+                commandManager.executeRawCommand(logger, getInputPrompter(), commandName);
+            } catch (CommandExecuteException e) {
+                logger.warn("An error occurred while executing the command: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 }

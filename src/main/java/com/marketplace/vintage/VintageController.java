@@ -4,10 +4,12 @@ import com.marketplace.vintage.carrier.ParcelCarrier;
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.expression.ExpressionSolver;
 import com.marketplace.vintage.item.*;
+import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.order.Order;
 import com.marketplace.vintage.order.OrderController;
 import com.marketplace.vintage.order.OrderFactory;
 import com.marketplace.vintage.order.OrderManager;
+import com.marketplace.vintage.scripting.ScriptController;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.utils.VintageDate;
@@ -26,8 +28,17 @@ public class VintageController {
     private final ExpressionSolver expressionSolver;
     private final OrderFactory orderFactory;
     private final UserManager userManager;
+    private final ScriptController scriptController;
 
-    public VintageController(ItemManager itemManager, ItemFactory itemFactory, OrderManager orderManager, OrderController orderController, VintageTimeManager vintageTimeManager, ParcelCarrierManager parcelCarrierManager, ExpressionSolver expressionSolver, OrderFactory orderFactory, UserManager userManager) {
+    public VintageController(ItemManager itemManager,
+                             ItemFactory itemFactory,
+                             OrderManager orderManager,
+                             OrderController orderController,
+                             VintageTimeManager vintageTimeManager,
+                             ParcelCarrierManager parcelCarrierManager,
+                             ExpressionSolver expressionSolver,
+                             OrderFactory orderFactory,
+                             UserManager userManager, ScriptController scriptController) {
         this.itemManager = itemManager;
         this.itemFactory = itemFactory;
         this.orderManager = orderManager;
@@ -37,6 +48,7 @@ public class VintageController {
         this.expressionSolver = expressionSolver;
         this.orderFactory = orderFactory;
         this.userManager = userManager;
+        this.scriptController = scriptController;
     }
 
     public Item registerNewItem(User owner, ItemType itemType, Map<ItemProperty, Object> properties) {
@@ -78,11 +90,12 @@ public class VintageController {
      * @param days number of days to jump
      * @return the new date
      */
-    public VintageDate jumpTime(int days) {
+    public VintageDate jumpTime(Logger logger, int days) {
+        VintageDate previousDate = this.vintageTimeManager.getCurrentDate();
         VintageDate newDate = this.vintageTimeManager.advanceTime(days);
 
-        this.orderController.notifyTimeChange(newDate);
-        // TODO: also notify script manager
+        this.orderController.notifyTimeChange(logger, newDate);
+        this.scriptController.notifyTimeChange(logger, previousDate, newDate);
 
         return newDate;
     }
