@@ -1,24 +1,26 @@
 package com.marketplace.vintage.commands.carrier;
 
-import com.marketplace.vintage.VintageConstants;
+import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.carrier.ParcelCarrier;
 import com.marketplace.vintage.carrier.ParcelCarrierFactory;
-import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.command.BaseCommand;
-import com.marketplace.vintage.expression.ExpressionSolver;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.utils.StringUtils;
 
+import java.util.List;
+
 public class ParcelCarrierCreateCommand extends BaseCommand {
 
-    private final ParcelCarrierManager parcelCarrierManager;
-    private final ExpressionSolver expressionSolver;
+    private final VintageController vintageController;
+    private final String defaultExpression;
+    private final List<String> expressionVariables;
 
-    public ParcelCarrierCreateCommand(ParcelCarrierManager parcelCarrierManager, ExpressionSolver expressionSolver) {
+    public ParcelCarrierCreateCommand(VintageController vintageController, String defaultExpression, List<String> expressionVariables) {
         super("create", "carrier create <carrier name> (premium)", 1, "Create a new parcel carrier");
-        this.parcelCarrierManager = parcelCarrierManager;
-        this.expressionSolver = expressionSolver;
+        this.vintageController = vintageController;
+        this.defaultExpression = defaultExpression;
+        this.expressionVariables = expressionVariables;
     }
 
     @Override
@@ -28,23 +30,24 @@ public class ParcelCarrierCreateCommand extends BaseCommand {
         boolean premium = args.length > 1 && args[1].equalsIgnoreCase("premium");
 
         ParcelCarrier parcelCarrier = premium ?
-                                      ParcelCarrierFactory.createPremiumParcelCarrier(parcelCarrierName) :
-                                      ParcelCarrierFactory.createNormalParcelCarrier(parcelCarrierName);
+                ParcelCarrierFactory.createPremiumParcelCarrier(parcelCarrierName) :
+                ParcelCarrierFactory.createNormalParcelCarrier(parcelCarrierName);
 
         logger.info("Do you want to set a custom expedition price expression? (y/n)");
-        logger.info("The default one is: " + VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_STRING);
+        logger.info("The default one is: " + defaultExpression);
         boolean response = getInputPrompter().askForInput(logger, "Boolean >", InputMapper.BOOLEAN);
 
         if (response) {
             logger.info("Please enter the expression using the following variables: ");
-            logger.info(StringUtils.joinQuoted(VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_VARIABLES, ", "));
+            logger.info(StringUtils.joinQuoted(expressionVariables, ", "));
 
-            String expression = getInputPrompter().askForInput(logger, "Expression >", InputMapper.ofExpression(expressionSolver, VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_VARIABLES));
+            String expression = getInputPrompter().askForInput(logger, "Expression >",
+                    InputMapper.ofExpression(vintageController::isFormulaValid, expressionVariables));
             parcelCarrier.setExpeditionPriceExpression(expression);
         }
 
         try {
-            parcelCarrierManager.registerParcelCarrier(parcelCarrier);
+            vintageController.registerParcelCarrier(parcelCarrier);
         } catch (Exception e) {
             logger.warn("Failed to create parcel carrier: " + e.getMessage());
             return;

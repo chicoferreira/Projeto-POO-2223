@@ -1,6 +1,5 @@
 package com.marketplace.vintage.input;
 
-import com.marketplace.vintage.expression.ExpressionSolver;
 import com.marketplace.vintage.item.condition.ItemCondition;
 import com.marketplace.vintage.item.condition.ItemConditions;
 import com.marketplace.vintage.logging.Logger;
@@ -11,6 +10,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -67,10 +67,10 @@ public final class InputMapper {
         };
     }
 
-    public static Function<String, String> ofExpression(ExpressionSolver expressionSolver, List<String> variables) {
+    public static Function<String, String> ofExpression(BiFunction<String, List<String>, Boolean> expressionValidator, List<String> variables) {
         return (String input) -> {
             try {
-                boolean isValid = expressionSolver.isValid(input, variables);
+                boolean isValid = expressionValidator.apply(input, variables);
                 if (!isValid) {
                     throw new IllegalArgumentException("Expression must be valid");
                 }

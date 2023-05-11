@@ -1,16 +1,17 @@
 package com.marketplace.vintage.commands.carrier;
 
-import com.marketplace.vintage.carrier.ParcelCarrierManager;
+import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.command.ParentCommand;
-import com.marketplace.vintage.expression.ExpressionSolver;
+
+import java.util.List;
 
 public class ParcelCarrierCommand extends ParentCommand {
 
-    public ParcelCarrierCommand(ParcelCarrierManager parcelCarrierManager, ExpressionSolver expressionSolver) {
+    public ParcelCarrierCommand(VintageController vintageController, String defaultPriceExpression, List<String> priceExpressionVariables) {
         super("carrier", "Parcel Carrier commands");
-        registerCommand(new ParcelCarrierCreateCommand(parcelCarrierManager, expressionSolver));
-        registerCommand(new ParcelCarrierInfoCommand(parcelCarrierManager));
-        registerCommand(new ParcelCarrierListCommand(parcelCarrierManager));
-        registerCommand(new ParcelCarrierEditCommand(parcelCarrierManager, expressionSolver));
+        registerCommand(new ParcelCarrierCreateCommand(vintageController, defaultPriceExpression, priceExpressionVariables));
+        registerCommand(new ParcelCarrierInfoCommand(vintageController));
+        registerCommand(new ParcelCarrierListCommand(vintageController));
+        registerCommand(new ParcelCarrierEditCommand(vintageController, priceExpressionVariables));
     }
 }
