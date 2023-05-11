@@ -49,9 +49,9 @@ public class VintageApplication {
 
         OrderFactory orderFactory = new OrderFactory(vintageTimeManager, parcelCarrierManager, expressionSolver);
         OrderController orderController = new OrderController(orderManager);
-        VintageController vintageController = new VintageController(itemManager, itemFactory, orderManager, orderController, vintageTimeManager, parcelCarrierManager, expressionSolver, orderFactory);
+        VintageController vintageController = new VintageController(itemManager, itemFactory, orderManager, orderController, vintageTimeManager, parcelCarrierManager, expressionSolver, orderFactory, userManager);
 
-        this.viewFactory = new ViewFactory(logger, inputPrompter, userManager, parcelCarrierManager, expressionSolver, vintageController, itemManager, orderManager, vintageTimeManager);
+        this.viewFactory = new ViewFactory(logger, inputPrompter, vintageController);
 
         addShutdownSaveHook();
     }

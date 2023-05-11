@@ -2,7 +2,6 @@ package com.marketplace.vintage.commands.item;
 
 import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.carrier.ParcelCarrier;
-import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.input.questionnaire.QuestionnaireBuilder;
@@ -27,13 +26,11 @@ import java.util.stream.Collectors;
 public class ItemCreateCommand extends BaseCommand {
 
     private final UserView userView;
-    private final ParcelCarrierManager parcelCarrierManager;
     private final VintageController vintageController;
 
-    public ItemCreateCommand(UserView userView, ParcelCarrierManager parcelCarrierManager, VintageController vintageController) {
+    public ItemCreateCommand(UserView userView, VintageController vintageController) {
         super("create", "item create", 0, "Create a new item");
         this.userView = userView;
-        this.parcelCarrierManager = parcelCarrierManager;
         this.vintageController = vintageController;
     }
 
@@ -82,7 +79,7 @@ public class ItemCreateCommand extends BaseCommand {
 
         ItemType itemType = getInputPrompter().askForInput(logger, "Insert the item type:", ItemType::fromDisplayName);
 
-        List<ParcelCarrier> parcelCarrierCompatibleList = parcelCarrierManager.getAllCompatibleWith(itemType);
+        List<ParcelCarrier> parcelCarrierCompatibleList = vintageController.getAllParcelCarriersCompatibleWith(itemType);
 
         if (parcelCarrierCompatibleList.isEmpty()) {
             logger.warn("There are no parcel carriers compatible with " + itemType.getDisplayName() + ". Please contact the administrator.");
@@ -114,11 +111,11 @@ public class ItemCreateCommand extends BaseCommand {
     @NotNull
     private Function<String, String> getParcelCarrierNameToIdMapper(ItemType itemType, List<ParcelCarrier> parcelCarrierCompatibleList) {
         return (String input) -> {
-            if (!parcelCarrierManager.containsCarrierByName(input)) {
+            if (!vintageController.containsCarrierByName(input)) {
                 throw new IllegalArgumentException("Parcel carrier must be one of " + StringUtils.joinQuoted(parcelCarrierCompatibleList, ParcelCarrier::getName, ", "));
             }
 
-            ParcelCarrier carrier = parcelCarrierManager.getCarrierByName(input);
+            ParcelCarrier carrier = vintageController.getCarrierByName(input);
             if (!carrier.canDeliverItemType(itemType)) {
                 throw new IllegalArgumentException("Parcel carrier " + carrier.getName() + " cannot deliver item type " + itemType.getDisplayName());
             }

@@ -2,15 +2,10 @@ package com.marketplace.vintage.user;
 
 import com.marketplace.vintage.exceptions.EntityAlreadyExistsException;
 import com.marketplace.vintage.exceptions.EntityNotFoundException;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class UserManager implements Serializable {
 
@@ -34,7 +29,7 @@ public class UserManager implements Serializable {
         String userUsername = user.getUsername();
         String userEmail = user.getEmail().toLowerCase();
 
-        checkUsername(userUsername);
+        validateUsername(userUsername);
 
         if (this.usersById.containsKey(user.getId())) {
             throw new EntityAlreadyExistsException("A user with that id already exists");
@@ -53,7 +48,7 @@ public class UserManager implements Serializable {
         return this.usersByEmail.containsKey(email.toLowerCase());
     }
 
-    public void checkUsername(String username) {
+    public void validateUsername(String username) {
         if (username == null || username.isEmpty()) {
             throw new IllegalArgumentException("The user's username cannot be null or empty");
         }

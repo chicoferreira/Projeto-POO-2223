@@ -1,12 +1,10 @@
 package com.marketplace.vintage.commands.item;
 
 import com.marketplace.vintage.VintageConstants;
-import com.marketplace.vintage.VintageTimeManager;
+import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.carrier.ParcelCarrier;
-import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.item.Item;
-import com.marketplace.vintage.item.ItemManager;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.utils.StringUtils;
@@ -16,17 +14,13 @@ import java.util.List;
 
 public class ItemListCommand extends BaseCommand {
 
-    private final ItemManager itemManager;
     private final UserView userView;
-    private final ParcelCarrierManager parcelCarrierManager;
-    private final VintageTimeManager vintageTimeManager;
+    private final VintageController vintageController;
 
-    public ItemListCommand(ItemManager itemManager, UserView userView, ParcelCarrierManager parcelCarrierManager, VintageTimeManager vintageTimeManager) {
+    public ItemListCommand(UserView userView, VintageController vintageController) {
         super("list", "item list", 0, "Lists all items the user is selling");
-        this.itemManager = itemManager;
         this.userView = userView;
-        this.parcelCarrierManager = parcelCarrierManager;
-        this.vintageTimeManager = vintageTimeManager;
+        this.vintageController = vintageController;
     }
 
     @Override
@@ -40,19 +34,19 @@ public class ItemListCommand extends BaseCommand {
             return;
         }
 
-        int currentYear = vintageTimeManager.getCurrentYear();
+        int currentYear = vintageController.getCurrentYear();
 
         for (String itemId : itemsBeingSold) {
-            Item item = itemManager.getItem(itemId);
+            Item item = vintageController.getItem(itemId);
 
-            ParcelCarrier carrier = parcelCarrierManager.getCarrierByName(item.getParcelCarrierName());
+            ParcelCarrier carrier = vintageController.getCarrierByName(item.getParcelCarrierName());
 
             String message = VintageConstants.DISPLAY_ITEM_FORMAT.replace("<id>", item.getAlphanumericId())
-                                                                 .replace("<itemType>", item.getItemType().getDisplayName())
-                                                                 .replace("<description>", item.getDescription())
-                                                                 .replace("<brand>", item.getBrand())
-                                                                 .replace("<finalPrice>", StringUtils.formatCurrency(item.getFinalPrice(currentYear)))
-                                                                 .replace("<parcelCarrier>", carrier.getName());
+                    .replace("<itemType>", item.getItemType().getDisplayName())
+                    .replace("<description>", item.getDescription())
+                    .replace("<brand>", item.getBrand())
+                    .replace("<finalPrice>", StringUtils.formatCurrency(item.getFinalPrice(currentYear)))
+                    .replace("<parcelCarrier>", carrier.getName());
 
             logger.info(message);
         }
