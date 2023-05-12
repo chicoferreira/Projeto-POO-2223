@@ -5,6 +5,7 @@ import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.expression.ExpressionSolver;
 import com.marketplace.vintage.item.*;
 import com.marketplace.vintage.logging.Logger;
+import com.marketplace.vintage.logging.PrefixLogger;
 import com.marketplace.vintage.order.Order;
 import com.marketplace.vintage.order.OrderController;
 import com.marketplace.vintage.order.OrderFactory;
@@ -71,7 +72,7 @@ public class VintageController {
         return makeOrder(orderManager.generateUniqueOrderId(), user);
     }
 
-    public Order makeOrder(String orderId, User user) {
+    public Order makeOrder(@Nullable String orderId, User user) {
         if (orderId == null) {
             return makeOrder(user);
         }
@@ -105,13 +106,16 @@ public class VintageController {
      * @return the new date
      */
     public VintageDate jumpTime(Logger logger, int days) {
-        VintageDate previousDate = this.vintageTimeManager.getCurrentDate();
-        VintageDate newDate = this.vintageTimeManager.advanceTime(days);
+        for (int i = 1; i <= days; i++) {
+            VintageDate previousDate = this.vintageTimeManager.getCurrentDate();
+            VintageDate newDate = this.vintageTimeManager.advanceTime(1);
 
-        this.orderController.notifyTimeChange(logger, newDate);
-        this.scriptController.notifyTimeChange(logger, previousDate, newDate);
+            Logger dateLogger = PrefixLogger.of(newDate.toString(), logger);
+            this.orderController.notifyTimeChange(dateLogger, newDate);
+            this.scriptController.notifyTimeChange(dateLogger, previousDate, newDate);
+        }
 
-        return newDate;
+        return this.vintageTimeManager.getCurrentDate();
     }
 
     public int getCurrentYear() {
