@@ -9,7 +9,7 @@ public class OrderCommand extends ParentCommand {
     public OrderCommand(UserView userView, VintageController vintageController) {
         super("order", "Order commands");
         registerCommand(new OrderListCommand(userView, vintageController));
-        registerCommand(new OrderReturnCommand(vintageController));
+        registerCommand(new OrderReturnCommand(userView, vintageController));
     }
 
 }
