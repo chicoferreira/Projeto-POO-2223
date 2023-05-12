@@ -15,4 +15,8 @@ public class StdinInputPrompter extends BaseInputPrompter {
         return scanner.nextLine();
     }
 
+    public void close() {
+        scanner.close();
+    }
+
 }

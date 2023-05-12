@@ -3,7 +3,6 @@ package com.marketplace.vintage;
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.expression.Exp4jExpressionSolver;
 import com.marketplace.vintage.expression.ExpressionSolver;
-import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.input.impl.StdinInputPrompter;
 import com.marketplace.vintage.item.ItemFactory;
 import com.marketplace.vintage.item.ItemManager;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
 public class VintageApplication {
 
     private final Logger logger;
-    private final InputPrompter inputPrompter;
+    private final StdinInputPrompter inputPrompter;
     private ViewFactory viewFactory;
     private PersistentManager persistentManager;
     private UserManager userManager;
@@ -63,8 +62,6 @@ public class VintageApplication {
         } catch (ScriptException exception) {
             this.logger.warn("Failed to load scripts: " + exception.getMessage());
         }
-
-        addShutdownSaveHook();
     }
 
 
@@ -82,6 +79,7 @@ public class VintageApplication {
             while (view == null) {
                 String viewTypeName = inputPrompter.askForInput(logger, ">").trim();
                 if (viewTypeName.equalsIgnoreCase("exit")) {
+                    shutdown();
                     return;
                 }
                 ViewType viewType = ViewType.fromCommandName(viewTypeName);
@@ -96,6 +94,11 @@ public class VintageApplication {
 
             view.run();
         }
+    }
+
+    public void shutdown() {
+        saveProgramState(persistentManager);
+        this.inputPrompter.close();
     }
 
     public String buildAllViewsString() {
@@ -134,10 +137,6 @@ public class VintageApplication {
             this.logger.warn("Could not load " + getPersistentFile().getName() + ". Corrupted data?");
             return new HashMap<>();
         }
-    }
-
-    private void addShutdownSaveHook() {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> saveProgramState(persistentManager)));
     }
 
     public File getPersistentFile() {
