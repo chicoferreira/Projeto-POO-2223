@@ -4,6 +4,7 @@ import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.commands.item.ItemCommand;
 import com.marketplace.vintage.commands.order.OrderCommand;
 import com.marketplace.vintage.commands.shoppingcart.ShoppingCartCommand;
+import com.marketplace.vintage.commands.stats.StatsCommand;
 import com.marketplace.vintage.commands.time.CurrentTimeCommand;
 import com.marketplace.vintage.commands.user.UserCommandUserView;
 import com.marketplace.vintage.input.InputPrompter;
@@ -29,6 +30,7 @@ public class UserView extends BaseView {
         this.getCommandManager().registerCommand(new OrderCommand(this, vintageController));
         this.getCommandManager().registerCommand(new ShoppingCartCommand(this, vintageController));
         this.getCommandManager().registerCommand(new CurrentTimeCommand(vintageController, "time"));
+        this.getCommandManager().registerCommand(new StatsCommand(vintageController));
     }
 
     @Override

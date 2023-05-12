@@ -1,9 +1,7 @@
 package com.marketplace.vintage.user;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class User implements Serializable {
 
@@ -16,6 +14,7 @@ public class User implements Serializable {
     private final List<String> itemsBeingSold;
     private final List<String> shoppingCart;
     private final List<String> completedOrderIdsList;
+    private final Set<String> completedSellsOrderIdsList;
 
     public User(String username, String email, String name, String address, String taxNumber) {
         this(UUID.randomUUID(), username, email, name, address, taxNumber);
@@ -31,6 +30,7 @@ public class User implements Serializable {
         this.itemsBeingSold = new ArrayList<>();
         this.shoppingCart = new ArrayList<>();
         this.completedOrderIdsList = new ArrayList<>();
+        this.completedSellsOrderIdsList = new HashSet<>();
     }
 
     public UUID getId() {
@@ -65,10 +65,6 @@ public class User implements Serializable {
         itemsBeingSold.add(itemId);
     }
 
-    public void removeItemBeingSold(String itemId) {
-        itemsBeingSold.remove(itemId);
-    }
-
     public List<String> getShoppingCart() {
         return this.shoppingCart;
     }
@@ -91,5 +87,19 @@ public class User implements Serializable {
 
     public List<String> getCompletedOrderIdsList() {
         return new ArrayList<>(completedOrderIdsList);
+    }
+
+    /**
+     * Adds an order that contains items that have been sold by this user
+     */
+    public void addCompletedSellOrderId(String orderId) {
+        completedSellsOrderIdsList.add(orderId);
+    }
+
+    /**
+     * @return a list of all order ids that contain items that have been sold by this user
+     */
+    public List<String> getCompletedSellsOrderIdsList() {
+        return new ArrayList<>(completedSellsOrderIdsList);
     }
 }

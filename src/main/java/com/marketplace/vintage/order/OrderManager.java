@@ -5,6 +5,7 @@ import com.marketplace.vintage.exceptions.EntityNotFoundException;
 import com.marketplace.vintage.utils.AlphanumericGenerator;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,10 @@ public class OrderManager implements Serializable {
         }
 
         this.ordersById.put(orderId, order);
+    }
+
+    public List<Order> getAll() {
+        return new ArrayList<>(this.ordersById.values());
     }
 
     public List<Order> getAll(Predicate<Order> filter) {

@@ -1,6 +1,8 @@
 package com.marketplace.vintage.order;
 
 import com.marketplace.vintage.order.invoice.InvoiceLine;
+import com.marketplace.vintage.order.invoice.ItemSatisfactionInvoiceLine;
+import com.marketplace.vintage.order.invoice.ParcelShipmentCostInvoiceLine;
 import com.marketplace.vintage.utils.VintageDate;
 
 import java.io.Serializable;
@@ -79,5 +81,37 @@ public class Order implements Serializable {
 
     public void setDeliverDate(VintageDate deliverDate) {
         this.deliverDate = deliverDate;
+    }
+
+    public BigDecimal getParcelCarrierShippingCost(String parcelCarrierName) {
+        BigDecimal total = BigDecimal.ZERO;
+        for (InvoiceLine invoiceLine : this.getInvoiceLines()) {
+            if (invoiceLine instanceof ParcelShipmentCostInvoiceLine shipmentCostInvoiceLine) {
+                if (shipmentCostInvoiceLine.getParcelCarrierName().equals(parcelCarrierName)) {
+                    total = total.add(shipmentCostInvoiceLine.getPrice());
+                }
+            }
+        }
+        return total;
+    }
+
+    public BigDecimal getSumOfSatisfactionPrices() {
+        BigDecimal total = BigDecimal.ZERO;
+        for (InvoiceLine invoiceLine : this.getInvoiceLines()) {
+            if (invoiceLine instanceof ItemSatisfactionInvoiceLine) {
+                total = total.add(invoiceLine.getPrice());
+            }
+        }
+        return total;
+    }
+
+    public BigDecimal getSumOfItemPricesFromSeller(UUID sellerId) {
+        BigDecimal total = BigDecimal.ZERO;
+        for (OrderedItem orderedItem : this.getOrderedItems()) {
+            if (orderedItem.getSellerId().equals(sellerId)) {
+                total = total.add(orderedItem.getTotalPrice());
+            }
+        }
+        return total;
     }
 }

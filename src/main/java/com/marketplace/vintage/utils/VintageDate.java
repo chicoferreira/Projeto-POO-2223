@@ -61,6 +61,10 @@ public class VintageDate implements Comparable<VintageDate>, Serializable {
         return this.compareTo(date) <= 0;
     }
 
+    public boolean isAfterOrSame(VintageDate date) {
+        return this.compareTo(date) >= 0;
+    }
+
     public boolean isAfter(VintageDate date) {
         return this.compareTo(date) > 0;
     }
@@ -79,4 +83,7 @@ public class VintageDate implements Comparable<VintageDate>, Serializable {
         return this.toJavaDate().compareTo(o.toJavaDate());
     }
 
+    public boolean isBetweenInclusive(VintageDate from, VintageDate to) {
+        return from.isBeforeOrSame(this) && to.isAfterOrSame(this);
+    }
 }
