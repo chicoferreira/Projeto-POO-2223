@@ -6,10 +6,7 @@ import com.marketplace.vintage.expression.ExpressionSolver;
 import com.marketplace.vintage.item.*;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.logging.PrefixLogger;
-import com.marketplace.vintage.order.Order;
-import com.marketplace.vintage.order.OrderController;
-import com.marketplace.vintage.order.OrderFactory;
-import com.marketplace.vintage.order.OrderManager;
+import com.marketplace.vintage.order.*;
 import com.marketplace.vintage.scripting.ScriptController;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.user.UserManager;
@@ -18,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class VintageController {
 
@@ -93,6 +91,16 @@ public class VintageController {
     public void registerOrder(Order order, User user) {
         orderManager.registerOrder(order);
         user.addCompletedOrderId(order.getOrderId());
+
+        for (OrderedItem orderedItem : order.getOrderedItems()) {
+            UUID sellerId = orderedItem.getSellerId();
+            User seller = userManager.getUserById(sellerId);
+            seller.addCompletedSellOrderId(order.getOrderId());
+
+            String parcelCarrierName = orderedItem.getParcelCarrierName();
+            ParcelCarrier parcelCarrier = parcelCarrierManager.getCarrierByName(parcelCarrierName);
+            parcelCarrier.addDeliveredOrder(order.getOrderId());
+        }
 
         user.cleanShoppingCart();
     }
