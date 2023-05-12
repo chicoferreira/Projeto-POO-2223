@@ -58,7 +58,7 @@ public class VintageApplication {
         this.viewFactory = new ViewFactory(logger, inputPrompter, vintageController);
 
         try {
-            scriptController.initialize(viewFactory, vintageController);
+            scriptController.initialize(logger, viewFactory, vintageController);
             this.logger.info("Loaded " + scriptController.loadScripts() + " scripts.");
         } catch (ScriptException exception) {
             this.logger.warn("Failed to load scripts: " + exception.getMessage());

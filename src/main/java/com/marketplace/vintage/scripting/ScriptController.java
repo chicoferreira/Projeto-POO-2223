@@ -21,8 +21,8 @@ public class ScriptController {
         this.scriptLoader = new ScriptLoader();
     }
 
-    public void initialize(ViewFactory viewFactory, VintageController vintageController) {
-        this.scriptRunner = new CommandScriptRunner(viewFactory, vintageController);
+    public void initialize(Logger logger, ViewFactory viewFactory, VintageController vintageController) {
+        this.scriptRunner = new CommandScriptRunner(logger, viewFactory, vintageController);
     }
 
     public int loadScripts() {

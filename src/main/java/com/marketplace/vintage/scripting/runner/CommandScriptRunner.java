@@ -4,7 +4,9 @@ import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.command.CommandManager;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.input.impl.BufferedInputPrompter;
-import com.marketplace.vintage.logging.EmptyLogger;
+import com.marketplace.vintage.logging.Logger;
+import com.marketplace.vintage.logging.OnlyWarnLogger;
+import com.marketplace.vintage.logging.PrefixLogger;
 import com.marketplace.vintage.scripting.Script;
 import com.marketplace.vintage.scripting.exception.ScriptRunException;
 import com.marketplace.vintage.user.User;
@@ -20,8 +22,10 @@ public class CommandScriptRunner implements ScriptRunner {
 
     private final ViewFactory viewFactory;
     private final VintageController vintageController;
+    private final Logger logger;
 
-    public CommandScriptRunner(ViewFactory viewFactory, VintageController vintageController) {
+    public CommandScriptRunner(Logger logger, ViewFactory viewFactory, VintageController vintageController) {
+        this.logger = logger;
         this.viewFactory = viewFactory;
         this.vintageController = vintageController;
     }
@@ -46,12 +50,15 @@ public class CommandScriptRunner implements ScriptRunner {
             for (String inputLine : command.split("<")) {
                 inputLines.add(inputLine.trim());
             }
+            command = inputLines.remove(0);
         }
 
         CommandManager commandManager = commandRunnerView.getCommandManager();
         InputPrompter inputPrompter = new BufferedInputPrompter(inputLines.iterator());
 
-        commandManager.executeRawCommand(EmptyLogger.INSTANCE, inputPrompter, command);
+        Logger logger = OnlyWarnLogger.of(PrefixLogger.of(script.getScriptText() + " - WARN", this.logger));
+
+        commandManager.executeRawCommand(logger, inputPrompter, command);
     }
 
     public View createViewFromIdentifier(String viewIdentifier) {
