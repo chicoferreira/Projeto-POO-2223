@@ -13,7 +13,7 @@ public class MalaItem extends Item {
     private final int dimensionArea;
     private final String material;
     private final int collectionYear;
-    private final int appreciationRateOverYears;
+    private final int depreciationRateOverYears;
 
     public MalaItem(UUID ownerUuid,
                     String alphanumericId,
@@ -25,12 +25,12 @@ public class MalaItem extends Item {
                     int dimensionArea,
                     String material,
                     int collectionYear,
-                    int appreciationRateOverYears) {
+                    int depreciationRateOverYears) {
         super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierName);
         this.dimensionArea = dimensionArea;
         this.material = material;
         this.collectionYear = collectionYear;
-        this.appreciationRateOverYears = appreciationRateOverYears;
+        this.depreciationRateOverYears = depreciationRateOverYears;
     }
 
     public int getDimensionArea() {
@@ -48,8 +48,8 @@ public class MalaItem extends Item {
     /**
      * @return the appreciation rate over years in percentage (e.g. 10 means 10%)
      */
-    public int getAppreciationRateOverYears() {
-        return appreciationRateOverYears;
+    public int getDepreciationRateOverYears() {
+        return depreciationRateOverYears;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class MalaItem extends Item {
         }
 
         for (int i = 0; i < yearsSinceCollection; i++) {
-            result = result.multiply(BigDecimal.valueOf(1 - appreciationRateOverYears / 100.0));
+            result = result.multiply(BigDecimal.valueOf(1 - depreciationRateOverYears / 100.0));
         }
 
         return this.getBasePrice().subtract(result).negate();
@@ -83,7 +83,7 @@ public class MalaItem extends Item {
             case DIMENSION_AREA -> expectedClass.cast(getDimensionArea());
             case MATERIAL -> expectedClass.cast(getMaterial());
             case COLLECTION_YEAR -> expectedClass.cast(getCollectionYear());
-            case APPRECIATION_RATE_OVER_YEARS -> expectedClass.cast(getAppreciationRateOverYears());
+            case DEPRECIATION_RATE_OVER_YEARS -> expectedClass.cast(getDepreciationRateOverYears());
             default -> super.getProperty(property, expectedClass);
         };
     }
@@ -94,7 +94,7 @@ public class MalaItem extends Item {
                "dimensionArea=" + getDimensionArea() +
                ", material='" + getMaterial() + '\'' +
                ", collectionYear=" + getCollectionYear() +
-               ", appreciationRateOverYears=" + getAppreciationRateOverYears() +
+               ", appreciationRateOverYears=" + getDepreciationRateOverYears() +
                ", alphanumericID='" + getAlphanumericId() + '\'' +
                ", itemCondition=" + getItemCondition() +
                ", description='" + getDescription() + '\'' +

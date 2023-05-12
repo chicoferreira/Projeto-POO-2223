@@ -28,6 +28,10 @@ public class PremiumMalaItem extends MalaItem {
         return super.getPriceCorrection(currentYear).negate();
     }
 
+    public int getAppreciationRateOverYears() {
+        return super.getDepreciationRateOverYears();
+    }
+
     @Override
     public ItemType getItemType() {
         return ItemType.MALA_PREMIUM;
@@ -35,7 +39,10 @@ public class PremiumMalaItem extends MalaItem {
 
     @Override
     public <T> T getProperty(ItemProperty property, Class<T> expectedClass) {
-        return super.getProperty(property, expectedClass);
+        return switch (property) {
+            case APPRECIATION_RATE_OVER_YEARS -> expectedClass.cast(getAppreciationRateOverYears());
+            default -> super.getProperty(property, expectedClass);
+        };
     }
 
     @Override

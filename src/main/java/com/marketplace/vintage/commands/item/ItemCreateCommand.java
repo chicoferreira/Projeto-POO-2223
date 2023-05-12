@@ -44,6 +44,7 @@ public class ItemCreateCommand extends BaseCommand {
             case MATERIAL -> "Insert the item material:";
             case COLLECTION_YEAR -> "Insert the item collection year:";
             case APPRECIATION_RATE_OVER_YEARS -> "Insert the item appreciation rate over years in percentage (0-100):";
+            case DEPRECIATION_RATE_OVER_YEARS -> "Insert the item depreciation rate over years in percentage (0-100):";
             case SAPATILHA_SIZE -> "Insert the sapatilha size (5-50):";
             case HAS_LACES -> "Insert if the sapatilha has laces (y/n):";
             case COLOR -> "Insert the item color:";
@@ -60,7 +61,7 @@ public class ItemCreateCommand extends BaseCommand {
             case PARCEL_CARRIER_NAME -> parcelCarrierIdToNameMapper;
             case DIMENSION_AREA -> InputMapper.ofIntRange(1, 100);
             case COLLECTION_YEAR -> InputMapper.ofIntRange(1000, 3000);
-            case APPRECIATION_RATE_OVER_YEARS -> InputMapper.ofIntRange(0, 100);
+            case APPRECIATION_RATE_OVER_YEARS, DEPRECIATION_RATE_OVER_YEARS -> InputMapper.ofIntRange(0, 100);
             case SAPATILHA_SIZE -> InputMapper.ofIntRange(5, 50);
             case HAS_LACES -> InputMapper.BOOLEAN;
             case TSHIRT_SIZE -> InputMapper.ofEnumValues(TshirtItem.TshirtItemSize.class);
