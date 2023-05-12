@@ -49,6 +49,8 @@ public class ScriptController {
                 }
             }
         }
-        logger.info("Ran sucessfully " + scriptsRun + " scripts.");
+        if (scriptsRun > 0) {
+            logger.info("Ran sucessfully " + scriptsRun + " scripts.");
+        }
     }
 }

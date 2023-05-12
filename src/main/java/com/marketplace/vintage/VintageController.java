@@ -159,4 +159,12 @@ public class VintageController {
     public boolean existsUserWithEmail(String email) {
         return this.userManager.existsUserWithEmail(email);
     }
+
+    public boolean isOrderReturnable(Order order) {
+        return this.orderController.isOrderReturnable(order, this.vintageTimeManager.getCurrentDate());
+    }
+
+    public void returnOrder(Order order) {
+        this.orderController.returnOrder(order);
+    }
 }
