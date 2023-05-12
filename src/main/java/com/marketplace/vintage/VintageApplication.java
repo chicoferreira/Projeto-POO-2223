@@ -14,6 +14,7 @@ import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.persistent.PersistentManager;
 import com.marketplace.vintage.scripting.ScriptController;
 import com.marketplace.vintage.scripting.exception.ScriptException;
+import com.marketplace.vintage.stats.StatsManager;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.view.View;
 import com.marketplace.vintage.view.ViewFactory;
@@ -52,7 +53,8 @@ public class VintageApplication {
         OrderController orderController = new OrderController(orderManager);
 
         ScriptController scriptController = new ScriptController();
-        VintageController vintageController = new VintageController(itemManager, itemFactory, orderManager, orderController, vintageTimeManager, parcelCarrierManager, expressionSolver, orderFactory, userManager, scriptController);
+        StatsManager statsManager = new StatsManager(userManager, orderManager, parcelCarrierManager);
+        VintageController vintageController = new VintageController(itemManager, itemFactory, orderManager, orderController, vintageTimeManager, parcelCarrierManager, expressionSolver, orderFactory, userManager, scriptController, statsManager);
 
         this.viewFactory = new ViewFactory(logger, inputPrompter, vintageController);
 

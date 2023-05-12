@@ -32,7 +32,7 @@ public class StatsManager {
         return (o1, o2) -> {
             BigDecimal o1Value = valueGetter.apply(o1);
             BigDecimal o2Value = valueGetter.apply(o2);
-            return o1Value.compareTo(o2Value);
+            return o2Value.compareTo(o1Value);
         };
     }
 
