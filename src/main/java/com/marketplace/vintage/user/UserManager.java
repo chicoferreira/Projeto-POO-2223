@@ -48,6 +48,10 @@ public class UserManager implements Serializable {
         return this.usersByEmail.containsKey(email.toLowerCase());
     }
 
+    public boolean existsUserWithUsername(String username) {
+        return this.usersByUsername.containsKey(username);
+    }
+
     public void validateUsername(String username) {
         if (username == null || username.isEmpty()) {
             throw new IllegalArgumentException("The user's username cannot be null or empty");
