@@ -3,6 +3,7 @@ package com.marketplace.vintage.view.impl;
 import com.marketplace.vintage.VintageConstants;
 import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.commands.carrier.ParcelCarrierCommand;
+import com.marketplace.vintage.commands.stats.StatsCommand;
 import com.marketplace.vintage.commands.time.AdminTimeCommand;
 import com.marketplace.vintage.commands.user.UserCommandAdminView;
 import com.marketplace.vintage.input.InputPrompter;
@@ -18,6 +19,7 @@ public class AdminView extends BaseView {
                 VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_STRING,
                 VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_VARIABLES));
         getCommandManager().registerCommand(new AdminTimeCommand(vintageController));
+        getCommandManager().registerCommand(new StatsCommand(vintageController));
     }
 
     @Override

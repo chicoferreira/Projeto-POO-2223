@@ -33,7 +33,7 @@ public class OrderBuilder {
     }
 
     public OrderBuilder addOrderedItem(Item item, int currentYear) {
-        this.orderedItems.add(new OrderedItem(item.getAlphanumericId(), 1, item.getParcelCarrierName(), item.getFinalPrice(currentYear)));
+        this.orderedItems.add(new OrderedItem(item.getOwnerUuid(), item.getAlphanumericId(), item.getParcelCarrierName(), item.getFinalPrice(currentYear)));
         this.invoiceLines.add(new ItemPriceInvoiceLine(item, currentYear));
         return this;
     }
