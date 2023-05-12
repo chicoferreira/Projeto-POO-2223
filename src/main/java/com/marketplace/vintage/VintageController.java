@@ -149,6 +149,10 @@ public class VintageController {
         return this.orderManager.getOrder(orderId);
     }
 
+    public boolean existsOrder(String id) {
+        return this.orderManager.containsOrder(id);
+    }
+
     public List<ParcelCarrier> getAllParcelCarriersCompatibleWith(ItemType itemType) {
         return this.parcelCarrierManager.getAllCompatibleWith(itemType);
     }
@@ -187,6 +191,14 @@ public class VintageController {
 
     public User getUserByEmail(String email) {
         return this.userManager.getUserByEmail(email);
+    }
+
+    public User getUserByUsername(String username) {
+        return this.userManager.getUserByUsername(username);
+    }
+
+    public boolean existsUserWithUsername(String username) {
+        return this.userManager.existsUserWithUsername(username);
     }
 
     public boolean existsUserWithEmail(String email) {
