@@ -1,5 +1,6 @@
 package com.marketplace.vintage.item.impl;
 
+import com.marketplace.vintage.item.ItemProperty;
 import com.marketplace.vintage.item.ItemType;
 import com.marketplace.vintage.item.condition.ItemCondition;
 
@@ -50,6 +51,14 @@ public class PremiumSapatilhasItem extends SapatilhasItem {
         }
 
         return this.getBasePrice().subtract(result);
+    }
+
+    @Override
+    public <T> T getProperty(ItemProperty property, Class<T> expectedClass) {
+        return switch (property) {
+            case APPRECIATION_RATE_OVER_YEARS -> expectedClass.cast(getAppreciationRateOverYears());
+            default -> super.getProperty(property, expectedClass);
+        };
     }
 
     @Override

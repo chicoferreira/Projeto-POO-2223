@@ -145,6 +145,10 @@ public class VintageController {
         return this.itemManager.getItem(itemId);
     }
 
+    public boolean existsItem(String itemId) {
+        return this.itemManager.containsItemById(itemId);
+    }
+
     public Order getOrder(String orderId) {
         return this.orderManager.getOrder(orderId);
     }
@@ -197,6 +201,10 @@ public class VintageController {
         return this.userManager.getUserByUsername(username);
     }
 
+    public User getUserById(UUID id) {
+        return this.userManager.getUserById(id);
+    }
+
     public boolean existsUserWithUsername(String username) {
         return this.userManager.existsUserWithUsername(username);
     }
@@ -244,4 +252,9 @@ public class VintageController {
     public BigDecimal getParcelCarrierReceivedMoney(ParcelCarrier parcelCarrier) {
         return this.statsManager.getParcelCarrierReceivedMoney(parcelCarrier);
     }
+
+    public List<Item> getAllItems() {
+        return this.itemManager.getAllItems();
+    }
+
 }

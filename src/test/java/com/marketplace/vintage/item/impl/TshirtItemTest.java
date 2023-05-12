@@ -1,5 +1,6 @@
 package com.marketplace.vintage.item.impl;
 
+import com.marketplace.vintage.item.ItemProperty;
 import com.marketplace.vintage.item.condition.ItemCondition;
 import com.marketplace.vintage.item.condition.ItemConditions;
 import org.junit.jupiter.api.Test;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TshirtItemTest {
@@ -27,5 +29,9 @@ public class TshirtItemTest {
         );
 
         assertEquals(BigDecimal.valueOf(-50.0), tshirtItem.getPriceCorrection(2022));
+
+        for (ItemProperty requiredProperty : tshirtItem.getItemType().getRequiredProperties()) {
+            assertDoesNotThrow(() -> tshirtItem.getProperty(requiredProperty, Object.class));
+        }
     }
 }

@@ -1,10 +1,12 @@
 package com.marketplace.vintage.item.impl;
 
+import com.marketplace.vintage.item.ItemProperty;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PremiumMalaItemTest {
@@ -19,5 +21,9 @@ public class PremiumMalaItemTest {
         assertEquals(BigDecimal.valueOf(0), premiumMalaItem.getPriceCorrection(2022));
         assertEquals(BigDecimal.valueOf(10.0).compareTo(premiumMalaItem.getPriceCorrection(2023)), 0);
         assertEquals(BigDecimal.valueOf(19.0).compareTo(premiumMalaItem.getPriceCorrection(2024)), 0);
+
+        for (ItemProperty requiredProperty : premiumMalaItem.getItemType().getRequiredProperties()) {
+            assertDoesNotThrow(() -> premiumMalaItem.getProperty(requiredProperty, Object.class));
+        }
     }
 }

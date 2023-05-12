@@ -1,6 +1,7 @@
 package com.marketplace.vintage.item.impl;
 
 import com.marketplace.vintage.item.Item;
+import com.marketplace.vintage.item.ItemProperty;
 import com.marketplace.vintage.item.ItemType;
 import com.marketplace.vintage.item.condition.ItemCondition;
 import com.marketplace.vintage.item.condition.UsedItemCondition;
@@ -66,6 +67,17 @@ public class SapatilhasItem extends Item {
         }
 
         return BigDecimal.ZERO;
+    }
+
+    @Override
+    public <T> T getProperty(ItemProperty property, Class<T> expectedClass) {
+        return switch (property) {
+            case SAPATILHA_SIZE -> expectedClass.cast(getSize());
+            case HAS_LACES -> expectedClass.cast(hasLaces());
+            case COLOR -> expectedClass.cast(getColor());
+            case COLLECTION_YEAR -> expectedClass.cast(getCollectionYear());
+            default -> super.getProperty(property, expectedClass);
+        };
     }
 
     @Override

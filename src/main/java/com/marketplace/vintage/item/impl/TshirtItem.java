@@ -1,6 +1,7 @@
 package com.marketplace.vintage.item.impl;
 
 import com.marketplace.vintage.item.Item;
+import com.marketplace.vintage.item.ItemProperty;
 import com.marketplace.vintage.item.ItemType;
 import com.marketplace.vintage.item.condition.ItemCondition;
 import com.marketplace.vintage.item.condition.ItemConditionType;
@@ -41,6 +42,15 @@ public class TshirtItem extends Item {
 
     public TshirtItemPattern getPattern() {
         return pattern;
+    }
+
+    @Override
+    public <T> T getProperty(ItemProperty property, Class<T> expectedClass) {
+        return switch (property) {
+            case TSHIRT_SIZE -> expectedClass.cast(getSize());
+            case TSHIRT_PATTERN -> expectedClass.cast(getPattern());
+            default -> super.getProperty(property, expectedClass);
+        };
     }
 
     @Override
