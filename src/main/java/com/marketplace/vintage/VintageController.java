@@ -68,13 +68,13 @@ public class VintageController {
         return item;
     }
 
-    public Order makeOrder(User user) {
-        return makeOrder(orderManager.generateUniqueOrderId(), user);
+    public Order assembleOrder(User user) {
+        return assembleOrder(orderManager.generateUniqueOrderId(), user);
     }
 
-    public Order makeOrder(@Nullable String orderId, User user) {
+    public Order assembleOrder(@Nullable String orderId, User user) {
         if (orderId == null) {
-            return makeOrder(user);
+            return assembleOrder(user);
         }
 
         List<String> shoppingCart = user.getShoppingCart();
@@ -87,14 +87,14 @@ public class VintageController {
             throw new IllegalStateException("The shopping cart contains items that are owned by the user.");
         }
 
-        Order order = orderFactory.buildOrder(orderId, user.getId(), itemList);
+        return orderFactory.buildOrder(orderId, user.getId(), itemList);
+    }
 
+    public void registerOrder(Order order, User user) {
         orderManager.registerOrder(order);
         user.addCompletedOrderId(order.getOrderId());
 
         user.cleanShoppingCart();
-
-        return order;
     }
 
     public VintageDate getCurrentDate() {

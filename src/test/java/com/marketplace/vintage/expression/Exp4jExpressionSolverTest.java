@@ -29,7 +29,7 @@ public class Exp4jExpressionSolverTest {
     void defaultExpression() {
         String expression = VintageConstants.DEFAULT_EXPEDITION_PRICE_EXPRESSION_STRING;
         BigDecimal result = expressionSolver.solve(expression, Map.of("itemsPrice", BigDecimal.valueOf(100.0), "tax", BigDecimal.valueOf(0.1)));
-        assertEquals(BigDecimal.valueOf(9.9).compareTo(result), 0);
+        assertEquals(BigDecimal.valueOf(99.0).compareTo(result), 0);
     }
 
 }

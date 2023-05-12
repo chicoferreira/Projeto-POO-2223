@@ -10,7 +10,7 @@ public class VintageConstants {
     public static final String EXPEDITION_PRICE_EXPRESSION_BASE_PRICE_VARIABLE = "itemsPrice";
     public static final String EXPEDITION_PRICE_EXPRESSION_TAX_VARIABLE = "tax";
 
-    public static final String DEFAULT_EXPEDITION_PRICE_EXPRESSION_STRING = EXPEDITION_PRICE_EXPRESSION_BASE_PRICE_VARIABLE + " * 0.1 * (1 + " + EXPEDITION_PRICE_EXPRESSION_TAX_VARIABLE + ") * 0.9";
+    public static final String DEFAULT_EXPEDITION_PRICE_EXPRESSION_STRING = EXPEDITION_PRICE_EXPRESSION_BASE_PRICE_VARIABLE + " * (1 + " + EXPEDITION_PRICE_EXPRESSION_TAX_VARIABLE + ") * 0.9";
     public static final List<String> DEFAULT_EXPEDITION_PRICE_EXPRESSION_VARIABLES = List.of(EXPEDITION_PRICE_EXPRESSION_BASE_PRICE_VARIABLE, EXPEDITION_PRICE_EXPRESSION_TAX_VARIABLE);
     public static final String DISPLAY_ITEM_FORMAT = "[<id>] (<itemType>) <description> (of brand '<brand>') - <finalPrice> (sent by <parcelCarrier>)";
     public static final String DISPLAY_USER_FORMAT = "[<id>] <name> (<email>)";

@@ -9,11 +9,7 @@ import com.marketplace.vintage.item.Item;
 import com.marketplace.vintage.item.condition.ItemCondition;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class OrderFactory {
 
@@ -32,12 +28,7 @@ public class OrderFactory {
 
         int currentYear = vintageTimeManager.getCurrentYear();
 
-        List<OrderedItem> orderedItems = new ArrayList<>();
-        Map<String, BigDecimal> parcelCarrierExpeditionPrices = new HashMap<>();
-
-        BigDecimal totalPrice = BigDecimal.ZERO;
-
-        // TODO: maybe refactor this to have a list of prices to apply to each item and to a group of items of the same parcel carrier
+        OrderBuilder orderBuilder = OrderBuilder.newBuilder(orderId, userId, vintageTimeManager.getCurrentDate());
 
         for (Map.Entry<String, List<Item>> entry : itemsByParcelCarrier.entrySet()) {
             String parcelCarrierName = entry.getKey();
@@ -45,27 +36,26 @@ public class OrderFactory {
 
             ParcelCarrier parcelCarrier = parcelCarrierManager.getCarrierByName(parcelCarrierName);
 
-            BigDecimal expeditionBasePrice = parcelCarrier.getBaseValueForExpedition(items.size());
-            BigDecimal expeditionTax = parcelCarrier.getExpeditionTax();
-
-            BigDecimal parcelCarrierTotalPrice = expressionSolver.solve(parcelCarrier.getExpeditionPriceExpression(), Map.of(VintageConstants.EXPEDITION_PRICE_EXPRESSION_BASE_PRICE_VARIABLE, expeditionBasePrice,
-                                                                                                                             VintageConstants.EXPEDITION_PRICE_EXPRESSION_TAX_VARIABLE, expeditionTax));
-            parcelCarrierExpeditionPrices.put(parcelCarrierName, parcelCarrierTotalPrice);
-
-            totalPrice = totalPrice.add(parcelCarrierTotalPrice);
-
             for (Item item : items) {
-                BigDecimal itemPrice = item.getFinalPrice(currentYear);
-                BigDecimal satisfactionPrice = getSatisfactionPrice(item.getItemCondition());
-
-                totalPrice = totalPrice.add(itemPrice).add(satisfactionPrice);
-
-                OrderedItem orderedItem = new OrderedItem(item.getAlphanumericId(), 1, item.getParcelCarrierName(), itemPrice);
-                orderedItems.add(orderedItem);
+                orderBuilder.addOrderedItem(item, currentYear);
+                orderBuilder.addItemSatisfactionPrice(item, getSatisfactionPrice(item.getItemCondition()));
             }
+
+            orderBuilder.addParcelCarrierShipmentCost(parcelCarrier.getName(), items.size(), getShippingCost(parcelCarrier, items.size()));
         }
 
-        return new Order(orderId, userId, orderedItems, parcelCarrierExpeditionPrices, totalPrice, vintageTimeManager.getCurrentDate());
+        return orderBuilder.build();
+    }
+
+    private BigDecimal getShippingCost(ParcelCarrier parcelCarrier, int itemsSize) {
+        BigDecimal expeditionBasePrice = parcelCarrier.getBaseValueForExpedition(itemsSize);
+        BigDecimal expeditionTax = parcelCarrier.getExpeditionTax();
+
+        Map<String, BigDecimal> expressionVariables = Map.of(
+                VintageConstants.EXPEDITION_PRICE_EXPRESSION_BASE_PRICE_VARIABLE, expeditionBasePrice,
+                VintageConstants.EXPEDITION_PRICE_EXPRESSION_TAX_VARIABLE, expeditionTax);
+
+        return expressionSolver.solve(parcelCarrier.getExpeditionPriceExpression(), expressionVariables);
     }
 
     private BigDecimal getSatisfactionPrice(ItemCondition itemCondition) {

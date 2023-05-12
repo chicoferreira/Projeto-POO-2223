@@ -3,6 +3,7 @@ package com.marketplace.vintage.expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,8 @@ public class Exp4jExpressionSolver implements ExpressionSolver {
             transformedVariables.put(entry.getKey(), entry.getValue().doubleValue());
         }
 
-        return BigDecimal.valueOf(build(expression, variablesList).setVariables(transformedVariables).evaluate());
+        return BigDecimal.valueOf(build(expression, variablesList).setVariables(transformedVariables).evaluate())
+                .setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override
