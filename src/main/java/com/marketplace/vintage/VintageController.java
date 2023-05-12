@@ -8,14 +8,17 @@ import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.logging.PrefixLogger;
 import com.marketplace.vintage.order.*;
 import com.marketplace.vintage.scripting.ScriptController;
+import com.marketplace.vintage.stats.StatsManager;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.utils.VintageDate;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 public class VintageController {
 
@@ -29,6 +32,7 @@ public class VintageController {
     private final OrderFactory orderFactory;
     private final UserManager userManager;
     private final ScriptController scriptController;
+    private final StatsManager statsManager;
 
     public VintageController(ItemManager itemManager,
                              ItemFactory itemFactory,
@@ -38,7 +42,9 @@ public class VintageController {
                              ParcelCarrierManager parcelCarrierManager,
                              ExpressionSolver expressionSolver,
                              OrderFactory orderFactory,
-                             UserManager userManager, ScriptController scriptController) {
+                             UserManager userManager,
+                             ScriptController scriptController,
+                             StatsManager statsManager) {
         this.itemManager = itemManager;
         this.itemFactory = itemFactory;
         this.orderManager = orderManager;
@@ -49,6 +55,7 @@ public class VintageController {
         this.orderFactory = orderFactory;
         this.userManager = userManager;
         this.scriptController = scriptController;
+        this.statsManager = statsManager;
     }
 
     public Item registerNewItem(User owner, ItemType itemType, Map<ItemProperty, Object> properties) {
@@ -192,5 +199,37 @@ public class VintageController {
 
     public void returnOrder(Order order) {
         this.orderController.returnOrder(order);
+    }
+
+    public User getBestSeller(Predicate<VintageDate> datePredicate) {
+        return this.statsManager.getSellerWithMoreMoneySales(datePredicate);
+    }
+
+    public ParcelCarrier getParcelCarrierWithMoreMoneyReceived() {
+        return this.statsManager.getParcelCarrierWithMoreMoneyReceived();
+    }
+
+    public List<User> getTopBuyers(int limit, Predicate<VintageDate> datePredicate) {
+        return this.statsManager.getTopBuyers(limit, datePredicate);
+    }
+
+    public List<User> getTopSellers(int limit, Predicate<VintageDate> datePredicate) {
+        return this.statsManager.getTopSellers(limit, datePredicate);
+    }
+
+    public BigDecimal getVintageProfit() {
+        return this.statsManager.getVintageProfit();
+    }
+
+    public BigDecimal getMoneySpentInDatePredicate(User user, Predicate<VintageDate> datePredicate) {
+        return this.statsManager.getMoneySpentInDatePredicate(user, datePredicate);
+    }
+
+    public BigDecimal getMoneyFromSalesByDatePredicate(User user, Predicate<VintageDate> datePredicate) {
+        return this.statsManager.getMoneyFromSalesByDatePredicate(user, datePredicate);
+    }
+
+    public BigDecimal getParcelCarrierReceivedMoney(ParcelCarrier parcelCarrier) {
+        return this.statsManager.getParcelCarrierReceivedMoney(parcelCarrier);
     }
 }
