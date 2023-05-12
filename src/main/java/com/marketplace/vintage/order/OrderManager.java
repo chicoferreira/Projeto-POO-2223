@@ -12,6 +12,8 @@ import java.util.function.Predicate;
 
 public class OrderManager implements Serializable {
 
+    private static final String ORDER_ID_FORMAT = "ORD-XXXXXX";
+
     private final Map<String, Order> ordersById;
 
     public OrderManager() {
@@ -28,6 +30,10 @@ public class OrderManager implements Serializable {
 
     public void registerOrder(Order order) {
         String orderId = order.getOrderId();
+
+        if (AlphanumericGenerator.isOfFormat(ORDER_ID_FORMAT, orderId)) {
+            throw new IllegalArgumentException("The order id must be of the format " + ORDER_ID_FORMAT);
+        }
 
         if (this.ordersById.containsKey(order.getOrderId())) {
             throw new EntityAlreadyExistsException("An order with that id already exists");
@@ -49,7 +55,7 @@ public class OrderManager implements Serializable {
     }
 
     public String generateUniqueOrderId() {
-        String code = AlphanumericGenerator.generateAlphanumericCode("ORD-XXXXXX");
+        String code = AlphanumericGenerator.generateAlphanumericCode(ORDER_ID_FORMAT);
         if (containsOrder(code)) {
             return generateUniqueOrderId();
         }

@@ -13,6 +13,7 @@ import com.marketplace.vintage.scripting.ScriptController;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.utils.VintageDate;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,12 @@ public class VintageController {
     }
 
     public Item registerNewItem(User owner, ItemType itemType, Map<ItemProperty, Object> properties) {
-        String uniqueCode = itemManager.generateUniqueCode();
+        return registerNewItem(itemManager.generateUniqueCode(), owner, itemType, properties);
+    }
+
+    public Item registerNewItem(@Nullable String uniqueCode, User owner, ItemType itemType, Map<ItemProperty, Object> properties) {
+        if (uniqueCode == null) return registerNewItem(owner, itemType, properties);
+
         Item item = itemFactory.createItem(owner.getId(), uniqueCode, itemType, properties);
         itemManager.registerItem(item);
 
@@ -62,6 +68,14 @@ public class VintageController {
     }
 
     public Order makeOrder(User user) {
+        return makeOrder(orderManager.generateUniqueOrderId(), user);
+    }
+
+    public Order makeOrder(String orderId, User user) {
+        if (orderId == null) {
+            return makeOrder(user);
+        }
+
         List<String> shoppingCart = user.getShoppingCart();
         if (shoppingCart.isEmpty()) {
             throw new IllegalStateException("The shopping cart is empty.");
@@ -69,10 +83,10 @@ public class VintageController {
 
         List<Item> itemList = shoppingCart.stream().map(itemManager::getItem).toList();
         if (itemList.stream().anyMatch(item -> item.getOwnerUuid().equals(user.getId()))) {
-            throw new IllegalStateException("The shopping cart contains items that are not owned by the user.");
+            throw new IllegalStateException("The shopping cart contains items that are owned by the user.");
         }
 
-        Order order = orderFactory.buildOrder(orderManager.generateUniqueOrderId(), user.getId(), itemList);
+        Order order = orderFactory.buildOrder(orderId, user.getId(), itemList);
 
         orderManager.registerOrder(order);
         user.addCompletedOrderId(order.getOrderId());
