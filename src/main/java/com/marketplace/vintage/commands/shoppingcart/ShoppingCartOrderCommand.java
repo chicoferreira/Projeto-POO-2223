@@ -6,6 +6,7 @@ import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.order.Order;
+import com.marketplace.vintage.order.invoice.InvoiceLine;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.utils.StringUtils;
 import com.marketplace.vintage.view.impl.UserView;
@@ -33,20 +34,27 @@ public class ShoppingCartOrderCommand extends BaseCommand {
             return;
         }
 
-        boolean proceed = inputPrompter.askForInput(logger, "Confirm the purchase (y/n)", InputMapper.BOOLEAN);
+        String customId = args.length > 0 ? args[0] : null;
+        Order order = vintageController.assembleOrder(customId, currentLoggedInUser);
 
-        // TODO: show the order details
+        logger.info();
+        logger.info("Order summary:");
+
+        for (InvoiceLine invoiceLine : order.getInvoiceLines()) {
+            logger.info(" - " + StringUtils.formatCurrency(invoiceLine.getPrice()) + ": " + invoiceLine.getDisplayName());
+        }
+        logger.info("Total: " + StringUtils.formatCurrency(order.getTotalPrice()));
+
+        logger.info();
+
+        boolean proceed = inputPrompter.askForInput(logger, "Confirm the purchase (y/n)", InputMapper.BOOLEAN);
 
         if (!proceed) {
             logger.info("Order creation cancelled.");
             return;
         }
 
-        String customId = args.length > 0 ? args[0] : null;
-
-        Order order = vintageController.makeOrder(customId, currentLoggedInUser);
-
-        StringUtils.printOrderDisplayFormat(logger, order);
-        logger.info("Order (" + order.getOrderId() + ") created successfully.");
+        logger.info("Order (" + order.getOrderId() + ") created successfully. Your order will be delivered soon.");
+        this.vintageController.registerOrder(order, currentLoggedInUser);
     }
 }

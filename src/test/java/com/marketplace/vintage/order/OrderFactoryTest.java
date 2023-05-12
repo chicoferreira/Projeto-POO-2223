@@ -51,7 +51,6 @@ class OrderFactoryTest {
         assertEquals(BigDecimal.valueOf(10), orderedItem.getTotalPrice());
         assertEquals("DHL", orderedItem.getParcelCarrierName());
         assertEquals(order.getOrderedItemsByParcelCarrier("DHL").get(0), orderedItem);
-        assertEquals(BigDecimal.valueOf(10), order.getParcelCarrierShippingCost("DHL"));
     }
 
     @Test

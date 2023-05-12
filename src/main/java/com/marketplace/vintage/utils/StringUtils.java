@@ -2,12 +2,8 @@ package com.marketplace.vintage.utils;
 
 import com.marketplace.vintage.VintageConstants;
 import com.marketplace.vintage.item.Item;
-import com.marketplace.vintage.logging.Logger;
-import com.marketplace.vintage.order.Order;
-import com.marketplace.vintage.order.OrderedItem;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Collection;
@@ -50,21 +46,4 @@ public class StringUtils {
                 .replace("<finalPrice>", StringUtils.formatCurrency(item.getFinalPrice(currentYear)))
                 .replace("<parcelCarrier>", item.getParcelCarrierName());
     }
-
-
-    // TOOD: make this method more generic
-    public static void printOrderDisplayFormat(Logger logger, Order order) {
-        logger.info("[" + order.getOrderStatus() + "] " + "Order #" + order.getOrderId() + " made on " + order.getOrderDate());
-
-        for (String parcelCarrierName : order.getAllParcelCarrierNames()) {
-            logger.info("  Shipped with " + parcelCarrierName + ":");
-            for (OrderedItem orderedItem : order.getOrderedItemsByParcelCarrier(parcelCarrierName)) {
-                logger.info("   - " + orderedItem.getItemId() + " - " + StringUtils.formatCurrency(orderedItem.getTotalPrice()));
-            }
-            logger.info("   Shipping Cost: " + StringUtils.formatCurrency(order.getParcelCarrierShippingCost(parcelCarrierName)));
-        }
-
-        logger.info(" - Total: " + order.getTotalPrice().setScale(2, RoundingMode.HALF_UP));
-    }
-
 }
