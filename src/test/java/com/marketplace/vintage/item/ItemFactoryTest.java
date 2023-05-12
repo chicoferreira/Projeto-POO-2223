@@ -36,7 +36,7 @@ public class ItemFactoryTest {
         itemProperties.put(ItemProperty.DIMENSION_AREA, 100);
         itemProperties.put(ItemProperty.MATERIAL, "Wood");
         itemProperties.put(ItemProperty.COLLECTION_YEAR, 2022);
-        itemProperties.put(ItemProperty.APPRECIATION_RATE_OVER_YEARS, 5);
+        itemProperties.put(ItemProperty.DEPRECIATION_RATE_OVER_YEARS, 5);
 
         UUID ownerUuid = UUID.randomUUID();
         String id = "TEST_ID";
@@ -53,7 +53,7 @@ public class ItemFactoryTest {
         assertEquals(100, malaItem.getDimensionArea());
         assertEquals("Wood", malaItem.getMaterial());
         assertEquals(2022, malaItem.getCollectionYear());
-        assertEquals(5, malaItem.getAppreciationRateOverYears());
+        assertEquals(5, malaItem.getDepreciationRateOverYears());
     }
 
     @Test
@@ -136,7 +136,7 @@ public class ItemFactoryTest {
         assertEquals(100, malaItem.getDimensionArea());
         assertEquals("Wood", malaItem.getMaterial());
         assertEquals(2022, malaItem.getCollectionYear());
-        assertEquals(5, malaItem.getAppreciationRateOverYears());
+        assertEquals(5, malaItem.getDepreciationRateOverYears());
     }
 
     @Test

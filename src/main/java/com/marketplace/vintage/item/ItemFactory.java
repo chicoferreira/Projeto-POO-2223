@@ -34,7 +34,7 @@ public class ItemFactory {
                             getProperty(itemProperties, ItemProperty.DIMENSION_AREA, Integer.class),
                             getProperty(itemProperties, ItemProperty.MATERIAL, String.class),
                             getProperty(itemProperties, ItemProperty.COLLECTION_YEAR, Integer.class),
-                            getProperty(itemProperties, ItemProperty.APPRECIATION_RATE_OVER_YEARS, Integer.class));
+                            getProperty(itemProperties, ItemProperty.DEPRECIATION_RATE_OVER_YEARS, Integer.class));
     }
 
     private Item createSapatilhas(UUID ownerUuid, String alphanumericId, Map<ItemProperty, Object> itemProperties) {

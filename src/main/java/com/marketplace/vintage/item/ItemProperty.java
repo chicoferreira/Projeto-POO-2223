@@ -16,6 +16,7 @@ public enum ItemProperty {
     MATERIAL(String.class),
     COLLECTION_YEAR(Integer.class),
     APPRECIATION_RATE_OVER_YEARS(Integer.class),
+    DEPRECIATION_RATE_OVER_YEARS(Integer.class),
     SAPATILHA_SIZE(Integer.class),
     HAS_LACES(Boolean.class),
     COLOR(String.class),

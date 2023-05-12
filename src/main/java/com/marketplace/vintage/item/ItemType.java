@@ -41,10 +41,10 @@ public enum ItemType {
     // Enums constructors don't support access of static fields
     public Set<ItemProperty> getRequiredProperties() {
         return switch (this) {
-            case MALA -> inheritProperties(BASE_ITEM_PROPERTIES, ItemProperty.DIMENSION_AREA, ItemProperty.MATERIAL, ItemProperty.COLLECTION_YEAR, ItemProperty.APPRECIATION_RATE_OVER_YEARS);
+            case MALA -> inheritProperties(BASE_ITEM_PROPERTIES, ItemProperty.DIMENSION_AREA, ItemProperty.MATERIAL, ItemProperty.COLLECTION_YEAR, ItemProperty.DEPRECIATION_RATE_OVER_YEARS);
             case SAPATILHAS -> inheritProperties(BASE_ITEM_PROPERTIES, ItemProperty.SAPATILHA_SIZE, ItemProperty.HAS_LACES, ItemProperty.COLOR, ItemProperty.COLLECTION_YEAR);
             case TSHIRT -> inheritProperties(BASE_ITEM_PROPERTIES, ItemProperty.TSHIRT_SIZE, ItemProperty.TSHIRT_PATTERN);
-            case MALA_PREMIUM -> MALA.getRequiredProperties();
+            case MALA_PREMIUM -> inheritProperties(BASE_ITEM_PROPERTIES, ItemProperty.DIMENSION_AREA, ItemProperty.MATERIAL, ItemProperty.COLLECTION_YEAR, ItemProperty.APPRECIATION_RATE_OVER_YEARS);
             case SAPATILHAS_PREMIUM -> inheritProperties(SAPATILHAS.getRequiredProperties(), ItemProperty.APPRECIATION_RATE_OVER_YEARS);
         };
     }
