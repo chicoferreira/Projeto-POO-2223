@@ -30,7 +30,8 @@ public class OrderListCommand extends BaseCommand {
         List<String> ordersMadeByUser = currentLoggedInUser.getCompletedOrderIdsList();
 
         if (ordersMadeByUser.isEmpty()) {
-            logger.warn("You haven't made any orders yet");
+            logger.warn("You haven't made any orders yet. Add items to your cart ('cart add') and checkout ('cart order') to make an order.");
+            return;
         }
 
         List<Order> sortedOrders = ordersMadeByUser.stream().map(vintageController::getOrder)

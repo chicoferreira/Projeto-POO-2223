@@ -31,7 +31,7 @@ public class ItemListCommand extends BaseCommand {
         List<String> itemsBeingSold = currentLoggedInUser.getItemsBeingSold();
 
         if (itemsBeingSold.isEmpty()) {
-            logger.info("You are not selling any items. Use 'item create' to create a new item.");
+            logger.warn("You are not selling any items. Use 'item create' to create a new item.");
             return;
         }
 
