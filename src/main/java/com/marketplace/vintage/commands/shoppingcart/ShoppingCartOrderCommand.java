@@ -42,8 +42,9 @@ public class ShoppingCartOrderCommand extends BaseCommand {
             return;
         }
 
+        String customId = args.length > 0 ? args[0] : null;
 
-        Order order = vintageController.makeOrder(currentLoggedInUser);
+        Order order = vintageController.makeOrder(customId, currentLoggedInUser);
 
         StringUtils.printOrderDisplayFormat(logger, order);
         logger.info("Order (" + order.getOrderId() + ") created successfully.");
