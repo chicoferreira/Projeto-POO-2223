@@ -3,6 +3,7 @@ package com.marketplace.vintage.view.impl;
 import com.marketplace.vintage.VintageConstants;
 import com.marketplace.vintage.VintageController;
 import com.marketplace.vintage.commands.carrier.ParcelCarrierCommand;
+import com.marketplace.vintage.commands.item.AdminItemCommand;
 import com.marketplace.vintage.commands.order.AdminOrderCommand;
 import com.marketplace.vintage.commands.stats.StatsCommand;
 import com.marketplace.vintage.commands.time.AdminTimeCommand;
@@ -22,6 +23,7 @@ public class AdminView extends BaseView {
         getCommandManager().registerCommand(new AdminTimeCommand(vintageController));
         getCommandManager().registerCommand(new StatsCommand(vintageController));
         getCommandManager().registerCommand(new AdminOrderCommand(vintageController));
+        getCommandManager().registerCommand(new AdminItemCommand(vintageController));
     }
 
     @Override

@@ -30,4 +30,9 @@ public final class UsedItemCondition implements ItemCondition {
     public int getNumberOfPreviousOwners() {
         return numberOfPreviousOwners;
     }
+
+    @Override
+    public String toString() {
+        return getDisplayString();
+    }
 }

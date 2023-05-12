@@ -14,6 +14,11 @@ public class ItemConditions {
         public ItemConditionType getType() {
             return ItemConditionType.NEW;
         }
+
+        @Override
+        public String toString() {
+            return getDisplayString();
+        }
     };
 
     public static ItemCondition createUsed(int conditionLevel, int numberOfPreviousOwners) {

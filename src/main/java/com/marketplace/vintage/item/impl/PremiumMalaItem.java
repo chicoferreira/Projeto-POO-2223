@@ -1,5 +1,6 @@
 package com.marketplace.vintage.item.impl;
 
+import com.marketplace.vintage.item.ItemProperty;
 import com.marketplace.vintage.item.ItemType;
 import com.marketplace.vintage.item.condition.ItemCondition;
 
@@ -30,6 +31,11 @@ public class PremiumMalaItem extends MalaItem {
     @Override
     public ItemType getItemType() {
         return ItemType.MALA_PREMIUM;
+    }
+
+    @Override
+    public <T> T getProperty(ItemProperty property, Class<T> expectedClass) {
+        return super.getProperty(property, expectedClass);
     }
 
     @Override

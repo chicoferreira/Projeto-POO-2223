@@ -57,6 +57,17 @@ public abstract class Item implements Serializable {
 
     public abstract ItemType getItemType();
 
+    public <T> T getProperty(ItemProperty property, Class<T> expectedClass) {
+        return switch (property) {
+            case ITEM_CONDITION -> expectedClass.cast(getItemCondition());
+            case DESCRIPTION -> expectedClass.cast(getDescription());
+            case BRAND -> expectedClass.cast(getBrand());
+            case BASE_PRICE -> expectedClass.cast(getBasePrice());
+            case PARCEL_CARRIER_NAME -> expectedClass.cast(getParcelCarrierName());
+            default -> throw new IllegalArgumentException("Property not available in item: " + property);
+        };
+    }
+
     /**
      * @return the final price of the item, after applying the price correction
      */

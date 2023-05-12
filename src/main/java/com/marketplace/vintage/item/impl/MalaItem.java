@@ -1,6 +1,7 @@
 package com.marketplace.vintage.item.impl;
 
 import com.marketplace.vintage.item.Item;
+import com.marketplace.vintage.item.ItemProperty;
 import com.marketplace.vintage.item.ItemType;
 import com.marketplace.vintage.item.condition.ItemCondition;
 
@@ -74,6 +75,17 @@ public class MalaItem extends Item {
         }
 
         return this.getBasePrice().subtract(result).negate();
+    }
+
+    @Override
+    public <T> T getProperty(ItemProperty property, Class<T> expectedClass) {
+        return switch (property) {
+            case DIMENSION_AREA -> expectedClass.cast(getDimensionArea());
+            case MATERIAL -> expectedClass.cast(getMaterial());
+            case COLLECTION_YEAR -> expectedClass.cast(getCollectionYear());
+            case APPRECIATION_RATE_OVER_YEARS -> expectedClass.cast(getAppreciationRateOverYears());
+            default -> super.getProperty(property, expectedClass);
+        };
     }
 
     @Override
