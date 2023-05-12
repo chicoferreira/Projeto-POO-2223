@@ -65,6 +65,10 @@ public class VintageDate implements Comparable<VintageDate>, Serializable {
         return this.compareTo(date) > 0;
     }
 
+    public int distance(VintageDate date) {
+        return (int) Math.abs(this.toJavaDate().toEpochDay() - date.toJavaDate().toEpochDay());
+    }
+
     @Override
     public String toString() {
         return String.format("%02d/%02d/%04d", getDayOfMonth(), getMonth(), getYear());

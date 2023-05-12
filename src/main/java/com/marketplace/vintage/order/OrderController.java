@@ -18,8 +18,9 @@ public class OrderController {
         int ordersChanged = 0;
         List<Order> status = orderManager.getAllWithStatus(OrderStatus.ORDERED);
         for (Order order : status) {
-            if (order.getOrderDate().plusDays(VintageConstants.DAYS_TO_DELIVER_ORDER).isBeforeOrSame(newDate)) {
-                setOrderDelivered(order);
+            VintageDate deliverDate = order.getOrderDate().plusDays(VintageConstants.DAYS_TO_DELIVER_ORDER);
+            if (deliverDate.isBeforeOrSame(newDate)) {
+                setOrderDelivered(order, deliverDate);
                 ordersChanged++;
             }
         }
@@ -29,8 +30,17 @@ public class OrderController {
         }
     }
 
-    public void setOrderDelivered(Order order) {
+    public void setOrderDelivered(Order order, VintageDate currentDate) {
         order.setOrderStatus(OrderStatus.DELIVERED);
+        order.setDeliverDate(currentDate);
     }
 
+    public boolean isOrderReturnable(Order order, VintageDate currentDate) {
+        return order.getOrderStatus() == OrderStatus.DELIVERED &&
+                order.getDeliverDate().distance(currentDate) <= VintageConstants.DAYS_TO_RETURN_ORDER;
+    }
+
+    public void returnOrder(Order order) {
+        order.setOrderStatus(OrderStatus.RETURNED);
+    }
 }

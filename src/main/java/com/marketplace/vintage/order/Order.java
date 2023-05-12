@@ -18,6 +18,7 @@ public class Order implements Serializable {
     private final BigDecimal totalPrice;
     private final VintageDate orderDate;
     private OrderStatus orderStatus;
+    private VintageDate deliverDate;
 
     public Order(String orderId, UUID userId, List<OrderedItem> orderedItems, Map<String, BigDecimal> parcelCarrierPrices, BigDecimal totalPrice, VintageDate orderDate) {
         this(orderId, userId, orderedItems, parcelCarrierPrices, totalPrice, orderDate, OrderStatus.ORDERED);
@@ -74,5 +75,16 @@ public class Order implements Serializable {
 
     public VintageDate getOrderDate() {
         return orderDate;
+    }
+
+    public VintageDate getDeliverDate() {
+        if (deliverDate == null) {
+            throw new IllegalStateException("Order has not been delivered yet");
+        }
+        return deliverDate;
+    }
+
+    public void setDeliverDate(VintageDate deliverDate) {
+        this.deliverDate = deliverDate;
     }
 }
