@@ -29,6 +29,10 @@ public class ItemManager implements Serializable {
     public void registerItem(Item item) {
         String itemId = item.getAlphanumericId();
 
+        if(AlphanumericGenerator.isOfFormat(ITEM_ID_FORMAT, itemId)) {
+            throw new IllegalArgumentException("The item id must be of the format " + ITEM_ID_FORMAT);
+        }
+
         if (itemsById.containsKey(itemId)) {
             throw new EntityAlreadyExistsException("An item with that id already exists");
         }

@@ -18,7 +18,7 @@ public class ShoppingCartOrderCommand extends BaseCommand {
     private final VintageController vintageController;
 
     public ShoppingCartOrderCommand(UserView userView, VintageController vintageController) {
-        super("order", "cart order", 0, "Makes an order out of the current shopping cart");
+        super("order", "cart order (customId)", 0, "Makes an order out of the current shopping cart");
         this.userView = userView;
         this.vintageController = vintageController;
     }
@@ -41,6 +41,7 @@ public class ShoppingCartOrderCommand extends BaseCommand {
             logger.info("Order creation cancelled.");
             return;
         }
+
 
         Order order = vintageController.makeOrder(currentLoggedInUser);
 

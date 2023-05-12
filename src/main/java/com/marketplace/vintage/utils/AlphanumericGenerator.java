@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class AlphanumericGenerator {
 
-    private static final char[] ALPHANUMERIC_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+    private static final String ALPHANUMERIC_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final Random RANDOM = new Random();
     private static final char FORMAT_PLACEHOLDER = 'X';
 
@@ -20,11 +20,29 @@ public class AlphanumericGenerator {
 
         for (int i = 0; i < format.length(); i++) {
             if (arrayFormat[i] == FORMAT_PLACEHOLDER) {
-                int randomIndex = RANDOM.nextInt(ALPHANUMERIC_CHARACTERS.length);
-                arrayFormat[i] = ALPHANUMERIC_CHARACTERS[randomIndex];
+                int randomIndex = RANDOM.nextInt(ALPHANUMERIC_CHARACTERS.length());
+                arrayFormat[i] = ALPHANUMERIC_CHARACTERS.charAt(randomIndex);
             }
         }
 
         return new String(arrayFormat);
+    }
+
+    public static boolean isOfFormat(String format, String string) {
+        if (format.length() != string.length()) {
+            return false;
+        }
+
+        for (int i = 0; i < format.length(); i++) {
+            char formatChar = format.charAt(i);
+            char stringChar = string.charAt(i);
+
+            if (formatChar == FORMAT_PLACEHOLDER && ALPHANUMERIC_CHARACTERS.indexOf(stringChar) == -1) {
+                return false;
+            } else if (formatChar != stringChar) {
+                return false;
+            }
+        }
+        return true;
     }
 }

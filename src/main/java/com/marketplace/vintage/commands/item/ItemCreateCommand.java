@@ -25,7 +25,7 @@ public class ItemCreateCommand extends BaseCommand {
     private final VintageController vintageController;
 
     public ItemCreateCommand(UserView userView, VintageController vintageController) {
-        super("create", "item create", 0, "Create a new item");
+        super("create", "item create (customId)", 0, "Create a new item");
         this.userView = userView;
         this.vintageController = vintageController;
     }
@@ -99,7 +99,9 @@ public class ItemCreateCommand extends BaseCommand {
             itemPropertiesMap.put(ItemProperty.valueOf(entry.getKey()), entry.getValue());
         }
 
-        Item item = vintageController.registerNewItem(userView.getCurrentLoggedInUser(), itemType, itemPropertiesMap);
+        String customId = args.length > 0 ? args[0] : null;
+
+        Item item = vintageController.registerNewItem(customId, userView.getCurrentLoggedInUser(), itemType, itemPropertiesMap);
 
         logger.info("Registered item " + itemType.getDisplayName() + " (" + item.getAlphanumericId() + ") successfully.");
     }
