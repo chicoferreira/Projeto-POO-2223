@@ -40,7 +40,7 @@ public class Order implements Serializable {
         return orderId;
     }
 
-    public UUID geBuyerId() {
+    public UUID getBuyerId() {
         return buyerId;
     }
 
