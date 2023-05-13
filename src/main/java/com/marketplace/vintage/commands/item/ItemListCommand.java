@@ -1,7 +1,7 @@
 package com.marketplace.vintage.commands.item;
 
 import com.marketplace.vintage.VintageConstants;
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.carrier.ParcelCarrier;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputPrompter;
@@ -16,12 +16,12 @@ import java.util.List;
 public class ItemListCommand extends BaseCommand {
 
     private final UserView userView;
-    private final VintageController vintageController;
+    private final Vintage vintage;
 
-    public ItemListCommand(UserView userView, VintageController vintageController) {
+    public ItemListCommand(UserView userView, Vintage vintage) {
         super("list", "item list", 0, "Lists all items the user is selling");
         this.userView = userView;
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
     @Override
@@ -35,12 +35,12 @@ public class ItemListCommand extends BaseCommand {
             return;
         }
 
-        int currentYear = vintageController.getCurrentYear();
+        int currentYear = vintage.getCurrentYear();
 
         for (String itemId : itemsBeingSold) {
-            Item item = vintageController.getItem(itemId);
+            Item item = vintage.getItem(itemId);
 
-            ParcelCarrier carrier = vintageController.getCarrierByName(item.getParcelCarrierName());
+            ParcelCarrier carrier = vintage.getCarrierByName(item.getParcelCarrierName());
 
             String message = VintageConstants.DISPLAY_ITEM_FORMAT.replace("<id>", item.getAlphanumericId())
                     .replace("<itemType>", item.getItemType().getDisplayName())

@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.stats;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.user.User;
@@ -13,8 +13,8 @@ import java.util.function.Predicate;
 
 public class TopListStatsCommand extends BaseStatsCommand {
 
-    public TopListStatsCommand(VintageController vintageController) {
-        super(vintageController, "toplist", "stats toplist (limit) (from) (to)", 0, "Shows the top list of sellers and buyers in a given date range or all time");
+    public TopListStatsCommand(Vintage vintage) {
+        super(vintage, "toplist", "stats toplist (limit) (from) (to)", 0, "Shows the top list of sellers and buyers in a given date range or all time");
     }
 
     @Override
@@ -36,8 +36,8 @@ public class TopListStatsCommand extends BaseStatsCommand {
 
         Predicate<VintageDate> datePredicate = getDatePredicate(args, 1);
 
-        List<User> topBuyers = getVintageController().getTopBuyers(limit, datePredicate);
-        List<User> topSellers = getVintageController().getTopSellers(limit, datePredicate);
+        List<User> topBuyers = getVintage().getTopBuyers(limit, datePredicate);
+        List<User> topSellers = getVintage().getTopSellers(limit, datePredicate);
 
         if (topBuyers.isEmpty()) {
             logger.warn("No buyers found in the specified date range.");
@@ -45,7 +45,7 @@ public class TopListStatsCommand extends BaseStatsCommand {
             logger.info("Top " + limit + " buyers in specified date range:");
             int i = 1;
             for (User buyer : topBuyers) {
-                BigDecimal spent = getVintageController().getMoneySpentInDatePredicate(buyer, datePredicate);
+                BigDecimal spent = getVintage().getMoneySpentInDatePredicate(buyer, datePredicate);
                 logger.info(" #" + i + " " + buyer.getName() + " - " + StringUtils.formatCurrency(spent));
                 i++;
             }
@@ -59,7 +59,7 @@ public class TopListStatsCommand extends BaseStatsCommand {
             logger.info("Top " + limit + " sellers in specified date range:");
             int i = 1;
             for (User seller : topSellers) {
-                BigDecimal salesMoney = getVintageController().getMoneyFromSalesByDatePredicate(seller, datePredicate);
+                BigDecimal salesMoney = getVintage().getMoneyFromSalesByDatePredicate(seller, datePredicate);
                 logger.info(" #" + i + " " + seller.getName() + " - " + StringUtils.formatCurrency(salesMoney));
                 i++;
             }

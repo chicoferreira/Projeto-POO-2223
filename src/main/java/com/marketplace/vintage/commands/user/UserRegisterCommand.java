@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.user;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.input.InputPrompter;
@@ -12,16 +12,16 @@ import com.marketplace.vintage.user.User;
 
 public class UserRegisterCommand extends BaseCommand {
 
-    private final VintageController vintageController;
+    private final Vintage vintage;
     private final Questionnaire createUserQuestionnaire;
 
-    public UserRegisterCommand(VintageController vintageController) {
+    public UserRegisterCommand(Vintage vintage) {
         super("register", "user register <email>", 1, "Register a new user");
-        this.vintageController = vintageController;
+        this.vintage = vintage;
 
         this.createUserQuestionnaire = QuestionnaireBuilder.newBuilder()
                 .withQuestion("username", "Enter your username:", username -> {
-                    vintageController.validateUsername(username);
+                    vintage.validateUsername(username);
                     return username;
                 })
                 .withQuestion("name", "Enter your name:", InputMapper.STRING)
@@ -46,7 +46,7 @@ public class UserRegisterCommand extends BaseCommand {
         String address = answers.getAnswer("address", String.class);
         String taxNumber = answers.getAnswer("taxNumber", String.class);
 
-        return vintageController.createUser(username, email, name, address, taxNumber);
+        return vintage.createUser(username, email, name, address, taxNumber);
     }
 
 }

@@ -69,6 +69,10 @@ public class Order implements Serializable {
         return orderStatus;
     }
 
+    public boolean hasBeenReturned() {
+        return this.orderStatus == OrderStatus.RETURNED;
+    }
+
     public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }

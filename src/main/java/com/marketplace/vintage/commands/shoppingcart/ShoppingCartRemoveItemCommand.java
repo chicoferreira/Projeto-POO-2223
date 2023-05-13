@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.shoppingcart;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
@@ -10,12 +10,12 @@ import com.marketplace.vintage.view.impl.UserView;
 public class ShoppingCartRemoveItemCommand extends BaseCommand {
 
     private final UserView userView;
-    private final VintageController vintageController;
+    private final Vintage vintage;
 
-    public ShoppingCartRemoveItemCommand(UserView userView, VintageController vintageController) {
+    public ShoppingCartRemoveItemCommand(UserView userView, Vintage vintage) {
         super("remove", "cart remove <item>", 1, "Remove the given item from the shopping cart");
         this.userView = userView;
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ShoppingCartRemoveItemCommand extends BaseCommand {
             return;
         }
 
-        this.vintageController.removeItemFromShoppingCart(currentLoggedInUser, itemId);
+        this.vintage.removeItemFromShoppingCart(currentLoggedInUser, itemId);
         logger.info("The item (" + itemId + ") was removed from your shopping cart.");
     }
 }

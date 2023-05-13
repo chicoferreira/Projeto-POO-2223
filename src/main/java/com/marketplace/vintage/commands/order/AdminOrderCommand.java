@@ -1,12 +1,12 @@
 package com.marketplace.vintage.commands.order;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.ParentCommand;
 
 public class AdminOrderCommand extends ParentCommand {
-    public AdminOrderCommand(VintageController vintageController) {
+    public AdminOrderCommand(Vintage vintage) {
         super("order", "Order related commands");
-        registerCommand(new AdminOrderInspectCommand(vintageController));
-        registerCommand(new AdminOrderListSellerCommand(vintageController));
+        registerCommand(new AdminOrderInspectCommand(vintage));
+        registerCommand(new AdminOrderListSellerCommand(vintage));
     }
 }

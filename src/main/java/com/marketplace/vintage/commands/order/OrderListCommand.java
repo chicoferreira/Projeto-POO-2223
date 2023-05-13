@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.order;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
@@ -17,12 +17,12 @@ import java.util.List;
 public class OrderListCommand extends BaseCommand {
 
     private final UserView userView;
-    private final VintageController vintageController;
+    private final Vintage vintage;
 
-    public OrderListCommand(UserView userView, VintageController vintageController) {
+    public OrderListCommand(UserView userView, Vintage vintage) {
         super("list", "order list", 0, "Lists the orders done by the user");
         this.userView = userView;
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class OrderListCommand extends BaseCommand {
             return;
         }
 
-        List<Order> sortedOrders = ordersMadeByUser.stream().map(vintageController::getOrder)
+        List<Order> sortedOrders = ordersMadeByUser.stream().map(vintage::getOrder)
                 .sorted(Comparator.comparing(Order::getOrderDate))
                 .toList();
 
@@ -51,7 +51,7 @@ public class OrderListCommand extends BaseCommand {
             logger.info("   Total: " + StringUtils.formatCurrency(order.getTotalPrice()));
             logger.info("   Ordered Date: " + order.getOrderDate());
 
-            if (vintageController.isOrderReturnable(order)) {
+            if (vintage.isOrderReturnable(order)) {
                 logger.info("   Status: " + order.getOrderStatus() + " (returnable)");
             } else {
                 logger.info("   Status: " + order.getOrderStatus());

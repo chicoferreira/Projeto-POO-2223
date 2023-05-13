@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.shoppingcart;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.item.Item;
@@ -14,12 +14,12 @@ import java.util.List;
 public class ShoppingCartListCommand extends BaseCommand {
 
     private final UserView userView;
-    private final VintageController vintageController;
+    private final Vintage vintage;
 
-    public ShoppingCartListCommand(UserView userView, VintageController vintageController) {
+    public ShoppingCartListCommand(UserView userView, Vintage vintage) {
         super("list", "cart list", 0, "Lists the items in shopping cart");
         this.userView = userView;
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
     @Override
@@ -32,10 +32,10 @@ public class ShoppingCartListCommand extends BaseCommand {
             return;
         }
 
-        int currentYear = vintageController.getCurrentYear();
+        int currentYear = vintage.getCurrentYear();
 
         for (String itemId : shoppingCart) {
-            Item item = vintageController.getItem(itemId);
+            Item item = vintage.getItem(itemId);
             logger.info(" - " + StringUtils.printItem(item, currentYear));
         }
     }

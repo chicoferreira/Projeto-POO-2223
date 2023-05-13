@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.order;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
@@ -11,23 +11,23 @@ import com.marketplace.vintage.utils.StringUtils;
 
 public class AdminOrderInspectCommand extends BaseCommand {
 
-    private final VintageController vintageController;
+    private final Vintage vintage;
 
-    public AdminOrderInspectCommand(VintageController vintageController) {
+    public AdminOrderInspectCommand(Vintage vintage) {
         super("inspect", "order inspect <orderId>", 1, "Inspect an order by its id");
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
     @Override
     protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
         String orderId = args[0];
 
-        if (!vintageController.existsOrder(orderId)) {
+        if (!vintage.existsOrder(orderId)) {
             logger.warn("Order " + orderId + " does not exist.");
             return;
         }
 
-        Order order = vintageController.getOrder(orderId);
+        Order order = vintage.getOrder(orderId);
         logger.info(order.getOrderId() + " summary:");
 
         for (InvoiceLine invoiceLine : order.getInvoiceLines()) {

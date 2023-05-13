@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.item;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.carrier.ParcelCarrier;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputMapper;
@@ -22,12 +22,12 @@ import java.util.stream.Collectors;
 public class ItemCreateCommand extends BaseCommand {
 
     private final UserView userView;
-    private final VintageController vintageController;
+    private final Vintage vintage;
 
-    public ItemCreateCommand(UserView userView, VintageController vintageController) {
+    public ItemCreateCommand(UserView userView, Vintage vintage) {
         super("create", "item create (customId)", 0, "Create a new item");
         this.userView = userView;
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
     private static final List<String> ITEM_TYPES_DISPLAY_NAMES = Arrays.stream(ItemType.values()).map(ItemType::getDisplayName).collect(Collectors.toList());
@@ -78,7 +78,7 @@ public class ItemCreateCommand extends BaseCommand {
 
         ItemType itemType = inputPrompter.askForInput(logger, "Insert the item type:", ItemType::fromDisplayName);
 
-        List<ParcelCarrier> parcelCarrierCompatibleList = vintageController.getAllParcelCarriersCompatibleWith(itemType);
+        List<ParcelCarrier> parcelCarrierCompatibleList = vintage.getAllParcelCarriersCompatibleWith(itemType);
 
         if (parcelCarrierCompatibleList.isEmpty()) {
             logger.warn("There are no parcel carriers compatible with " + itemType.getDisplayName() + ". Please contact the administrator.");
@@ -104,7 +104,7 @@ public class ItemCreateCommand extends BaseCommand {
 
         String customId = args.length > 0 ? args[0] : null;
 
-        Item item = vintageController.registerNewItem(customId, userView.getCurrentLoggedInUser(), itemType, itemPropertiesMap);
+        Item item = vintage.registerNewItem(customId, userView.getCurrentLoggedInUser(), itemType, itemPropertiesMap);
 
         logger.info("Registered item " + itemType.getDisplayName() + " (" + item.getAlphanumericId() + ") successfully.");
     }
@@ -112,11 +112,11 @@ public class ItemCreateCommand extends BaseCommand {
     @NotNull
     private Function<String, String> getParcelCarrierNameToIdMapper(ItemType itemType, List<ParcelCarrier> parcelCarrierCompatibleList) {
         return (String input) -> {
-            if (!vintageController.containsCarrierByName(input)) {
+            if (!vintage.containsCarrierByName(input)) {
                 throw new IllegalArgumentException("Parcel carrier must be one of " + StringUtils.joinQuoted(parcelCarrierCompatibleList, ParcelCarrier::getName, ", "));
             }
 
-            ParcelCarrier carrier = vintageController.getCarrierByName(input);
+            ParcelCarrier carrier = vintage.getCarrierByName(input);
             if (!carrier.canDeliverItemType(itemType)) {
                 throw new IllegalArgumentException("Parcel carrier " + carrier.getName() + " cannot deliver item type " + itemType.getDisplayName());
             }

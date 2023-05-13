@@ -1,15 +1,15 @@
 package com.marketplace.vintage.commands.stats;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.ParentCommand;
 
 public class StatsCommand extends ParentCommand {
-    public StatsCommand(VintageController vintageController) {
+    public StatsCommand(Vintage vintage) {
         super("stats", "Stats related commands");
 
-        registerCommand(new TopSellerStatsCommand(vintageController));
-        registerCommand(new TopParcelCarrierStatsCommand(vintageController));
-        registerCommand(new VintageTotalStatsCommand(vintageController));
-        registerCommand(new TopListStatsCommand(vintageController));
+        registerCommand(new TopSellerStatsCommand(vintage));
+        registerCommand(new TopParcelCarrierStatsCommand(vintage));
+        registerCommand(new VintageTotalStatsCommand(vintage));
+        registerCommand(new TopListStatsCommand(vintage));
     }
 }
