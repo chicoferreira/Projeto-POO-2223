@@ -13,8 +13,7 @@ import java.util.UUID;
 import static com.marketplace.vintage.item.condition.ItemConditions.NEW;
 import static com.marketplace.vintage.item.impl.TshirtItem.TshirtItemPattern.STRIPES;
 import static com.marketplace.vintage.item.impl.TshirtItem.TshirtItemSize.LARGE;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ItemFactoryTest {
 
@@ -28,6 +27,7 @@ public class ItemFactoryTest {
     @Test
     void testCreateMala() {
         Map<ItemProperty, Object> itemProperties = new HashMap<>();
+        itemProperties.put(ItemProperty.STOCK, 1);
         itemProperties.put(ItemProperty.ITEM_CONDITION, NEW);
         itemProperties.put(ItemProperty.DESCRIPTION, "A beautiful mala");
         itemProperties.put(ItemProperty.BRAND, "MyBrand");
@@ -45,6 +45,7 @@ public class ItemFactoryTest {
 
         assertEquals(ownerUuid, malaItem.getOwnerUuid());
         assertEquals(id, malaItem.getAlphanumericId());
+        assertEquals(1, malaItem.getCurrentStock());
         assertEquals(NEW, malaItem.getItemCondition());
         assertEquals("A beautiful mala", malaItem.getDescription());
         assertEquals("MyBrand", malaItem.getBrand());
@@ -54,11 +55,15 @@ public class ItemFactoryTest {
         assertEquals("Wood", malaItem.getMaterial());
         assertEquals(2022, malaItem.getCollectionYear());
         assertEquals(5, malaItem.getDepreciationRateOverYears());
+
+        assertNotSame(malaItem.clone(), malaItem);
+        assertEquals(malaItem.clone(), malaItem);
     }
 
     @Test
     void testCreateSapatilhas() {
         Map<ItemProperty, Object> itemProperties = new HashMap<>();
+        itemProperties.put(ItemProperty.STOCK, 1);
         itemProperties.put(ItemProperty.ITEM_CONDITION, NEW);
         itemProperties.put(ItemProperty.DESCRIPTION, "A beautiful sapatilha");
         itemProperties.put(ItemProperty.BRAND, "MyBrand");
@@ -74,6 +79,7 @@ public class ItemFactoryTest {
 
         SapatilhasItem sapatilhasItem = (SapatilhasItem) itemFactory.createItem(ownerUuid, id, ItemType.SAPATILHAS, itemProperties);
 
+        assertEquals(1, sapatilhasItem.getCurrentStock());
         assertEquals(NEW, sapatilhasItem.getItemCondition());
         assertEquals("A beautiful sapatilha", sapatilhasItem.getDescription());
         assertEquals("MyBrand", sapatilhasItem.getBrand());
@@ -83,11 +89,15 @@ public class ItemFactoryTest {
         assertFalse(sapatilhasItem.hasLaces());
         assertEquals("blue", sapatilhasItem.getColor());
         assertEquals(2022, sapatilhasItem.getCollectionYear());
+
+        assertNotSame(sapatilhasItem.clone(), sapatilhasItem);
+        assertEquals(sapatilhasItem.clone(), sapatilhasItem);
     }
 
     @Test
     void testCreateTshirts() {
         Map<ItemProperty, Object> itemProperties = new HashMap<>();
+        itemProperties.put(ItemProperty.STOCK, 1);
         itemProperties.put(ItemProperty.ITEM_CONDITION, NEW);
         itemProperties.put(ItemProperty.DESCRIPTION, "A beautiful tshirt");
         itemProperties.put(ItemProperty.BRAND, "MyBrand");
@@ -101,6 +111,7 @@ public class ItemFactoryTest {
 
         TshirtItem tshirtItem = (TshirtItem) itemFactory.createItem(ownerUuid, id, ItemType.TSHIRT, itemProperties);
 
+        assertEquals(1, tshirtItem.getCurrentStock());
         assertEquals(NEW, tshirtItem.getItemCondition());
         assertEquals("A beautiful tshirt", tshirtItem.getDescription());
         assertEquals("MyBrand", tshirtItem.getBrand());
@@ -108,11 +119,15 @@ public class ItemFactoryTest {
         assertEquals(itemProperties.get(ItemProperty.PARCEL_CARRIER_NAME), tshirtItem.getParcelCarrierName());
         assertEquals(LARGE, tshirtItem.getSize());
         assertEquals(STRIPES, tshirtItem.getPattern());
+
+        assertNotSame(tshirtItem.clone(), tshirtItem);
+        assertEquals(tshirtItem.clone(), tshirtItem);
     }
 
     @Test
     void testCreateMalaPremium() {
         Map<ItemProperty, Object> itemProperties = new HashMap<>();
+        itemProperties.put(ItemProperty.STOCK, 1);
         itemProperties.put(ItemProperty.ITEM_CONDITION, NEW);
         itemProperties.put(ItemProperty.DESCRIPTION, "A beautiful mala");
         itemProperties.put(ItemProperty.BRAND, "MyBrand");
@@ -128,6 +143,7 @@ public class ItemFactoryTest {
 
         PremiumMalaItem malaItem = (PremiumMalaItem) itemFactory.createItem(ownerUuid, id, ItemType.MALA_PREMIUM, itemProperties);
 
+        assertEquals(1, malaItem.getCurrentStock());
         assertEquals(NEW, malaItem.getItemCondition());
         assertEquals("A beautiful mala", malaItem.getDescription());
         assertEquals("MyBrand", malaItem.getBrand());
@@ -137,11 +153,15 @@ public class ItemFactoryTest {
         assertEquals("Wood", malaItem.getMaterial());
         assertEquals(2022, malaItem.getCollectionYear());
         assertEquals(5, malaItem.getDepreciationRateOverYears());
+
+        assertNotSame(malaItem.clone(), malaItem);
+        assertEquals(malaItem.clone(), malaItem);
     }
 
     @Test
     void testCreateSapatilhasPremium() {
         Map<ItemProperty, Object> itemProperties = new HashMap<>();
+        itemProperties.put(ItemProperty.STOCK, 1);
         itemProperties.put(ItemProperty.ITEM_CONDITION, NEW);
         itemProperties.put(ItemProperty.DESCRIPTION, "A beautiful sapatilha");
         itemProperties.put(ItemProperty.BRAND, "MyBrand");
@@ -158,6 +178,7 @@ public class ItemFactoryTest {
 
         PremiumSapatilhasItem sapatilhasItem = (PremiumSapatilhasItem) itemFactory.createItem(ownerUuid, id, ItemType.SAPATILHAS_PREMIUM, itemProperties);
 
+        assertEquals(1, sapatilhasItem.getCurrentStock());
         assertEquals(NEW, sapatilhasItem.getItemCondition());
         assertEquals("A beautiful sapatilha", sapatilhasItem.getDescription());
         assertEquals("MyBrand", sapatilhasItem.getBrand());
@@ -168,5 +189,8 @@ public class ItemFactoryTest {
         assertEquals("blue", sapatilhasItem.getColor());
         assertEquals(2022, sapatilhasItem.getCollectionYear());
         assertEquals(5, sapatilhasItem.getAppreciationRateOverYears());
+
+        assertNotSame(sapatilhasItem.clone(), sapatilhasItem);
+        assertEquals(sapatilhasItem.clone(), sapatilhasItem);
     }
 }

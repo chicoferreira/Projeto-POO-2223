@@ -22,6 +22,11 @@ public class Order implements Serializable {
     private OrderStatus orderStatus;
     private VintageDate deliverDate;
 
+    public Order(Order order) {
+        this(order.orderId, order.buyerId, new ArrayList<>(order.orderedItems), new ArrayList<>(order.invoiceLines), order.totalPrice, order.orderDate, order.orderStatus);
+        this.deliverDate = order.deliverDate;
+    }
+
     public Order(String orderId, UUID buyerId, List<OrderedItem> orderedItems, List<InvoiceLine> invoiceLines, BigDecimal totalPrice, VintageDate orderDate) {
         this(orderId, buyerId, orderedItems, invoiceLines, totalPrice, orderDate, OrderStatus.ORDERED);
     }
@@ -81,6 +86,11 @@ public class Order implements Serializable {
 
     public void setDeliverDate(VintageDate deliverDate) {
         this.deliverDate = deliverDate;
+    }
+
+    @Override
+    public Order clone() {
+        return new Order(this);
     }
 
     public BigDecimal getParcelCarrierShippingCost(String parcelCarrierName) {

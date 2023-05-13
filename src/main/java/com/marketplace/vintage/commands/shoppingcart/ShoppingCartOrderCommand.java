@@ -30,14 +30,20 @@ public class ShoppingCartOrderCommand extends BaseCommand {
         List<String> currentOrder = currentLoggedInUser.getShoppingCart();
 
         if (currentOrder.isEmpty()) {
-            logger.warn("You haven't added any items to the shopping cart");
+            logger.warn("You haven't added any items to the shopping cart.");
             return;
+        }
+
+        for (String s : currentOrder) {
+            if (!vintageController.itemHasStock(s)) {
+                logger.warn("The item (" + s + ") has no stock. Please remove it from your shopping cart.");
+                return;
+            }
         }
 
         String customId = args.length > 0 ? args[0] : null;
         Order order = vintageController.assembleOrder(customId, currentLoggedInUser);
 
-        logger.info();
         logger.info("Order summary:");
 
         for (InvoiceLine invoiceLine : order.getInvoiceLines()) {

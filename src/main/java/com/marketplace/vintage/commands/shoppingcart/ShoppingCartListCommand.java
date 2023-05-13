@@ -36,7 +36,7 @@ public class ShoppingCartListCommand extends BaseCommand {
 
         for (String itemId : shoppingCart) {
             Item item = vintageController.getItem(itemId);
-            logger.info("\t- " + StringUtils.printItem(item, currentYear));
+            logger.info(" - " + StringUtils.printItem(item, currentYear));
         }
     }
 }

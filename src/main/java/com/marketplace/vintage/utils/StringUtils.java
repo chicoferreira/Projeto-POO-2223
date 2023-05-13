@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -45,5 +46,13 @@ public class StringUtils {
                 .replace("<brand>", item.getBrand())
                 .replace("<finalPrice>", StringUtils.formatCurrency(item.getFinalPrice(currentYear)))
                 .replace("<parcelCarrier>", item.getParcelCarrierName());
+    }
+
+    public static Optional<Integer> parseIntSafe(String s) {
+        try {
+            return Optional.of(Integer.parseInt(s));
+        } catch (NumberFormatException e) {
+            return Optional.empty();
+        }
     }
 }

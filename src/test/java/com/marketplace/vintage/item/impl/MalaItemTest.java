@@ -19,7 +19,7 @@ class MalaItemTest {
         int dimensionArea = 0;
         String material = "Material";
 
-        MalaItem malaItem = new MalaItem(UUID.randomUUID(), null, null, null, null, basePrice, null, dimensionArea, material, collectionYear, appreciationRateOverYears);
+        MalaItem malaItem = new MalaItem(UUID.randomUUID(), null, 5, null, null, null, basePrice, null, dimensionArea, material, collectionYear, appreciationRateOverYears);
 
         assertEquals(BigDecimal.valueOf(0), malaItem.getPriceCorrection(2022));
         assertEquals(BigDecimal.valueOf(-10.0), malaItem.getPriceCorrection(2023));

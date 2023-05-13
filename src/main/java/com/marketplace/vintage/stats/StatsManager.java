@@ -37,7 +37,7 @@ public class StatsManager {
     }
 
     private <T> T getMax(Collection<T> collection, Function<T, BigDecimal> valueGetter) {
-        return Collections.max(collection, getBigDecimalComparator(valueGetter));
+        return Collections.min(collection, getBigDecimalComparator(valueGetter));
     }
 
     private <T> List<T> getTop(Collection<T> collection, Function<T, BigDecimal> valueGetter, int limit) {
@@ -76,7 +76,7 @@ public class StatsManager {
         BigDecimal total = BigDecimal.ZERO;
         for (String deliveredOrder : parcelCarrier.getDeliveredOrders()) {
             Order order = orderManager.getOrder(deliveredOrder);
-            total = order.getParcelCarrierShippingCost(parcelCarrier.getName());
+            total = total.add(order.getParcelCarrierShippingCost(parcelCarrier.getName()));
         }
         return total;
     }

@@ -33,6 +33,7 @@ public class OrderController {
     public void setOrderDelivered(Order order, VintageDate currentDate) {
         order.setOrderStatus(OrderStatus.DELIVERED);
         order.setDeliverDate(currentDate);
+        this.orderManager.updateOrder(order);
     }
 
     public boolean isOrderReturnable(Order order, VintageDate currentDate) {
@@ -42,5 +43,6 @@ public class OrderController {
 
     public void returnOrder(Order order) {
         order.setOrderStatus(OrderStatus.RETURNED);
+        this.orderManager.updateOrder(order);
     }
 }

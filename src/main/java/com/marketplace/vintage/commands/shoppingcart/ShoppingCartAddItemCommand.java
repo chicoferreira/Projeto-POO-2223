@@ -28,7 +28,7 @@ public class ShoppingCartAddItemCommand extends BaseCommand {
         int currentYear = vintageController.getCurrentYear();
 
         if (!vintageController.containsItemById(itemId)) {
-            logger.warn("Item with the Id " + itemId + " does not exist");
+            logger.warn("Item with the id " + itemId + " does not exist.");
             return;
         }
 
@@ -44,7 +44,7 @@ public class ShoppingCartAddItemCommand extends BaseCommand {
         boolean proceed = inputPrompter.askForInput(logger, "Do you want to add this item to the shopping cart? (y/n)", InputMapper.BOOLEAN);
         if (!proceed) return;
 
-        currentLoggedInUser.addItemToShoppingCart(itemId);
+        vintageController.addItemToShoppingCart(currentLoggedInUser, itemId);
         logger.info("Item (" + itemId + ") added to the shopping cart.");
     }
 }

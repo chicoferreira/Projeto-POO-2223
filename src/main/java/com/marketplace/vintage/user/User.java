@@ -11,10 +11,18 @@ public class User implements Serializable {
     private final String name;
     private final String address;
     private final String taxNumber;
-    private final List<String> itemsBeingSold;
-    private final List<String> shoppingCart;
-    private final List<String> completedOrderIdsList;
+    private final Set<String> itemsBeingSold;
+    private final Set<String> shoppingCart;
+    private final Set<String> completedOrderIdsList;
     private final Set<String> completedSellsOrderIdsList;
+
+    public User(User user) {
+        this(user.uuid, user.username, user.email, user.name, user.address, user.taxNumber);
+        this.itemsBeingSold.addAll(user.itemsBeingSold);
+        this.shoppingCart.addAll(user.shoppingCart);
+        this.completedOrderIdsList.addAll(user.completedOrderIdsList);
+        this.completedSellsOrderIdsList.addAll(user.completedSellsOrderIdsList);
+    }
 
     public User(String username, String email, String name, String address, String taxNumber) {
         this(UUID.randomUUID(), username, email, name, address, taxNumber);
@@ -27,9 +35,9 @@ public class User implements Serializable {
         this.name = name;
         this.address = address;
         this.taxNumber = taxNumber;
-        this.itemsBeingSold = new ArrayList<>();
-        this.shoppingCart = new ArrayList<>();
-        this.completedOrderIdsList = new ArrayList<>();
+        this.itemsBeingSold = new HashSet<>();
+        this.shoppingCart = new HashSet<>();
+        this.completedOrderIdsList = new HashSet<>();
         this.completedSellsOrderIdsList = new HashSet<>();
     }
 
@@ -66,7 +74,7 @@ public class User implements Serializable {
     }
 
     public List<String> getShoppingCart() {
-        return this.shoppingCart;
+        return new ArrayList<>(this.shoppingCart);
     }
 
     public void addItemToShoppingCart(String id) {
@@ -101,5 +109,10 @@ public class User implements Serializable {
      */
     public List<String> getCompletedSellsOrderIdsList() {
         return new ArrayList<>(completedSellsOrderIdsList);
+    }
+
+    @Override
+    public User clone() {
+        return new User(this);
     }
 }

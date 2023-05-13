@@ -5,7 +5,6 @@ import com.marketplace.vintage.exceptions.EntityNotFoundException;
 import com.marketplace.vintage.utils.AlphanumericGenerator;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +25,7 @@ public class OrderManager implements Serializable {
             throw new EntityNotFoundException("An order with the id " + id + " was not found");
         }
 
-        return this.ordersById.get(id);
+        return this.ordersById.get(id).clone();
     }
 
     public void registerOrder(Order order) {
@@ -44,11 +43,11 @@ public class OrderManager implements Serializable {
     }
 
     public List<Order> getAll() {
-        return new ArrayList<>(this.ordersById.values());
+        return this.ordersById.values().stream().map(Order::clone).toList();
     }
 
     public List<Order> getAll(Predicate<Order> filter) {
-        return this.ordersById.values().stream().filter(filter).toList();
+        return getAll().stream().filter(filter).toList();
     }
 
     public List<Order> getAllWithStatus(OrderStatus orderStatus) {
@@ -65,5 +64,15 @@ public class OrderManager implements Serializable {
             return generateUniqueOrderId();
         }
         return code;
+    }
+
+    public void updateOrder(Order order) {
+        String orderId = order.getOrderId();
+
+        if (!this.ordersById.containsKey(orderId)) {
+            throw new EntityNotFoundException("An order with the id " + orderId + " was not found");
+        }
+
+        this.ordersById.put(orderId, order);
     }
 }

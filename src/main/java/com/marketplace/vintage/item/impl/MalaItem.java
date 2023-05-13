@@ -6,6 +6,7 @@ import com.marketplace.vintage.item.ItemType;
 import com.marketplace.vintage.item.condition.ItemCondition;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.UUID;
 
 public class MalaItem extends Item {
@@ -15,8 +16,24 @@ public class MalaItem extends Item {
     private final int collectionYear;
     private final int depreciationRateOverYears;
 
+    public MalaItem(MalaItem item) {
+        this(item.getOwnerUuid(),
+                item.getAlphanumericId(),
+                item.getCurrentStock(),
+                item.getItemCondition(),
+                item.getDescription(),
+                item.getBrand(),
+                item.getBasePrice(),
+                item.getParcelCarrierName(),
+                item.getDimensionArea(),
+                item.getMaterial(),
+                item.getCollectionYear(),
+                item.getDepreciationRateOverYears());
+    }
+
     public MalaItem(UUID ownerUuid,
                     String alphanumericId,
+                    int currentStock,
                     ItemCondition itemCondition,
                     String description,
                     String brand,
@@ -26,7 +43,7 @@ public class MalaItem extends Item {
                     String material,
                     int collectionYear,
                     int depreciationRateOverYears) {
-        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierName);
+        super(ownerUuid, alphanumericId, currentStock, itemCondition, description, brand, basePrice, parcelCarrierName);
         this.dimensionArea = dimensionArea;
         this.material = material;
         this.collectionYear = collectionYear;
@@ -78,6 +95,11 @@ public class MalaItem extends Item {
     }
 
     @Override
+    public Item clone() {
+        return new MalaItem(this);
+    }
+
+    @Override
     public <T> T getProperty(ItemProperty property, Class<T> expectedClass) {
         return switch (property) {
             case DIMENSION_AREA -> expectedClass.cast(getDimensionArea());
@@ -89,18 +111,32 @@ public class MalaItem extends Item {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        MalaItem malaItem = (MalaItem) o;
+        return getDimensionArea() == malaItem.getDimensionArea() && getCollectionYear() == malaItem.getCollectionYear() && getDepreciationRateOverYears() == malaItem.getDepreciationRateOverYears() && Objects.equals(getMaterial(), malaItem.getMaterial());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getDimensionArea(), getMaterial(), getCollectionYear(), getDepreciationRateOverYears());
+    }
+
+    @Override
     public String toString() {
         return "MalaItem{" +
-               "dimensionArea=" + getDimensionArea() +
-               ", material='" + getMaterial() + '\'' +
-               ", collectionYear=" + getCollectionYear() +
-               ", appreciationRateOverYears=" + getDepreciationRateOverYears() +
-               ", alphanumericID='" + getAlphanumericId() + '\'' +
-               ", itemCondition=" + getItemCondition() +
-               ", description='" + getDescription() + '\'' +
-               ", brand='" + getBrand() + '\'' +
-               ", basePrice=" + getBasePrice() +
-               ", parcelCarrierName=" + getParcelCarrierName() +
-               '}';
+                "dimensionArea=" + getDimensionArea() +
+                ", material='" + getMaterial() + '\'' +
+                ", collectionYear=" + getCollectionYear() +
+                ", appreciationRateOverYears=" + getDepreciationRateOverYears() +
+                ", alphanumericID='" + getAlphanumericId() + '\'' +
+                ", itemCondition=" + getItemCondition() +
+                ", description='" + getDescription() + '\'' +
+                ", brand='" + getBrand() + '\'' +
+                ", basePrice=" + getBasePrice() +
+                ", parcelCarrierName=" + getParcelCarrierName() +
+                '}';
     }
 }

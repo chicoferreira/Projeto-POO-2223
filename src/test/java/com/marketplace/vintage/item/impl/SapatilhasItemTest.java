@@ -18,7 +18,7 @@ public class SapatilhasItemTest {
         BigDecimal basePrice = BigDecimal.valueOf(100);
 
         ItemCondition usedItemCondition = ItemConditions.createUsed(5, 1);
-        SapatilhasItem sapatilhasItem = new SapatilhasItem(UUID.randomUUID(), null, usedItemCondition, null, null, basePrice, null, 0, false, "Red", 2022);
+        SapatilhasItem sapatilhasItem = new SapatilhasItem(UUID.randomUUID(), null, 5, usedItemCondition, null, null, basePrice, null, 0, false, "Red", 2022);
 
         assertEquals(sapatilhasItem.getPriceCorrection(2022).compareTo(BigDecimal.valueOf(-25)), 0);
 

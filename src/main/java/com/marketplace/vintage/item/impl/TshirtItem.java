@@ -7,6 +7,7 @@ import com.marketplace.vintage.item.condition.ItemCondition;
 import com.marketplace.vintage.item.condition.ItemConditionType;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.UUID;
 
 public class TshirtItem extends Item {
@@ -22,8 +23,22 @@ public class TshirtItem extends Item {
     private final TshirtItemSize size;
     private final TshirtItemPattern pattern;
 
+    public TshirtItem(TshirtItem item) {
+        this(item.getOwnerUuid(),
+                item.getAlphanumericId(),
+                item.getCurrentStock(),
+                item.getItemCondition(),
+                item.getDescription(),
+                item.getBrand(),
+                item.getBasePrice(),
+                item.getParcelCarrierName(),
+                item.getSize(),
+                item.getPattern());
+    }
+
     public TshirtItem(UUID ownerUuid,
                       String alphanumericId,
+                      int currentStock,
                       ItemCondition itemCondition,
                       String description,
                       String brand,
@@ -31,7 +46,7 @@ public class TshirtItem extends Item {
                       String parcelCarrierName,
                       TshirtItemSize size,
                       TshirtItemPattern pattern) {
-        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierName);
+        super(ownerUuid, alphanumericId, currentStock, itemCondition, description, brand, basePrice, parcelCarrierName);
         this.size = size;
         this.pattern = pattern;
     }
@@ -68,16 +83,35 @@ public class TshirtItem extends Item {
     }
 
     @Override
+    public Item clone() {
+        return new TshirtItem(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        TshirtItem that = (TshirtItem) o;
+        return getSize() == that.getSize() && getPattern() == that.getPattern();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getSize(), getPattern());
+    }
+
+    @Override
     public String toString() {
         return "TshirtItem{" +
-               "size=" + getSize() +
-               ", pattern=" + getPattern() +
-               ", alphanumericID='" + getAlphanumericId() + '\'' +
-               ", itemCondition=" + getItemCondition() +
-               ", description='" + getDescription() + '\'' +
-               ", brand='" + getBrand() + '\'' +
-               ", basePrice=" + getBasePrice() +
-               ", parcelCarrierName=" + getParcelCarrierName() +
-               '}';
+                "size=" + getSize() +
+                ", pattern=" + getPattern() +
+                ", alphanumericID='" + getAlphanumericId() + '\'' +
+                ", itemCondition=" + getItemCondition() +
+                ", description='" + getDescription() + '\'' +
+                ", brand='" + getBrand() + '\'' +
+                ", basePrice=" + getBasePrice() +
+                ", parcelCarrierName=" + getParcelCarrierName() +
+                '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.marketplace.vintage.item.impl;
 
+import com.marketplace.vintage.item.Item;
 import com.marketplace.vintage.item.ItemProperty;
 import com.marketplace.vintage.item.ItemType;
 import com.marketplace.vintage.item.condition.ItemCondition;
@@ -9,8 +10,24 @@ import java.util.UUID;
 
 public class PremiumMalaItem extends MalaItem {
 
+    public PremiumMalaItem(PremiumMalaItem item) {
+        this(item.getOwnerUuid(),
+                item.getAlphanumericId(),
+                item.getCurrentStock(),
+                item.getItemCondition(),
+                item.getDescription(),
+                item.getBrand(),
+                item.getBasePrice(),
+                item.getParcelCarrierName(),
+                item.getDimensionArea(),
+                item.getMaterial(),
+                item.getCollectionYear(),
+                item.getAppreciationRateOverYears());
+    }
+
     public PremiumMalaItem(UUID ownerUuid,
                            String alphanumericId,
+                           int currentStock,
                            ItemCondition itemCondition,
                            String description,
                            String brand,
@@ -20,7 +37,7 @@ public class PremiumMalaItem extends MalaItem {
                            String material,
                            int collectionYear,
                            int appreciationRateOverYears) {
-        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierName, dimensionArea, material, collectionYear, appreciationRateOverYears);
+        super(ownerUuid, alphanumericId, currentStock, itemCondition, description, brand, basePrice, parcelCarrierName, dimensionArea, material, collectionYear, appreciationRateOverYears);
     }
 
     @Override
@@ -43,6 +60,23 @@ public class PremiumMalaItem extends MalaItem {
             case APPRECIATION_RATE_OVER_YEARS -> expectedClass.cast(getAppreciationRateOverYears());
             default -> super.getProperty(property, expectedClass);
         };
+    }
+
+    @Override
+    public Item clone() {
+        return new PremiumMalaItem(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
     @Override

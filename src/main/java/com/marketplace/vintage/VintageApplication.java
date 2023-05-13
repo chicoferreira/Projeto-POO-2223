@@ -1,9 +1,11 @@
 package com.marketplace.vintage;
 
+import com.marketplace.vintage.carrier.ParcelCarrierController;
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.expression.Exp4jExpressionSolver;
 import com.marketplace.vintage.expression.ExpressionSolver;
 import com.marketplace.vintage.input.impl.StdinInputPrompter;
+import com.marketplace.vintage.item.ItemController;
 import com.marketplace.vintage.item.ItemFactory;
 import com.marketplace.vintage.item.ItemManager;
 import com.marketplace.vintage.logging.JavaLogger;
@@ -15,6 +17,7 @@ import com.marketplace.vintage.persistent.PersistentManager;
 import com.marketplace.vintage.scripting.ScriptController;
 import com.marketplace.vintage.scripting.exception.ScriptException;
 import com.marketplace.vintage.stats.StatsManager;
+import com.marketplace.vintage.user.UserController;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.view.View;
 import com.marketplace.vintage.view.ViewFactory;
@@ -54,7 +57,13 @@ public class VintageApplication {
 
         ScriptController scriptController = new ScriptController();
         StatsManager statsManager = new StatsManager(userManager, orderManager, parcelCarrierManager);
-        VintageController vintageController = new VintageController(itemManager, itemFactory, orderManager, orderController, vintageTimeManager, parcelCarrierManager, expressionSolver, orderFactory, userManager, scriptController, statsManager);
+
+        UserController userController = new UserController(userManager);
+        ItemController itemController = new ItemController(itemManager);
+
+        ParcelCarrierController parcelCarrierController = new ParcelCarrierController(parcelCarrierManager);
+
+        VintageController vintageController = new VintageController(itemManager, itemFactory, itemController, orderManager, orderController, vintageTimeManager, parcelCarrierManager, parcelCarrierController, expressionSolver, orderFactory, userManager, userController, scriptController, statsManager);
 
         this.viewFactory = new ViewFactory(logger, inputPrompter, vintageController);
 

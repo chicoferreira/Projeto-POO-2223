@@ -19,6 +19,7 @@ public class TshirtItemTest {
 
         TshirtItem tshirtItem = new TshirtItem(
                 UUID.randomUUID(), null,
+                1,
                 usedItemCondition,
                 "description",
                 "brand",
