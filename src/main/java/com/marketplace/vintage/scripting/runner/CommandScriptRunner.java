@@ -1,6 +1,6 @@
 package com.marketplace.vintage.scripting.runner;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.CommandManager;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.input.impl.BufferedInputPrompter;
@@ -21,13 +21,13 @@ import java.util.List;
 public class CommandScriptRunner implements ScriptRunner {
 
     private final ViewFactory viewFactory;
-    private final VintageController vintageController;
+    private final Vintage vintage;
     private final Logger logger;
 
-    public CommandScriptRunner(Logger logger, ViewFactory viewFactory, VintageController vintageController) {
+    public CommandScriptRunner(Logger logger, ViewFactory viewFactory, Vintage vintage) {
         this.logger = logger;
         this.viewFactory = viewFactory;
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class CommandScriptRunner implements ScriptRunner {
 
     public View createViewFromIdentifier(String viewIdentifier) {
         if (viewIdentifier.toLowerCase().startsWith("user:")) {
-            User userByEmail = vintageController.getUserByEmail(viewIdentifier.substring("user:".length()));
+            User userByEmail = vintage.getUserByEmail(viewIdentifier.substring("user:".length()));
             return viewFactory.createUserView(userByEmail);
         }
         if (viewIdentifier.equalsIgnoreCase("admin")) {

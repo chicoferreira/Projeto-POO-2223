@@ -1,6 +1,6 @@
 package com.marketplace.vintage.view.impl;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.commands.item.ItemCommand;
 import com.marketplace.vintage.commands.order.OrderCommand;
 import com.marketplace.vintage.commands.shoppingcart.ShoppingCartCommand;
@@ -20,17 +20,17 @@ public class UserView extends BaseView {
 
     public UserView(Logger logger,
                     InputPrompter inputPrompter,
-                    VintageController vintageController,
+                    Vintage vintage,
                     User user) {
         super(PrefixLogger.of(user.getName(), logger), inputPrompter, "user view");
         this.user = user;
 
         this.getCommandManager().registerCommand(new UserCommandUserView(this));
-        this.getCommandManager().registerCommand(new ItemCommand(this, vintageController));
-        this.getCommandManager().registerCommand(new OrderCommand(this, vintageController));
-        this.getCommandManager().registerCommand(new ShoppingCartCommand(this, vintageController));
-        this.getCommandManager().registerCommand(new CurrentTimeCommand(vintageController, "time"));
-        this.getCommandManager().registerCommand(new StatsCommand(vintageController));
+        this.getCommandManager().registerCommand(new ItemCommand(this, vintage));
+        this.getCommandManager().registerCommand(new OrderCommand(this, vintage));
+        this.getCommandManager().registerCommand(new ShoppingCartCommand(this, vintage));
+        this.getCommandManager().registerCommand(new CurrentTimeCommand(vintage, "time"));
+        this.getCommandManager().registerCommand(new StatsCommand(vintage));
     }
 
     @Override

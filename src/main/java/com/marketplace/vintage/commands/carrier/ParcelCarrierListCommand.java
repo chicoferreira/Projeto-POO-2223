@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.carrier;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.carrier.ParcelCarrier;
 import com.marketplace.vintage.carrier.ParcelCarrierType;
 import com.marketplace.vintage.command.BaseCommand;
@@ -11,16 +11,16 @@ import java.util.List;
 
 public class ParcelCarrierListCommand extends BaseCommand {
 
-    private final VintageController vintageController;
+    private final Vintage vintage;
 
-    public ParcelCarrierListCommand(VintageController vintageController) {
+    public ParcelCarrierListCommand(Vintage vintage) {
         super("list", "carrier list", 0, "List all registered parcel carriers");
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
     @Override
     protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
-        List<ParcelCarrier> all = vintageController.getAllParcelCarriers();
+        List<ParcelCarrier> all = vintage.getAllParcelCarriers();
 
         if (all.isEmpty()) {
             logger.info("No parcel carriers registered");

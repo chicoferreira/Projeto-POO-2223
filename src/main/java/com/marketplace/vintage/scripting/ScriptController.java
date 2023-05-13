@@ -1,6 +1,6 @@
 package com.marketplace.vintage.scripting;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.logging.Logger;
 import com.marketplace.vintage.scripting.runner.CommandScriptRunner;
 import com.marketplace.vintage.scripting.runner.ScriptRunner;
@@ -21,8 +21,8 @@ public class ScriptController {
         this.scriptLoader = new ScriptLoader();
     }
 
-    public void initialize(Logger logger, ViewFactory viewFactory, VintageController vintageController) {
-        this.scriptRunner = new CommandScriptRunner(logger, viewFactory, vintageController);
+    public void initialize(Logger logger, ViewFactory viewFactory, Vintage vintage) {
+        this.scriptRunner = new CommandScriptRunner(logger, viewFactory, vintage);
     }
 
     public int loadScripts() {

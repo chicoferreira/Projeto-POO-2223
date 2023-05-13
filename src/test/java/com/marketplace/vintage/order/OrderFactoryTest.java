@@ -40,8 +40,8 @@ class OrderFactoryTest {
         Mockito.when(item.getParcelCarrierName()).thenReturn("DHL");
         Mockito.when(item.getItemCondition()).thenReturn(ItemConditions.NEW);
 
-        OrderFactory orderFactory = new OrderFactory(vintageTimeManager, parcelCarrierManager, expressionSolver);
-        Order order = orderFactory.buildOrder("TEST-Order", UUID.randomUUID(), List.of(item));
+        OrderFactory orderFactory = new OrderFactory();
+        Order order = orderFactory.buildOrder("TEST-Order", UUID.randomUUID(), List.of(item), parcelCarrierManager::getCarrierByName, vintageTimeManager::getCurrentDate, expressionSolver);
 
         assertEquals("TEST-Order", order.getOrderId());
         assertEquals(1, order.getOrderedItems().size());
@@ -55,16 +55,13 @@ class OrderFactoryTest {
 
     @Test
     void separateItemsByParcelCarrier() {
-        VintageTimeManager vintageTimeManager = new VintageTimeManager(VintageDate.of(1, 1, 2023));
         ParcelCarrierManager parcelCarrierManager = new ParcelCarrierManager();
         parcelCarrierManager.registerParcelCarrier(ParcelCarrierFactory.createNormalParcelCarrier("DHL"));
-
-        ExpressionSolver expressionSolver = Mockito.mock(ExpressionSolver.class);
 
         Item item = Mockito.mock(Item.class);
         Mockito.when(item.getParcelCarrierName()).thenReturn("DHL");
 
-        OrderFactory orderFactory = new OrderFactory(vintageTimeManager, parcelCarrierManager, expressionSolver);
+        OrderFactory orderFactory = new OrderFactory();
         Map<String, List<Item>> itemsByParcelCarrier = orderFactory.separateItemsByParcelCarrier(List.of(item));
 
         assertEquals(1, itemsByParcelCarrier.size());

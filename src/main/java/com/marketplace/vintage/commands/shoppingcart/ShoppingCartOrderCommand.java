@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.shoppingcart;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.input.InputPrompter;
@@ -16,12 +16,12 @@ import java.util.List;
 public class ShoppingCartOrderCommand extends BaseCommand {
 
     private final UserView userView;
-    private final VintageController vintageController;
+    private final Vintage vintage;
 
-    public ShoppingCartOrderCommand(UserView userView, VintageController vintageController) {
+    public ShoppingCartOrderCommand(UserView userView, Vintage vintage) {
         super("order", "cart order (customId)", 0, "Makes an order out of the current shopping cart");
         this.userView = userView;
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
     @Override
@@ -35,14 +35,14 @@ public class ShoppingCartOrderCommand extends BaseCommand {
         }
 
         for (String s : currentOrder) {
-            if (!vintageController.itemHasStock(s)) {
+            if (!vintage.itemHasStock(s)) {
                 logger.warn("The item (" + s + ") has no stock. Please remove it from your shopping cart.");
                 return;
             }
         }
 
         String customId = args.length > 0 ? args[0] : null;
-        Order order = vintageController.assembleOrder(customId, currentLoggedInUser);
+        Order order = vintage.assembleOrder(customId, currentLoggedInUser);
 
         logger.info("Order summary:");
 
@@ -61,6 +61,6 @@ public class ShoppingCartOrderCommand extends BaseCommand {
         }
 
         logger.info("Order (" + order.getOrderId() + ") created successfully. Your order will be delivered soon.");
-        this.vintageController.registerOrder(order, currentLoggedInUser);
+        this.vintage.registerOrder(order, currentLoggedInUser);
     }
 }

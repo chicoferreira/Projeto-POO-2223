@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.item;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.item.Item;
@@ -13,16 +13,16 @@ import java.util.List;
 
 public class ItemListAllCommand extends BaseCommand {
 
-    private final VintageController vintageController;
+    private final Vintage vintage;
 
-    public ItemListAllCommand(VintageController vintageController) {
+    public ItemListAllCommand(Vintage vintage) {
         super("listall", "item listall", 0, "Lists all items being sold in Vintage");
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
     @Override
     protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
-        List<Item> allItems = vintageController.getAllItems();
+        List<Item> allItems = vintage.getAllItems();
 
         if (allItems.isEmpty()) {
             logger.info("There are no items being sold in Vintage.");
@@ -31,8 +31,8 @@ public class ItemListAllCommand extends BaseCommand {
 
         logger.info("All items being sold in Vintage:");
         for (Item item : allItems) {
-            User owner = vintageController.getUserById(item.getOwnerUuid());
-            BigDecimal finalPrice = item.getFinalPrice(vintageController.getCurrentYear());
+            User owner = vintage.getUserById(item.getOwnerUuid());
+            BigDecimal finalPrice = item.getFinalPrice(vintage.getCurrentYear());
             logger.info(" - [" + item.getAlphanumericId() + "] " + item.getItemType().getDisplayName() + " - " + item.getDescription() + " from " + owner.getName() + " at " + StringUtils.formatCurrency(finalPrice));
         }
     }

@@ -16,7 +16,6 @@ import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.persistent.PersistentManager;
 import com.marketplace.vintage.scripting.ScriptController;
 import com.marketplace.vintage.scripting.exception.ScriptException;
-import com.marketplace.vintage.stats.StatsManager;
 import com.marketplace.vintage.user.UserController;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.view.View;
@@ -52,23 +51,22 @@ public class VintageApplication {
         this.persistentManager = new PersistentManager(getPersistentFile());
         loadSavedProgramState(this.persistentManager);
 
-        OrderFactory orderFactory = new OrderFactory(vintageTimeManager, parcelCarrierManager, expressionSolver);
-        OrderController orderController = new OrderController(orderManager);
-
-        ScriptController scriptController = new ScriptController();
-        StatsManager statsManager = new StatsManager(userManager, orderManager, parcelCarrierManager);
-
-        UserController userController = new UserController(userManager);
-        ItemController itemController = new ItemController(itemManager);
-
         ParcelCarrierController parcelCarrierController = new ParcelCarrierController(parcelCarrierManager);
 
-        VintageController vintageController = new VintageController(itemManager, itemFactory, itemController, orderManager, orderController, vintageTimeManager, parcelCarrierManager, parcelCarrierController, expressionSolver, orderFactory, userManager, userController, scriptController, statsManager);
+        OrderFactory orderFactory = new OrderFactory();
+        OrderController orderController = new OrderController(orderManager, orderFactory);
 
-        this.viewFactory = new ViewFactory(logger, inputPrompter, vintageController);
+        ScriptController scriptController = new ScriptController();
+        UserController userController = new UserController(userManager);
+
+        ItemController itemController = new ItemController(itemManager, itemFactory);
+
+        Vintage vintage = new Vintage(itemController, orderController, vintageTimeManager, parcelCarrierController, expressionSolver, userController, scriptController);
+
+        this.viewFactory = new ViewFactory(logger, inputPrompter, vintage);
 
         try {
-            scriptController.initialize(logger, viewFactory, vintageController);
+            scriptController.initialize(logger, viewFactory, vintage);
             this.logger.info("Loaded " + scriptController.loadScripts() + " scripts.");
         } catch (ScriptException exception) {
             this.logger.warn("Failed to load scripts: " + exception.getMessage());

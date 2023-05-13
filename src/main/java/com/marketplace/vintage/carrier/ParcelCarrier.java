@@ -1,6 +1,7 @@
 package com.marketplace.vintage.carrier;
 
 import com.marketplace.vintage.VintageConstants;
+import com.marketplace.vintage.expression.ExpressionSolver;
 import com.marketplace.vintage.item.ItemType;
 
 import java.io.Serializable;
@@ -79,6 +80,17 @@ public abstract class ParcelCarrier implements Serializable {
 
     public BigDecimal getExpeditionTax() {
         return VintageConstants.PARCEL_EXPEDITION_TAX;
+    }
+
+    public BigDecimal getShippingCost(ExpressionSolver expressionSolver, int itemsSize) {
+        BigDecimal expeditionBasePrice = this.getBaseValueForExpedition(itemsSize);
+        BigDecimal expeditionTax = this.getExpeditionTax();
+
+        Map<String, BigDecimal> expressionVariables = Map.of(
+                VintageConstants.EXPEDITION_PRICE_EXPRESSION_BASE_PRICE_VARIABLE, expeditionBasePrice,
+                VintageConstants.EXPEDITION_PRICE_EXPRESSION_TAX_VARIABLE, expeditionTax);
+
+        return expressionSolver.solve(this.getExpeditionPriceExpression(), expressionVariables);
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.marketplace.vintage;
 
 import com.marketplace.vintage.carrier.ParcelCarrier;
 import com.marketplace.vintage.carrier.ParcelCarrierController;
-import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.expression.ExpressionSolver;
 import com.marketplace.vintage.item.*;
 import com.marketplace.vintage.logging.Logger;
@@ -12,7 +11,6 @@ import com.marketplace.vintage.scripting.ScriptController;
 import com.marketplace.vintage.stats.StatsManager;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.user.UserController;
-import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.utils.VintageDate;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,62 +20,43 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-public class VintageController {
+public class Vintage {
 
-    private final ItemManager itemManager;
-    private final ItemFactory itemFactory;
     private final ItemController itemController;
-    private final OrderManager orderManager;
     private final OrderController orderController;
     private final VintageTimeManager vintageTimeManager;
-    private final ParcelCarrierManager parcelCarrierManager;
     private final ParcelCarrierController parcelCarrierController;
     private final ExpressionSolver expressionSolver;
-    private final OrderFactory orderFactory;
-    private final UserManager userManager;
     private final UserController userController;
     private final ScriptController scriptController;
     private final StatsManager statsManager;
 
-    public VintageController(ItemManager itemManager,
-                             ItemFactory itemFactory,
-                             ItemController itemController,
-                             OrderManager orderManager,
-                             OrderController orderController,
-                             VintageTimeManager vintageTimeManager,
-                             ParcelCarrierManager parcelCarrierManager,
-                             ParcelCarrierController parcelCarrierController,
-                             ExpressionSolver expressionSolver,
-                             OrderFactory orderFactory,
-                             UserManager userManager,
-                             UserController userController,
-                             ScriptController scriptController,
-                             StatsManager statsManager) {
-        this.itemManager = itemManager;
-        this.itemFactory = itemFactory;
+    public Vintage(ItemController itemController,
+                   OrderController orderController,
+                   VintageTimeManager vintageTimeManager,
+                   ParcelCarrierController parcelCarrierController,
+                   ExpressionSolver expressionSolver,
+                   UserController userController,
+                   ScriptController scriptController) {
         this.itemController = itemController;
-        this.orderManager = orderManager;
         this.orderController = orderController;
         this.vintageTimeManager = vintageTimeManager;
-        this.parcelCarrierManager = parcelCarrierManager;
         this.parcelCarrierController = parcelCarrierController;
         this.expressionSolver = expressionSolver;
-        this.orderFactory = orderFactory;
-        this.userManager = userManager;
         this.userController = userController;
         this.scriptController = scriptController;
-        this.statsManager = statsManager;
+        this.statsManager = new StatsManager(this);
     }
 
     public Item registerNewItem(User owner, ItemType itemType, Map<ItemProperty, Object> properties) {
-        return registerNewItem(itemManager.generateUniqueCode(), owner, itemType, properties);
+        return registerNewItem(itemController.generateUniqueCode(), owner, itemType, properties);
     }
 
     public Item registerNewItem(@Nullable String uniqueCode, User owner, ItemType itemType, Map<ItemProperty, Object> properties) {
         if (uniqueCode == null) return registerNewItem(owner, itemType, properties);
 
-        Item item = itemFactory.createItem(owner.getId(), uniqueCode, itemType, properties);
-        itemManager.registerItem(item);
+        Item item = itemController.createItem(owner.getId(), uniqueCode, itemType, properties);
+        itemController.registerItem(item);
 
         owner.addItemBeingSold(item.getAlphanumericId());
 
@@ -85,7 +64,7 @@ public class VintageController {
     }
 
     public Order assembleOrder(User user) {
-        return assembleOrder(orderManager.generateUniqueOrderId(), user);
+        return assembleOrder(orderController.generateUniqueOrderId(), user);
     }
 
     public Order assembleOrder(@Nullable String orderId, User user) {
@@ -98,7 +77,7 @@ public class VintageController {
             throw new IllegalStateException("The shopping cart is empty.");
         }
 
-        List<Item> itemList = shoppingCart.stream().map(itemManager::getItem).toList();
+        List<Item> itemList = shoppingCart.stream().map(itemController::getItem).toList();
         if (itemList.stream().anyMatch(item -> item.getOwnerUuid().equals(user.getId()))) {
             throw new IllegalStateException("The shopping cart contains items that are owned by the user.");
         }
@@ -109,25 +88,25 @@ public class VintageController {
             }
         }
 
-        return orderFactory.buildOrder(orderId, user.getId(), itemList);
+        return orderController.buildOrder(orderId, user.getId(), itemList, this.parcelCarrierController::getCarrierByName, this.vintageTimeManager::getCurrentDate, expressionSolver);
     }
 
     public void registerOrder(Order order, User user) {
-        orderManager.registerOrder(order);
+        orderController.registerOrder(order);
         userController.addCompletedOrderId(user, order.getOrderId());
 
         for (OrderedItem orderedItem : order.getOrderedItems()) {
             UUID sellerId = orderedItem.getSellerId();
-            User seller = userManager.getUserById(sellerId);
+            User seller = userController.getUserById(sellerId);
             this.userController.addCompletedSellOrderId(seller, order.getOrderId());
 
             String parcelCarrierName = orderedItem.getParcelCarrierName();
 
-            ParcelCarrier parcelCarrier = parcelCarrierManager.getCarrierByName(parcelCarrierName);
+            ParcelCarrier parcelCarrier = parcelCarrierController.getCarrierByName(parcelCarrierName);
             this.parcelCarrierController.addDeliveredOrderId(parcelCarrier, order.getOrderId());
 
             String itemId = orderedItem.getItemId();
-            Item item = itemManager.getItem(itemId);
+            Item item = itemController.getItem(itemId);
 
             this.itemController.removeItemStock(item, 1);
         }
@@ -161,43 +140,47 @@ public class VintageController {
     }
 
     public boolean containsItemById(String itemId) {
-        return this.itemManager.containsItemById(itemId);
+        return this.itemController.containsItemById(itemId);
     }
 
     public Item getItem(String itemId) {
-        return this.itemManager.getItem(itemId);
+        return this.itemController.getItem(itemId);
     }
 
     public boolean existsItem(String itemId) {
-        return this.itemManager.containsItemById(itemId);
+        return this.itemController.containsItemById(itemId);
     }
 
     public Order getOrder(String orderId) {
-        return this.orderManager.getOrder(orderId);
+        return this.orderController.getOrder(orderId);
     }
 
     public boolean existsOrder(String id) {
-        return this.orderManager.containsOrder(id);
+        return this.orderController.containsOrder(id);
+    }
+
+    public List<Order> getAllOrders() {
+        return this.orderController.getAll();
     }
 
     public List<ParcelCarrier> getAllParcelCarriersCompatibleWith(ItemType itemType) {
-        return this.parcelCarrierManager.getAllCompatibleWith(itemType);
+        return this.parcelCarrierController.getAllCompatibleWith(itemType);
     }
 
     public boolean containsCarrierByName(String carrierName) {
-        return this.parcelCarrierManager.containsCarrierByName(carrierName);
+        return this.parcelCarrierController.containsCarrierByName(carrierName);
     }
 
     public ParcelCarrier getCarrierByName(String carrierName) {
-        return this.parcelCarrierManager.getCarrierByName(carrierName);
+        return this.parcelCarrierController.getCarrierByName(carrierName);
     }
 
     public void registerParcelCarrier(ParcelCarrier parcelCarrier) {
-        this.parcelCarrierManager.registerParcelCarrier(parcelCarrier);
+        this.parcelCarrierController.registerParcelCarrier(parcelCarrier);
     }
 
     public List<ParcelCarrier> getAllParcelCarriers() {
-        return this.parcelCarrierManager.getAll();
+        return this.parcelCarrierController.getAll();
     }
 
     public void setCarrierExpeditionPriceExpression(ParcelCarrier carrier, String formula) {
@@ -209,35 +192,35 @@ public class VintageController {
     }
 
     public List<User> getAllUsers() {
-        return this.userManager.getAll();
+        return this.userController.getAll();
     }
 
     public void validateUsername(String username) {
-        this.userManager.validateUsername(username);
+        this.userController.validateUsername(username);
     }
 
     public User createUser(String username, String email, String name, String address, String taxNumber) {
-        return this.userManager.createUser(username, email, name, address, taxNumber);
+        return this.userController.createUser(username, email, name, address, taxNumber);
     }
 
     public User getUserByEmail(String email) {
-        return this.userManager.getUserByEmail(email);
+        return this.userController.getUserByEmail(email);
     }
 
     public User getUserByUsername(String username) {
-        return this.userManager.getUserByUsername(username);
+        return this.userController.getUserByUsername(username);
     }
 
     public User getUserById(UUID id) {
-        return this.userManager.getUserById(id);
+        return this.userController.getUserById(id);
     }
 
     public boolean existsUserWithUsername(String username) {
-        return this.userManager.existsUserWithUsername(username);
+        return this.userController.existsUserWithUsername(username);
     }
 
     public boolean existsUserWithEmail(String email) {
-        return this.userManager.existsUserWithEmail(email);
+        return this.userController.existsUserWithEmail(email);
     }
 
     public void addItemToShoppingCart(User user, String itemId) {
@@ -257,7 +240,7 @@ public class VintageController {
 
         for (OrderedItem orderedItem : order.getOrderedItems()) {
             String itemId = orderedItem.getItemId();
-            Item item = this.itemManager.getItem(itemId);
+            Item item = this.itemController.getItem(itemId);
 
             addItemStock(item, 1);
         }
@@ -296,7 +279,7 @@ public class VintageController {
     }
 
     public List<Item> getAllItems() {
-        return this.itemManager.getAllItems();
+        return this.itemController.getAllItems();
     }
 
     public int addItemStock(Item item, int stock) {

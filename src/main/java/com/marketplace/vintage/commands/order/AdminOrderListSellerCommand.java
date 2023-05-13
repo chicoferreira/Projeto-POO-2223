@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.order;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
@@ -9,23 +9,23 @@ import com.marketplace.vintage.user.User;
 import java.util.List;
 
 public class AdminOrderListSellerCommand extends BaseCommand {
-    private final VintageController vintageController;
+    private final Vintage vintage;
 
-    public AdminOrderListSellerCommand(VintageController vintageController) {
+    public AdminOrderListSellerCommand(Vintage vintage) {
         super("listseller", "order listseller <seller>", 1, "Lists all orders containing the given seller");
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
     @Override
     protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
         String sellerName = args[0];
 
-        if (!vintageController.existsUserWithUsername(sellerName)) {
+        if (!vintage.existsUserWithUsername(sellerName)) {
             logger.warn("User " + sellerName + " does not exist.");
             return;
         }
 
-        User seller = vintageController.getUserByUsername(sellerName);
+        User seller = vintage.getUserByUsername(sellerName);
 
         List<String> completedSellsOrderIdsList = seller.getCompletedSellsOrderIdsList();
 

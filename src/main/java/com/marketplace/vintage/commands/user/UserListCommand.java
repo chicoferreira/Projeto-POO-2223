@@ -1,7 +1,7 @@
 package com.marketplace.vintage.commands.user;
 
 import com.marketplace.vintage.VintageConstants;
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.logging.Logger;
@@ -11,16 +11,16 @@ import java.util.List;
 
 public class UserListCommand extends BaseCommand {
 
-    private final VintageController vintageController;
+    private final Vintage vintage;
 
-    public UserListCommand(VintageController vintageController) {
+    public UserListCommand(Vintage vintage) {
         super("list", "user list", 0, "Lists all registered users");
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
     @Override
     protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
-        List<User> usersList = vintageController.getAllUsers();
+        List<User> usersList = vintage.getAllUsers();
 
         if (usersList.isEmpty()) {
             logger.info("There are no registered users.");

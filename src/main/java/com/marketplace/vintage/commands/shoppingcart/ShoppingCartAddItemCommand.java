@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.shoppingcart;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.input.InputPrompter;
@@ -13,26 +13,26 @@ import com.marketplace.vintage.view.impl.UserView;
 public class ShoppingCartAddItemCommand extends BaseCommand {
 
     private final UserView userView;
-    private final VintageController vintageController;
+    private final Vintage vintage;
 
-    public ShoppingCartAddItemCommand(UserView userView, VintageController vintageController) {
+    public ShoppingCartAddItemCommand(UserView userView, Vintage vintage) {
         super("add", "cart add <itemId>", 1, "Adds the item given to the User's shopping cart.");
         this.userView = userView;
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
     @Override
     protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
         String itemId = args[0];
         User currentLoggedInUser = userView.getCurrentLoggedInUser();
-        int currentYear = vintageController.getCurrentYear();
+        int currentYear = vintage.getCurrentYear();
 
-        if (!vintageController.containsItemById(itemId)) {
+        if (!vintage.containsItemById(itemId)) {
             logger.warn("Item with the id " + itemId + " does not exist.");
             return;
         }
 
-        Item item = vintageController.getItem(itemId);
+        Item item = vintage.getItem(itemId);
 
         if (item.getOwnerUuid().equals(currentLoggedInUser.getId())) {
             logger.warn("You cannot add your own item to the shopping cart.");
@@ -44,7 +44,7 @@ public class ShoppingCartAddItemCommand extends BaseCommand {
         boolean proceed = inputPrompter.askForInput(logger, "Do you want to add this item to the shopping cart? (y/n)", InputMapper.BOOLEAN);
         if (!proceed) return;
 
-        vintageController.addItemToShoppingCart(currentLoggedInUser, itemId);
+        vintage.addItemToShoppingCart(currentLoggedInUser, itemId);
         logger.info("Item (" + itemId + ") added to the shopping cart.");
     }
 }

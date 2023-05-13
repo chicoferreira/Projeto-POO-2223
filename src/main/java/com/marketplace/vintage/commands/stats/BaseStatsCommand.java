@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.stats;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.utils.VintageDate;
 
@@ -8,15 +8,15 @@ import java.util.function.Predicate;
 
 public abstract class BaseStatsCommand extends BaseCommand {
 
-    private final VintageController vintageController;
+    private final Vintage vintage;
 
-    public BaseStatsCommand(VintageController vintageController, String name, String usage, int minArgs, String description) {
+    public BaseStatsCommand(Vintage vintage, String name, String usage, int minArgs, String description) {
         super(name, usage, minArgs, description);
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
-    protected VintageController getVintageController() {
-        return vintageController;
+    protected Vintage getVintage() {
+        return vintage;
     }
 
     protected Predicate<VintageDate> getDatePredicate(String[] args) {

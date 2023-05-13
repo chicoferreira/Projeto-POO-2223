@@ -1,6 +1,6 @@
 package com.marketplace.vintage.view.impl;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.commands.user.UserRegisterCommand;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.input.InputPrompter;
@@ -16,18 +16,18 @@ public class UserLoginView implements View {
     private final Logger logger;
     private final InputPrompter inputPrompter;
     private final ViewFactory viewFactory;
-    private final VintageController vintageController;
+    private final Vintage vintage;
     private final UserRegisterCommand userRegisterCommand;
 
     public UserLoginView(Logger logger,
                          InputPrompter inputPrompter,
                          ViewFactory viewFactory,
-                         VintageController vintageController) {
+                         Vintage vintage) {
         this.logger = PrefixLogger.of("USER", logger);
         this.inputPrompter = inputPrompter;
         this.viewFactory = viewFactory;
-        this.vintageController = vintageController;
-        this.userRegisterCommand = new UserRegisterCommand(vintageController);
+        this.vintage = vintage;
+        this.userRegisterCommand = new UserRegisterCommand(vintage);
     }
 
     @Override
@@ -54,12 +54,12 @@ public class UserLoginView implements View {
             return askForLogin();
         }
 
-        if (!vintageController.existsUserWithEmail(email)) {
+        if (!vintage.existsUserWithEmail(email)) {
             this.logger.info("User with email " + email + " does not exist.");
             return askForRegistration(email);
         }
 
-        return vintageController.getUserByEmail(email);
+        return vintage.getUserByEmail(email);
     }
 
     public User askForRegistration(String email) {

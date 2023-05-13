@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.time;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputMapper;
 import com.marketplace.vintage.input.InputPrompter;
@@ -9,11 +9,11 @@ import com.marketplace.vintage.utils.VintageDate;
 
 public class AdminTimeJumpCommand extends BaseCommand {
 
-    private final VintageController vintageController;
+    private final Vintage vintage;
 
-    public AdminTimeJumpCommand(VintageController vintageController) {
+    public AdminTimeJumpCommand(Vintage vintage) {
         super("jump", "time jump <days>", 1, "Jump the time by the specified number of days");
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
     @Override
@@ -26,8 +26,8 @@ public class AdminTimeJumpCommand extends BaseCommand {
             return;
         }
 
-        VintageDate beforeDate = vintageController.getCurrentDate();
-        VintageDate afterDate = vintageController.jumpTime(logger, days);
+        VintageDate beforeDate = vintage.getCurrentDate();
+        VintageDate afterDate = vintage.jumpTime(logger, days);
 
         logger.info("Time jumped from " + beforeDate + " to " + afterDate + ".");
     }

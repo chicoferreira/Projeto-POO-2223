@@ -1,6 +1,6 @@
 package com.marketplace.vintage.commands.item.stock;
 
-import com.marketplace.vintage.VintageController;
+import com.marketplace.vintage.Vintage;
 import com.marketplace.vintage.command.BaseCommand;
 import com.marketplace.vintage.input.InputPrompter;
 import com.marketplace.vintage.item.Item;
@@ -14,24 +14,24 @@ import java.util.Optional;
 public abstract class ItemStockChangeCommand extends BaseCommand {
 
     private final UserView userView;
-    private final VintageController vintageController;
+    private final Vintage vintage;
 
-    public ItemStockChangeCommand(UserView userView, VintageController vintageController, String name, String usage, String description) {
+    public ItemStockChangeCommand(UserView userView, Vintage vintage, String name, String usage, String description) {
         super(name, usage, 2, description);
         this.userView = userView;
-        this.vintageController = vintageController;
+        this.vintage = vintage;
     }
 
     @Override
     protected void executeSafely(Logger logger, InputPrompter inputPrompter, String[] args) {
         String itemId = args[0];
 
-        if (!vintageController.existsItem(itemId)) {
+        if (!vintage.existsItem(itemId)) {
             logger.warn("Item '" + itemId + "' does not exist");
             return;
         }
 
-        Item item = vintageController.getItem(itemId);
+        Item item = vintage.getItem(itemId);
         User user = userView.getCurrentLoggedInUser();
 
         if (!item.getOwnerUuid().equals(user.getId())) {
@@ -57,8 +57,8 @@ public abstract class ItemStockChangeCommand extends BaseCommand {
         operation(logger, item, stockChange);
     }
 
-    protected VintageController getVintageController() {
-        return vintageController;
+    protected Vintage getVintage() {
+        return vintage;
     }
 
     /**
