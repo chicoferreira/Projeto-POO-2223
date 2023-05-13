@@ -1,17 +1,36 @@
 package com.marketplace.vintage.item.impl;
 
+import com.marketplace.vintage.item.Item;
 import com.marketplace.vintage.item.ItemProperty;
 import com.marketplace.vintage.item.ItemType;
 import com.marketplace.vintage.item.condition.ItemCondition;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.UUID;
 
 public class PremiumSapatilhasItem extends SapatilhasItem {
 
     private final int appreciationRateOverYears;
 
+    public PremiumSapatilhasItem(PremiumSapatilhasItem item) {
+        this(item.getOwnerUuid(),
+                item.getAlphanumericId(),
+                item.getCurrentStock(),
+                item.getItemCondition(),
+                item.getDescription(),
+                item.getBrand(),
+                item.getBasePrice(),
+                item.getParcelCarrierName(),
+                item.getSize(),
+                item.hasLaces(),
+                item.getColor(),
+                item.getCollectionYear(),
+                item.getAppreciationRateOverYears());
+    }
+
     public PremiumSapatilhasItem(UUID ownerUuid, String alphanumericId,
+                                 int currentStock,
                                  ItemCondition itemCondition,
                                  String description,
                                  String brand,
@@ -22,7 +41,7 @@ public class PremiumSapatilhasItem extends SapatilhasItem {
                                  String color,
                                  int collectionYear,
                                  int appreciationRateOverYears) {
-        super(ownerUuid, alphanumericId, itemCondition, description, brand, basePrice, parcelCarrierName, size, hasLaces, color, collectionYear);
+        super(ownerUuid, alphanumericId, currentStock, itemCondition, description, brand, basePrice, parcelCarrierName, size, hasLaces, color, collectionYear);
         this.appreciationRateOverYears = appreciationRateOverYears;
     }
 
@@ -67,19 +86,38 @@ public class PremiumSapatilhasItem extends SapatilhasItem {
     }
 
     @Override
+    public Item clone() {
+        return new PremiumSapatilhasItem(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        PremiumSapatilhasItem that = (PremiumSapatilhasItem) o;
+        return getAppreciationRateOverYears() == that.getAppreciationRateOverYears();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getAppreciationRateOverYears());
+    }
+
+    @Override
     public String toString() {
         return "PremiumSapatilhasItem{" +
-               "appreciationRateOverYears=" + getAppreciationRateOverYears() +
-               ", alphanumericID='" + getAlphanumericId() + '\'' +
-               ", itemCondition=" + getItemCondition() +
-               ", description='" + getDescription() + '\'' +
-               ", brand='" + getBrand() + '\'' +
-               ", basePrice=" + getBasePrice() +
-               ", parcelCarrierName=" + getParcelCarrierName() +
-               ", size=" + getSize() +
-               ", hasLaces=" + hasLaces() +
-               ", color='" + getColor() + '\'' +
-               ", collectionYear=" + getCollectionYear() +
-               '}';
+                "appreciationRateOverYears=" + getAppreciationRateOverYears() +
+                ", alphanumericID='" + getAlphanumericId() + '\'' +
+                ", itemCondition=" + getItemCondition() +
+                ", description='" + getDescription() + '\'' +
+                ", brand='" + getBrand() + '\'' +
+                ", basePrice=" + getBasePrice() +
+                ", parcelCarrierName=" + getParcelCarrierName() +
+                ", size=" + getSize() +
+                ", hasLaces=" + hasLaces() +
+                ", color='" + getColor() + '\'' +
+                ", collectionYear=" + getCollectionYear() +
+                '}';
     }
 }

@@ -10,7 +10,7 @@ public class ShoppingCartCommand extends ParentCommand {
     public ShoppingCartCommand(UserView userView, VintageController vintageController) {
         super("cart", "Shopping Cart commands");
         registerCommand(new ShoppingCartAddItemCommand(userView, vintageController));
-        registerCommand(new ShoppingCartRemoveItemCommand(userView));
+        registerCommand(new ShoppingCartRemoveItemCommand(userView, vintageController));
         registerCommand(new ShoppingCartListCommand(userView, vintageController));
         registerCommand(new ShoppingCartOrderCommand(userView, vintageController));
     }

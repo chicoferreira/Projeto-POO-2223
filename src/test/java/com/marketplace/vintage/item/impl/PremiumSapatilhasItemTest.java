@@ -17,7 +17,7 @@ public class PremiumSapatilhasItemTest {
         int collectionYear = 2022;
         int appreciationRateOverYears = 10;
 
-        PremiumSapatilhasItem premiumSapatilhasItem = new PremiumSapatilhasItem(UUID.randomUUID(), null, null, null, null, basePrice, null, 0, false, "Red", collectionYear, appreciationRateOverYears);
+        PremiumSapatilhasItem premiumSapatilhasItem = new PremiumSapatilhasItem(UUID.randomUUID(), null, 5, null, null, null, basePrice, null, 0, false, "Red", collectionYear, appreciationRateOverYears);
 
         assertEquals(BigDecimal.valueOf(0).compareTo(premiumSapatilhasItem.getPriceCorrection(2022)), 0);
         assertEquals(BigDecimal.valueOf(10).compareTo(premiumSapatilhasItem.getPriceCorrection(2023)), 0);

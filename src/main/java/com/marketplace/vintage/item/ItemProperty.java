@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 
 public enum ItemProperty {
 
+    STOCK(Integer.class),
     ITEM_CONDITION(ItemCondition.class),
     DESCRIPTION(String.class),
     BRAND(String.class),

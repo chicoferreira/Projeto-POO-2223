@@ -24,13 +24,13 @@ public class ItemManager implements Serializable {
             throw new EntityNotFoundException("An item with the id " + id + " was not found");
         }
 
-        return this.itemsById.get(id);
+        return this.itemsById.get(id).clone();
     }
 
     public void registerItem(Item item) {
         String itemId = item.getAlphanumericId();
 
-        if(AlphanumericGenerator.isOfFormat(ITEM_ID_FORMAT, itemId)) {
+        if (AlphanumericGenerator.isOfFormat(ITEM_ID_FORMAT, itemId)) {
             throw new IllegalArgumentException("The item id must be of the format " + ITEM_ID_FORMAT);
         }
 
@@ -39,6 +39,16 @@ public class ItemManager implements Serializable {
         }
 
         this.itemsById.put(itemId, item);
+    }
+
+    public void updateItem(Item item) {
+        String alphanumericId = item.getAlphanumericId();
+
+        if (!itemsById.containsKey(alphanumericId)) {
+            throw new EntityNotFoundException("An item with the id " + alphanumericId + " was not found");
+        }
+
+        itemsById.put(alphanumericId, item);
     }
 
     public String generateUniqueCode() {

@@ -16,7 +16,7 @@ public class PremiumMalaItemTest {
         int appreciationRateOverYears = 10;
         int collectionYear = 2022;
 
-        PremiumMalaItem premiumMalaItem = new PremiumMalaItem(UUID.randomUUID(), null, null, null, null, basePrice, null, 0, null, collectionYear, appreciationRateOverYears);
+        PremiumMalaItem premiumMalaItem = new PremiumMalaItem(UUID.randomUUID(), null, 5, null, null, null, basePrice, null, 0, null, collectionYear, appreciationRateOverYears);
 
         assertEquals(BigDecimal.valueOf(0), premiumMalaItem.getPriceCorrection(2022));
         assertEquals(BigDecimal.valueOf(10.0).compareTo(premiumMalaItem.getPriceCorrection(2023)), 0);

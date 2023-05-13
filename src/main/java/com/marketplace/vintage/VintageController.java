@@ -1,6 +1,7 @@
 package com.marketplace.vintage;
 
 import com.marketplace.vintage.carrier.ParcelCarrier;
+import com.marketplace.vintage.carrier.ParcelCarrierController;
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.expression.ExpressionSolver;
 import com.marketplace.vintage.item.*;
@@ -10,6 +11,7 @@ import com.marketplace.vintage.order.*;
 import com.marketplace.vintage.scripting.ScriptController;
 import com.marketplace.vintage.stats.StatsManager;
 import com.marketplace.vintage.user.User;
+import com.marketplace.vintage.user.UserController;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.utils.VintageDate;
 import org.jetbrains.annotations.Nullable;
@@ -24,36 +26,45 @@ public class VintageController {
 
     private final ItemManager itemManager;
     private final ItemFactory itemFactory;
+    private final ItemController itemController;
     private final OrderManager orderManager;
     private final OrderController orderController;
     private final VintageTimeManager vintageTimeManager;
     private final ParcelCarrierManager parcelCarrierManager;
+    private final ParcelCarrierController parcelCarrierController;
     private final ExpressionSolver expressionSolver;
     private final OrderFactory orderFactory;
     private final UserManager userManager;
+    private final UserController userController;
     private final ScriptController scriptController;
     private final StatsManager statsManager;
 
     public VintageController(ItemManager itemManager,
                              ItemFactory itemFactory,
+                             ItemController itemController,
                              OrderManager orderManager,
                              OrderController orderController,
                              VintageTimeManager vintageTimeManager,
                              ParcelCarrierManager parcelCarrierManager,
+                             ParcelCarrierController parcelCarrierController,
                              ExpressionSolver expressionSolver,
                              OrderFactory orderFactory,
                              UserManager userManager,
+                             UserController userController,
                              ScriptController scriptController,
                              StatsManager statsManager) {
         this.itemManager = itemManager;
         this.itemFactory = itemFactory;
+        this.itemController = itemController;
         this.orderManager = orderManager;
         this.orderController = orderController;
         this.vintageTimeManager = vintageTimeManager;
         this.parcelCarrierManager = parcelCarrierManager;
+        this.parcelCarrierController = parcelCarrierController;
         this.expressionSolver = expressionSolver;
         this.orderFactory = orderFactory;
         this.userManager = userManager;
+        this.userController = userController;
         this.scriptController = scriptController;
         this.statsManager = statsManager;
     }
@@ -92,24 +103,36 @@ public class VintageController {
             throw new IllegalStateException("The shopping cart contains items that are owned by the user.");
         }
 
+        for (Item item : itemList) {
+            if (item.getCurrentStock() <= 0) {
+                throw new IllegalStateException("The shopping cart contains items that are out of stock.");
+            }
+        }
+
         return orderFactory.buildOrder(orderId, user.getId(), itemList);
     }
 
     public void registerOrder(Order order, User user) {
         orderManager.registerOrder(order);
-        user.addCompletedOrderId(order.getOrderId());
+        userController.addCompletedOrderId(user, order.getOrderId());
 
         for (OrderedItem orderedItem : order.getOrderedItems()) {
             UUID sellerId = orderedItem.getSellerId();
             User seller = userManager.getUserById(sellerId);
-            seller.addCompletedSellOrderId(order.getOrderId());
+            this.userController.addCompletedSellOrderId(seller, order.getOrderId());
 
             String parcelCarrierName = orderedItem.getParcelCarrierName();
+
             ParcelCarrier parcelCarrier = parcelCarrierManager.getCarrierByName(parcelCarrierName);
-            parcelCarrier.addDeliveredOrder(order.getOrderId());
+            this.parcelCarrierController.addDeliveredOrderId(parcelCarrier, order.getOrderId());
+
+            String itemId = orderedItem.getItemId();
+            Item item = itemManager.getItem(itemId);
+
+            this.itemController.removeItemStock(item, 1);
         }
 
-        user.cleanShoppingCart();
+        userController.cleanShoppingCart(user);
     }
 
     public VintageDate getCurrentDate() {
@@ -177,6 +200,10 @@ public class VintageController {
         return this.parcelCarrierManager.getAll();
     }
 
+    public void setCarrierExpeditionPriceExpression(ParcelCarrier carrier, String formula) {
+        this.parcelCarrierController.setCarrierExpeditionPriceExpression(carrier, formula);
+    }
+
     public boolean isFormulaValid(String formula, List<String> variables) {
         return this.expressionSolver.isValid(formula, variables);
     }
@@ -213,12 +240,27 @@ public class VintageController {
         return this.userManager.existsUserWithEmail(email);
     }
 
+    public void addItemToShoppingCart(User user, String itemId) {
+        this.userController.addItemToShoppingCart(user, itemId);
+    }
+
+    public void removeItemFromShoppingCart(User user, String itemId) {
+        this.userController.removeItemFromShoppingCart(user, itemId);
+    }
+
     public boolean isOrderReturnable(Order order) {
         return this.orderController.isOrderReturnable(order, this.vintageTimeManager.getCurrentDate());
     }
 
     public void returnOrder(Order order) {
         this.orderController.returnOrder(order);
+
+        for (OrderedItem orderedItem : order.getOrderedItems()) {
+            String itemId = orderedItem.getItemId();
+            Item item = this.itemManager.getItem(itemId);
+
+            addItemStock(item, 1);
+        }
     }
 
     public User getBestSeller(Predicate<VintageDate> datePredicate) {
@@ -257,4 +299,15 @@ public class VintageController {
         return this.itemManager.getAllItems();
     }
 
+    public int addItemStock(Item item, int stock) {
+        return this.itemController.addItemStock(item, stock);
+    }
+
+    public int removeItemStock(Item item, int stock) {
+        return this.itemController.removeItemStock(item, stock);
+    }
+
+    public boolean itemHasStock(String itemId) {
+        return this.itemController.itemHasStock(itemId);
+    }
 }

@@ -3,6 +3,7 @@ package com.marketplace.vintage.item;
 import com.marketplace.vintage.exceptions.EntityAlreadyExistsException;
 import com.marketplace.vintage.exceptions.EntityNotFoundException;
 
+import com.marketplace.vintage.item.impl.MalaItem;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -18,7 +19,20 @@ public class ItemManagerTest {
     void testItemManager() {
         ItemManager itemManager = new ItemManager();
         String id = itemManager.generateUniqueCode();
-        Item testItem = createTestItem(id);
+        Item testItem = new MalaItem(
+                UUID.randomUUID(),
+                id,
+                1,
+                NEW,
+                "description",
+                "brand",
+                BigDecimal.valueOf(100),
+                null,
+                1,
+                "material",
+                2021,
+                1);
+
         String alphanumericID = testItem.getAlphanumericId();
 
         assertEquals(id, alphanumericID);
@@ -32,18 +46,5 @@ public class ItemManagerTest {
         assertThrowsExactly(EntityAlreadyExistsException.class, () -> itemManager.registerItem(testGetItem));
     }
 
-    private Item createTestItem(String id) {
-        return new Item(UUID.randomUUID(), id, NEW, "TEST", "BRAND", BigDecimal.valueOf(100), "DHL") {
-            @Override
-            public ItemType getItemType() {
-                return null;
-            }
-
-            @Override
-            public BigDecimal getPriceCorrection(int currentYear) {
-                return new BigDecimal(0);
-            }
-        };
-    }
 }
 

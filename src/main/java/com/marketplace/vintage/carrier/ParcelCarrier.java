@@ -5,22 +5,25 @@ import com.marketplace.vintage.item.ItemType;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class ParcelCarrier implements Serializable {
 
     private final String name;
     private String expeditionPriceExpression;
     private final ParcelCarrierType type;
-    private final List<String> deliveredOrderIds;
+    private final Set<String> deliveredOrderIds;
+
+    public ParcelCarrier(ParcelCarrier parcelCarrier) {
+        this(parcelCarrier.name, parcelCarrier.expeditionPriceExpression, parcelCarrier.type);
+        this.deliveredOrderIds.addAll(parcelCarrier.deliveredOrderIds);
+    }
 
     public ParcelCarrier(String name, String expeditionPriceExpression, ParcelCarrierType type) {
         this.name = name;
         this.expeditionPriceExpression = expeditionPriceExpression;
         this.type = type;
-        this.deliveredOrderIds = new ArrayList<>();
+        this.deliveredOrderIds = new HashSet<>();
     }
 
     public String getName() {
@@ -92,11 +95,14 @@ public abstract class ParcelCarrier implements Serializable {
     }
 
     @Override
+    public abstract ParcelCarrier clone();
+
+    @Override
     public String toString() {
         return "ParcelCarrier{" +
-               "name='" + name + '\'' +
-               ", expeditionPriceExpression='" + expeditionPriceExpression + '\'' +
-               ", type=" + type +
-               '}';
+                "name='" + name + '\'' +
+                ", expeditionPriceExpression='" + expeditionPriceExpression + '\'' +
+                ", type=" + type +
+                '}';
     }
 }

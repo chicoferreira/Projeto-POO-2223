@@ -26,6 +26,7 @@ public class ItemFactory {
     private Item createMala(UUID ownerUuid, String alphanumericId, Map<ItemProperty, Object> itemProperties) {
         return new MalaItem(ownerUuid,
                             alphanumericId,
+                            getProperty(itemProperties, ItemProperty.STOCK, Integer.class),
                             getProperty(itemProperties, ItemProperty.ITEM_CONDITION, ItemCondition.class),
                             getProperty(itemProperties, ItemProperty.DESCRIPTION, String.class),
                             getProperty(itemProperties, ItemProperty.BRAND, String.class),
@@ -40,6 +41,7 @@ public class ItemFactory {
     private Item createSapatilhas(UUID ownerUuid, String alphanumericId, Map<ItemProperty, Object> itemProperties) {
         return new SapatilhasItem(ownerUuid,
                                   alphanumericId,
+                                  getProperty(itemProperties, ItemProperty.STOCK, Integer.class),
                                   getProperty(itemProperties, ItemProperty.ITEM_CONDITION, ItemCondition.class),
                                   getProperty(itemProperties, ItemProperty.DESCRIPTION, String.class),
                                   getProperty(itemProperties, ItemProperty.BRAND, String.class),
@@ -54,6 +56,7 @@ public class ItemFactory {
     private Item createTshirt(UUID ownerUuid, String alphanumericId, Map<ItemProperty, Object> itemProperties) {
         return new TshirtItem(ownerUuid,
                               alphanumericId,
+                              getProperty(itemProperties, ItemProperty.STOCK, Integer.class),
                               getProperty(itemProperties, ItemProperty.ITEM_CONDITION, ItemCondition.class),
                               getProperty(itemProperties, ItemProperty.DESCRIPTION, String.class),
                               getProperty(itemProperties, ItemProperty.BRAND, String.class),
@@ -66,6 +69,7 @@ public class ItemFactory {
     private Item createMalaPremium(UUID ownerUuid, String alphanumericId, Map<ItemProperty, Object> itemProperties) {
         return new PremiumMalaItem(ownerUuid,
                                    alphanumericId,
+                                   getProperty(itemProperties, ItemProperty.STOCK, Integer.class),
                                    getProperty(itemProperties, ItemProperty.ITEM_CONDITION, ItemCondition.class),
                                    getProperty(itemProperties, ItemProperty.DESCRIPTION, String.class),
                                    getProperty(itemProperties, ItemProperty.BRAND, String.class),
@@ -80,6 +84,7 @@ public class ItemFactory {
     private Item createSapatilhasPremium(UUID ownerUuid, String alphanumericId, Map<ItemProperty, Object> itemProperties) {
         return new PremiumSapatilhasItem(ownerUuid,
                                          alphanumericId,
+                                         getProperty(itemProperties, ItemProperty.STOCK, Integer.class),
                                          getProperty(itemProperties, ItemProperty.ITEM_CONDITION, ItemCondition.class),
                                          getProperty(itemProperties, ItemProperty.DESCRIPTION, String.class),
                                          getProperty(itemProperties, ItemProperty.BRAND, String.class),

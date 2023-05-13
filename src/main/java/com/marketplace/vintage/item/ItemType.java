@@ -31,7 +31,8 @@ public enum ItemType {
         return isPremium;
     }
 
-    private static final Set<ItemProperty> BASE_ITEM_PROPERTIES = EnumSet.of(ItemProperty.ITEM_CONDITION,
+    private static final Set<ItemProperty> BASE_ITEM_PROPERTIES = EnumSet.of(ItemProperty.STOCK,
+                                                                             ItemProperty.ITEM_CONDITION,
                                                                              ItemProperty.DESCRIPTION,
                                                                              ItemProperty.BRAND,
                                                                              ItemProperty.BASE_PRICE,

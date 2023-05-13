@@ -7,7 +7,6 @@ import com.marketplace.vintage.item.ItemType;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,18 +36,26 @@ public class ParcelCarrierManager implements Serializable {
             throw new EntityNotFoundException("A carrier with the name " + name + " was not found");
         }
 
-        return carrier;
+        return carrier.clone();
     }
 
     public boolean containsCarrierByName(String name) {
         return this.carriersByName.containsKey(name);
     }
 
+    public void updateParcelCarrier(String carrierName, ParcelCarrier parcelCarrier) {
+        if (!this.carriersByName.containsKey(carrierName)) {
+            throw new EntityNotFoundException("A carrier with the name " + carrierName + " was not found");
+        }
+
+        this.carriersByName.put(carrierName, parcelCarrier);
+    }
+
     public List<ParcelCarrier> getAll() {
-        return new ArrayList<>(carriersByName.values());
+        return carriersByName.values().stream().map(ParcelCarrier::clone).collect(Collectors.toList());
     }
 
     public List<ParcelCarrier> getAllCompatibleWith(ItemType itemType) {
-        return carriersByName.values().stream().filter(carrier -> carrier.canDeliverItemType(itemType)).collect(Collectors.toList());
+        return getAll().stream().filter(carrier -> carrier.canDeliverItemType(itemType)).collect(Collectors.toList());
     }
 }

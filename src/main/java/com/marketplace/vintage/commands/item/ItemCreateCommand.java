@@ -35,6 +35,7 @@ public class ItemCreateCommand extends BaseCommand {
     // These methods are here because they are only related to this command and would mess up the ItemProperty enum a lot if used there
     private String getQuestion(ItemProperty itemProperty) {
         return switch (itemProperty) {
+            case STOCK -> "Insert initial item stock: (1-20)";
             case ITEM_CONDITION -> "Insert the item condition (new, used):";
             case DESCRIPTION -> "Insert the item description:";
             case BRAND -> "Insert the item brand:";
@@ -55,6 +56,7 @@ public class ItemCreateCommand extends BaseCommand {
 
     private Function<String, ?> getMapper(ItemProperty itemProperty, Logger logger, InputPrompter inputPrompter, Function<String, String> parcelCarrierIdToNameMapper) {
         return switch (itemProperty) {
+            case STOCK -> InputMapper.ofIntRange(1, 20);
             case ITEM_CONDITION -> InputMapper.ofItemCondition(inputPrompter, logger);
             case DESCRIPTION, BRAND, MATERIAL, COLOR -> InputMapper.STRING;
             case BASE_PRICE -> InputMapper.BIG_DECIMAL;

@@ -73,7 +73,7 @@ public class UserManager implements Serializable {
             throw new EntityNotFoundException("A user with the id " + userId + " was not found");
         }
 
-        return user;
+        return user.clone();
     }
 
     public User getUserByUsername(String userUsername) {
@@ -83,7 +83,7 @@ public class UserManager implements Serializable {
             throw new EntityNotFoundException("A user with the username " + userUsername + " was not found");
         }
 
-        return user;
+        return user.clone();
     }
 
     public User getUserByEmail(String email) {
@@ -93,7 +93,25 @@ public class UserManager implements Serializable {
             throw new EntityNotFoundException("A user with the email " + email + " was not found");
         }
 
-        return user;
+        return user.clone();
+    }
+
+    public void updateUser(User user) {
+        if (!this.usersById.containsKey(user.getId())) {
+            throw new EntityNotFoundException("A user with the id " + user.getId() + " was not found");
+        }
+
+        if (!this.usersByUsername.containsKey(user.getUsername())) {
+            throw new EntityNotFoundException("A user with the username " + user.getUsername() + " was not found");
+        }
+
+        if (!this.usersByEmail.containsKey(user.getEmail())) {
+            throw new EntityNotFoundException("A user with the email " + user.getEmail() + " was not found");
+        }
+
+        this.usersById.put(user.getId(), user);
+        this.usersByUsername.put(user.getUsername(), user);
+        this.usersByEmail.put(user.getEmail(), user);
     }
 
     public List<User> getAll() {
