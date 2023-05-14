@@ -12,7 +12,7 @@ public class AdminOrderListSellerCommand extends BaseCommand {
     private final Vintage vintage;
 
     public AdminOrderListSellerCommand(Vintage vintage) {
-        super("listseller", "order listseller <seller>", 1, "Lists all orders containing the given seller");
+        super("listseller", "order listseller <seller username>", 1, "Lists all orders containing the given seller");
         this.vintage = vintage;
     }
 
