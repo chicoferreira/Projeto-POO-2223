@@ -9,7 +9,7 @@
 03/01/2023,user:rui@mail.com, item create AAA-AAC < TShirt < 15 < new < Mario no Panoramico < Adibas < 15 < CTT < large < plain
 03/01/2023, admin, user register joao@mail.com < JoaoSantos < Joao < Porto < 5555
 03/01/2023, user:joao@mail.com, item create AAA-AAD < TShirt < 15 < new < Mario no Panoramico < Adibas < 45 < DHL < small < stripes
-04/01/2023, user:joao@mail.com, item create AAA-AAE < Sapatilhas < 12 < used < 7 < 3 < Ston Smooth < Adibas < 80 < CTT < 2018 < 25 < n < blue
+04/01/2023, user:joao@mail.com, item create AAA-AAE < Sapatilhas < 12 < used < 7 < 1 < Ston Smooth < Adibas < 80 < CTT < 2018 < 25 < n < blue
 04/01/2023, admin, user register julio@mail.com < Jurukage < Julio < Braga < 3333
 05/01/2023, admin, user register maria@mail.com < MariaSilva < Maria < Lisbon < 7777
 05/01/2023, user:julio@mail.com, cart add AAA-AAA < y
