@@ -18,11 +18,36 @@
 06/01/2023, user:julio@mail.com, cart order < y
 06/01/2023, user:maria@mail.com, cart add AAA-AAD < y
 07/01/2023, user:maria@mail.com, cart add AAA-AAE < y
-08/01/2023, user:maria@mail.com, cart order < y
+08/01/2023, user:maria@mail.com, cart order ORD-MARIA < y
 09/01/2023, admin, carrier create UPS < n
-10/01/2023, admin, carrier create FedEx < n
+10/01/2023, admin, carrier create FedEx premium < n
 10/01/2023, admin, user register mariana@mail.com < Marianinha < Mariana < Lisbon < 7778
 11/01/2023, user:mariana@mail.com, item create P73-KLL < Mala Premium < 7 < used < 9 < 1 < Tote < Luis Vitao < 50 < DHL-E < 25 < scales < 2022 < 20
+13/01/2023, user:mariana@mail.com, item stock add P73-KLL 3
+13/01/2023, user:maria@mail.com, item create DHG-821 < TShirt < 18 < new < Sócio CeSIUM 22/23 < CeSIUM < 5 < UPS < medium < plain
+14/01/2023, user:joao@mail.com, cart add DHG-821 < y
+14/01/2023, user:joao@mail.com, cart add P73-KLL < y
+14/01/2023, user:joao@mail.com, cart order ORD-JOAO < y
+17/01/2023, user:joao@mail.com, order return ORD-JOAO
+18/01/2023, user:maria@mail.com, order return ORD-MARIA
+18/01/2023, user:rui@mail.com, cart add AAA-AAD < y
+18/01/2023, user:rui@mail.com, cart add DHG-821 < y
+18/01/2023, user:rui@mail.com, cart order ORD-RUI < y
+20/01/2023, user:rui@mail.com, order return ORD-RUI
+21/01/2023, user:chico@mail.com, item create DHG-LLL < TShirt < 2 < new < Sócio CeSIUM 21/22 < CeSIUM < 5 < CTT < small < plain
+22/01/2023, user:julio@mail.com, cart add DHG-LLL < y
+22/01/2023, user:julio@mail.com, cart order XXX-JULIO < y
+23/01/2023, user:maria@mail.com, cart add DHG-LLL < y
+23/01/2023, user:maria@mail.com, cart order XXX-M < y
+24/01/2023, user:mariana@mail.com, cart add DHG-LLL < y
+26/01/2023, user:maria@mail.com, order return XXX-M
+27/01/2023, user:mariana@mail.com, cart order XXX-MAR < y
+27/01/2023, user:chico@mail.com, item stock add DHG-LLL 5
+29/01/2023, user:chico@mail.com, item stock remove DHG-LLL 4
+30/01/2023, user:rui@mail.com, cart add DHG-LLL < y
+31/01/2023, user:joao@mail.com, cart add DHG-LLL < y
+31/01/2023, user:joao@mail.com, cart order < y
+01/02/2023, user:rui@mail.com, cart order < y
 #
 # Some scripts to populate the program
 # If you wish to use them rename this file to 'scripts.txt' and remove all the lines with #
