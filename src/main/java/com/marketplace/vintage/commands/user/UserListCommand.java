@@ -31,7 +31,8 @@ public class UserListCommand extends BaseCommand {
             String message = VintageConstants.DISPLAY_USER_FORMAT
                     .replace("<id>", String.valueOf(user.getId()))
                     .replace("<name>", user.getName())
-                    .replace("<email>", user.getEmail());
+                    .replace("<email>", user.getEmail())
+                    .replace("<username>", user.getUsername());
 
             logger.info(message);
         }

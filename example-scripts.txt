@@ -1,0 +1,28 @@
+02/01/2023,admin,carrier create CTT < n
+02/01/2023,admin,carrier create CTT+ premium < n
+02/01/2023, admin, carrier create DHL < n
+02/01/2023, admin, carrier create DHL-E premium < n
+02/01/2023,admin,user register chico@mail.com < ChicoGamer < Chico < Aves < 1111
+02/01/2023,user:chico@mail.com,item create AAA-AAA < Mala < 5 < new < Mala Top Xuxa < Guxi < 20 < CTT < 20 < leather < 2018 < 5
+02/01/2023,user:chico@mail.com, item create AAA-AAB < Sapatilhas Premium < 10 < used < 10 < 1 < Jordans < Nicce < 25 < CTT+ < 2021 < 5 < 25 < n < blue
+03/01/2023,admin, user register rui@mail.com < Ruizao < Rui < Esposende < 4444
+03/01/2023,user:rui@mail.com, item create AAA-AAC < TShirt < 15 < new < Mario no Panoramico < Adibas < 15 < CTT < large < plain
+03/01/2023, admin, user register joao@mail.com < JoaoSantos < Joao < Porto < 5555
+03/01/2023, user:joao@mail.com, item create AAA-AAD < TShirt < 15 < new < Mario no Panoramico < Adibas < 45 < DHL < small < stripes
+04/01/2023, user:joao@mail.com, item create AAA-AAE < Sapatilhas < 12 < used < 7 < 3 < Ston Smooth < Adibas < 80 < CTT < 2018 < 25 < n < blue
+04/01/2023, admin, user register julio@mail.com < Jurukage < Julio < Braga < 3333
+05/01/2023, admin, user register maria@mail.com < MariaSilva < Maria < Lisbon < 7777
+05/01/2023, user:julio@mail.com, cart add AAA-AAA < y
+05/01/2023, user:julio@mail.com, cart add AAA-AAB < y
+05/01/2023, user:julio@mail.com, cart add AAA-AAC < y
+06/01/2023, user:julio@mail.com, cart order < y
+06/01/2023, user:maria@mail.com, cart add AAA-AAD < y
+07/01/2023, user:maria@mail.com, cart add AAA-AAE < y
+08/01/2023, user:maria@mail.com, cart order < y
+09/01/2023, admin, carrier create UPS < n
+10/01/2023, admin, carrier create FedEx < n
+10/01/2023, admin, user register mariana@mail.com < Marianinha < Mariana < Lisbon < 7778
+11/01/2023, user:mariana@mail.com, item create P73-KLL < Mala Premium < 7 < used < 9 < 1 < Tote < Luis Vitao < 50 < DHL-E < 25 < scales < 2022 < 20
+#
+# Some scripts to populate the program
+# If you wish to use them rename this file to 'scripts.txt' and remove all the lines with #
