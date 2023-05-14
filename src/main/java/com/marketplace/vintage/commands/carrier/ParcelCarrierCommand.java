@@ -8,7 +8,7 @@ import java.util.List;
 public class ParcelCarrierCommand extends ParentCommand {
 
     public ParcelCarrierCommand(Vintage vintage, String defaultPriceExpression, List<String> priceExpressionVariables) {
-        super("carrier", "Parcel Carrier commands");
+        super("carrier", "Parcel carrier related commands");
         registerCommand(new ParcelCarrierCreateCommand(vintage, defaultPriceExpression, priceExpressionVariables));
         registerCommand(new ParcelCarrierInfoCommand(vintage));
         registerCommand(new ParcelCarrierListCommand(vintage));
