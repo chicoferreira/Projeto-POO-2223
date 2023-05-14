@@ -62,6 +62,7 @@ public class CommandScriptRunner implements ScriptRunner {
     }
 
     public View createViewFromIdentifier(String viewIdentifier) {
+        viewIdentifier = viewIdentifier.trim();
         if (viewIdentifier.toLowerCase().startsWith("user:")) {
             User userByEmail = vintage.getUserByEmail(viewIdentifier.substring("user:".length()));
             return viewFactory.createUserView(userByEmail);
