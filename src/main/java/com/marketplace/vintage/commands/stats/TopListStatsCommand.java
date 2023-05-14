@@ -45,7 +45,7 @@ public class TopListStatsCommand extends BaseStatsCommand {
             logger.info("Top " + limit + " buyers in specified date range:");
             int i = 1;
             for (User buyer : topBuyers) {
-                BigDecimal spent = getVintage().getMoneySpentInDatePredicate(buyer, datePredicate);
+                BigDecimal spent = getVintage().getMoneySpentByUserInDatePredicate(buyer, datePredicate);
                 logger.info(" #" + i + " " + buyer.getName() + " - " + StringUtils.formatCurrency(spent));
                 i++;
             }
@@ -59,7 +59,7 @@ public class TopListStatsCommand extends BaseStatsCommand {
             logger.info("Top " + limit + " sellers in specified date range:");
             int i = 1;
             for (User seller : topSellers) {
-                BigDecimal salesMoney = getVintage().getMoneyFromSalesByDatePredicate(seller, datePredicate);
+                BigDecimal salesMoney = getVintage().getMoneyFromUserSalesByDatePredicate(seller, datePredicate);
                 logger.info(" #" + i + " " + seller.getName() + " - " + StringUtils.formatCurrency(salesMoney));
                 i++;
             }

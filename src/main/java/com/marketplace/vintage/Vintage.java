@@ -9,6 +9,7 @@ import com.marketplace.vintage.logging.PrefixLogger;
 import com.marketplace.vintage.order.*;
 import com.marketplace.vintage.scripting.ScriptController;
 import com.marketplace.vintage.stats.StatsManager;
+import com.marketplace.vintage.time.TimeManager;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.user.UserController;
 import com.marketplace.vintage.utils.VintageDate;
@@ -24,7 +25,7 @@ public class Vintage {
 
     private final ItemController itemController;
     private final OrderController orderController;
-    private final VintageTimeManager vintageTimeManager;
+    private final TimeManager timeManager;
     private final ParcelCarrierController parcelCarrierController;
     private final ExpressionSolver expressionSolver;
     private final UserController userController;
@@ -33,14 +34,14 @@ public class Vintage {
 
     public Vintage(ItemController itemController,
                    OrderController orderController,
-                   VintageTimeManager vintageTimeManager,
+                   TimeManager timeManager,
                    ParcelCarrierController parcelCarrierController,
                    ExpressionSolver expressionSolver,
                    UserController userController,
                    ScriptController scriptController) {
         this.itemController = itemController;
         this.orderController = orderController;
-        this.vintageTimeManager = vintageTimeManager;
+        this.timeManager = timeManager;
         this.parcelCarrierController = parcelCarrierController;
         this.expressionSolver = expressionSolver;
         this.userController = userController;
@@ -88,7 +89,7 @@ public class Vintage {
             }
         }
 
-        return orderController.buildOrder(orderId, user.getId(), itemList, this.parcelCarrierController::getCarrierByName, this.vintageTimeManager::getCurrentDate, expressionSolver);
+        return orderController.buildOrder(orderId, user.getId(), itemList, this.parcelCarrierController::getCarrierByName, this.timeManager::getCurrentDate, expressionSolver);
     }
 
     public void registerOrder(Order order, User user) {
@@ -115,7 +116,7 @@ public class Vintage {
     }
 
     public VintageDate getCurrentDate() {
-        return this.vintageTimeManager.getCurrentDate();
+        return this.timeManager.getCurrentDate();
     }
 
     /**
@@ -124,19 +125,19 @@ public class Vintage {
      */
     public VintageDate jumpTime(Logger logger, int days) {
         for (int i = 1; i <= days; i++) {
-            VintageDate previousDate = this.vintageTimeManager.getCurrentDate();
-            VintageDate newDate = this.vintageTimeManager.advanceTime(1);
+            VintageDate previousDate = this.timeManager.getCurrentDate();
+            VintageDate newDate = this.timeManager.advanceTime(1);
 
             Logger dateLogger = PrefixLogger.of(newDate.toString(), logger);
             this.orderController.notifyTimeChange(dateLogger, newDate);
             this.scriptController.notifyTimeChange(dateLogger, previousDate, newDate);
         }
 
-        return this.vintageTimeManager.getCurrentDate();
+        return this.timeManager.getCurrentDate();
     }
 
     public int getCurrentYear() {
-        return this.vintageTimeManager.getCurrentYear();
+        return this.timeManager.getCurrentYear();
     }
 
     public boolean containsItemById(String itemId) {
@@ -232,7 +233,7 @@ public class Vintage {
     }
 
     public boolean isOrderReturnable(Order order) {
-        return this.orderController.isOrderReturnable(order, this.vintageTimeManager.getCurrentDate());
+        return this.orderController.isOrderReturnable(order, this.timeManager.getCurrentDate());
     }
 
     public void returnOrder(Order order) {
@@ -266,12 +267,12 @@ public class Vintage {
         return this.statsManager.getVintageProfit();
     }
 
-    public BigDecimal getMoneySpentInDatePredicate(User user, Predicate<VintageDate> datePredicate) {
-        return this.statsManager.getMoneySpentInDatePredicate(user, datePredicate);
+    public BigDecimal getMoneySpentByUserInDatePredicate(User user, Predicate<VintageDate> datePredicate) {
+        return this.statsManager.getMoneySpentByUserInDatePredicate(user, datePredicate);
     }
 
-    public BigDecimal getMoneyFromSalesByDatePredicate(User user, Predicate<VintageDate> datePredicate) {
-        return this.statsManager.getMoneyFromSalesByDatePredicate(user, datePredicate);
+    public BigDecimal getMoneyFromUserSalesByDatePredicate(User user, Predicate<VintageDate> datePredicate) {
+        return this.statsManager.getMoneyFromUserSalesByDatePredicate(user, datePredicate);
     }
 
     public BigDecimal getParcelCarrierReceivedMoney(ParcelCarrier parcelCarrier) {

@@ -26,7 +26,7 @@ public class TopSellerStatsCommand extends BaseStatsCommand {
             return;
         }
 
-        BigDecimal total = getVintage().getMoneyFromSalesByDatePredicate(bestSeller, datePredicate);
+        BigDecimal total = getVintage().getMoneyFromUserSalesByDatePredicate(bestSeller, datePredicate);
         logger.info("Top user seller in specified date range is " + bestSeller.getName() + " with " + StringUtils.formatCurrency(total) + " made in sales.");
     }
 }

@@ -1,6 +1,6 @@
 package com.marketplace.vintage.order;
 
-import com.marketplace.vintage.VintageTimeManager;
+import com.marketplace.vintage.time.TimeManager;
 import com.marketplace.vintage.carrier.ParcelCarrierFactory;
 import com.marketplace.vintage.carrier.ParcelCarrierManager;
 import com.marketplace.vintage.expression.ExpressionSolver;
@@ -21,11 +21,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OrderFactoryTest {
 
-
-
     @Test
     void buildOrder() {
-        VintageTimeManager vintageTimeManager = new VintageTimeManager(VintageDate.of(1, 1, 2023));
+        TimeManager timeManager = new TimeManager(VintageDate.of(1, 1, 2023));
         ParcelCarrierManager parcelCarrierManager = new ParcelCarrierManager();
         parcelCarrierManager.registerParcelCarrier(ParcelCarrierFactory.createNormalParcelCarrier("DHL"));
 
@@ -41,7 +39,7 @@ class OrderFactoryTest {
         Mockito.when(item.getItemCondition()).thenReturn(ItemConditions.NEW);
 
         OrderFactory orderFactory = new OrderFactory();
-        Order order = orderFactory.buildOrder("TEST-Order", UUID.randomUUID(), List.of(item), parcelCarrierManager::getCarrierByName, vintageTimeManager::getCurrentDate, expressionSolver);
+        Order order = orderFactory.buildOrder("TEST-Order", UUID.randomUUID(), List.of(item), parcelCarrierManager::getCarrierByName, timeManager::getCurrentDate, expressionSolver);
 
         assertEquals("TEST-Order", order.getOrderId());
         assertEquals(1, order.getOrderedItems().size());

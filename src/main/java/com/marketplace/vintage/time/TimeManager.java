@@ -1,14 +1,14 @@
-package com.marketplace.vintage;
+package com.marketplace.vintage.time;
 
 import com.marketplace.vintage.utils.VintageDate;
 
 import java.io.Serializable;
 
-public class VintageTimeManager implements Serializable {
+public class TimeManager implements Serializable {
 
     private VintageDate currentDate;
 
-    public VintageTimeManager(VintageDate currentDate) {
+    public TimeManager(VintageDate currentDate) {
         this.currentDate = currentDate;
     }
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class VintageConstants {
 
-    public static final String EXPEDITION_PRICE_EXPRESSION_BASE_PRICE_VARIABLE = "itemsPrice";
+    public static final String EXPEDITION_PRICE_EXPRESSION_BASE_PRICE_VARIABLE = "basePrice";
     public static final String EXPEDITION_PRICE_EXPRESSION_TAX_VARIABLE = "tax";
 
     public static final String DEFAULT_EXPEDITION_PRICE_EXPRESSION_STRING = EXPEDITION_PRICE_EXPRESSION_BASE_PRICE_VARIABLE + " * (1 + " + EXPEDITION_PRICE_EXPRESSION_TAX_VARIABLE + ") * 0.9";

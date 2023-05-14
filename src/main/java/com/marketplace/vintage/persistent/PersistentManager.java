@@ -59,8 +59,7 @@ public class PersistentManager {
 
             return (PersistentMap) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            new RuntimeException("Corrupted binary", e).printStackTrace();
-            return new HashMap<>();
+            throw new RuntimeException("Corrupted binary", e);
         }
     }
 

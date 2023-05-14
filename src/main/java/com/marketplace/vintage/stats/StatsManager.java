@@ -41,7 +41,7 @@ public class StatsManager {
     }
 
     public User getSellerWithMoreMoneySales(Predicate<VintageDate> datePredicate) {
-        return getMax(vintage.getAllUsers(), user -> getMoneyFromSalesByDatePredicate(user, datePredicate));
+        return getMax(vintage.getAllUsers(), user -> getMoneyFromUserSalesByDatePredicate(user, datePredicate));
     }
 
     public ParcelCarrier getParcelCarrierWithMoreMoneyReceived() {
@@ -49,11 +49,11 @@ public class StatsManager {
     }
 
     public List<User> getTopBuyers(int limit, Predicate<VintageDate> datePredicate) {
-        return getTop(vintage.getAllUsers(), user -> getMoneySpentInDatePredicate(user, datePredicate), limit);
+        return getTop(vintage.getAllUsers(), user -> getMoneySpentByUserInDatePredicate(user, datePredicate), limit);
     }
 
     public List<User> getTopSellers(int limit, Predicate<VintageDate> datePredicate) {
-        return getTop(vintage.getAllUsers(), user -> getMoneyFromSalesByDatePredicate(user, datePredicate), limit);
+        return getTop(vintage.getAllUsers(), user -> getMoneyFromUserSalesByDatePredicate(user, datePredicate), limit);
     }
 
     public BigDecimal getVintageProfit() {
@@ -79,7 +79,7 @@ public class StatsManager {
         return total;
     }
 
-    public BigDecimal getMoneySpentInDatePredicate(User user, Predicate<VintageDate> datePredicate) {
+    public BigDecimal getMoneySpentByUserInDatePredicate(User user, Predicate<VintageDate> datePredicate) {
         BigDecimal total = BigDecimal.ZERO;
         for (String orderId : user.getCompletedOrderIdsList()) {
             Order order = vintage.getOrder(orderId);
@@ -90,7 +90,7 @@ public class StatsManager {
         return total;
     }
 
-    public BigDecimal getMoneyFromSalesByDatePredicate(User user, Predicate<VintageDate> datePredicate) {
+    public BigDecimal getMoneyFromUserSalesByDatePredicate(User user, Predicate<VintageDate> datePredicate) {
         BigDecimal total = BigDecimal.ZERO;
         for (String orderId : user.getCompletedSellsOrderIdsList()) {
             Order order = vintage.getOrder(orderId);

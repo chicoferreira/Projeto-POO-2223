@@ -16,6 +16,7 @@ import com.marketplace.vintage.order.OrderManager;
 import com.marketplace.vintage.persistent.PersistentManager;
 import com.marketplace.vintage.scripting.ScriptController;
 import com.marketplace.vintage.scripting.exception.ScriptException;
+import com.marketplace.vintage.time.TimeManager;
 import com.marketplace.vintage.user.UserController;
 import com.marketplace.vintage.user.UserManager;
 import com.marketplace.vintage.view.View;
@@ -37,7 +38,7 @@ public class VintageApplication {
     private ParcelCarrierManager parcelCarrierManager;
     private ItemManager itemManager;
     private OrderManager orderManager;
-    private VintageTimeManager vintageTimeManager;
+    private TimeManager timeManager;
 
     public VintageApplication() {
         this.logger = new JavaLogger();
@@ -61,7 +62,7 @@ public class VintageApplication {
 
         ItemController itemController = new ItemController(itemManager, itemFactory);
 
-        Vintage vintage = new Vintage(itemController, orderController, vintageTimeManager, parcelCarrierController, expressionSolver, userController, scriptController);
+        Vintage vintage = new Vintage(itemController, orderController, timeManager, parcelCarrierController, expressionSolver, userController, scriptController);
 
         this.viewFactory = new ViewFactory(logger, inputPrompter, vintage);
 
@@ -124,7 +125,7 @@ public class VintageApplication {
         persistentManager.addReferenceToSave("parcelCarrierManager", this.parcelCarrierManager);
         persistentManager.addReferenceToSave("itemManager", this.itemManager);
         persistentManager.addReferenceToSave("orderManager", this.orderManager);
-        persistentManager.addReferenceToSave("timeManager", this.vintageTimeManager);
+        persistentManager.addReferenceToSave("timeManager", this.timeManager);
         persistentManager.save();
     }
 
@@ -136,7 +137,7 @@ public class VintageApplication {
         this.parcelCarrierManager = (ParcelCarrierManager) loadedData.getOrDefault("parcelCarrierManager", new ParcelCarrierManager());
         this.itemManager = (ItemManager) loadedData.getOrDefault("itemManager", new ItemManager());
         this.orderManager = (OrderManager) loadedData.getOrDefault("orderManager", new OrderManager());
-        this.vintageTimeManager = (VintageTimeManager) loadedData.getOrDefault("timeManager", new VintageTimeManager(VintageConstants.VINTAGE_START_DATE));
+        this.timeManager = (TimeManager) loadedData.getOrDefault("timeManager", new TimeManager(VintageConstants.VINTAGE_START_DATE));
     }
 
     private Map<String, Object> loadSafely(PersistentManager persistentManager) {
