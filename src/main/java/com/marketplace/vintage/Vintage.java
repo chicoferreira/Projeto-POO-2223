@@ -247,11 +247,11 @@ public class Vintage {
         }
     }
 
-    public User getBestSeller(Predicate<VintageDate> datePredicate) {
+    public @Nullable User getBestSeller(Predicate<VintageDate> datePredicate) {
         return this.statsManager.getSellerWithMoreMoneySales(datePredicate);
     }
 
-    public ParcelCarrier getParcelCarrierWithMoreMoneyReceived() {
+    public @Nullable ParcelCarrier getParcelCarrierWithMoreMoneyReceived() {
         return this.statsManager.getParcelCarrierWithMoreMoneyReceived();
     }
 

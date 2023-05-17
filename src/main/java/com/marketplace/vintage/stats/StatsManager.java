@@ -5,6 +5,7 @@ import com.marketplace.vintage.carrier.ParcelCarrier;
 import com.marketplace.vintage.order.Order;
 import com.marketplace.vintage.user.User;
 import com.marketplace.vintage.utils.VintageDate;
+import org.jetbrains.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -30,7 +31,8 @@ public class StatsManager {
         };
     }
 
-    private <T> T getMax(Collection<T> collection, Function<T, BigDecimal> valueGetter) {
+    private <T> @Nullable T getMax(Collection<T> collection, Function<T, BigDecimal> valueGetter) {
+        if (collection.isEmpty()) return null;
         return Collections.max(collection, getBigDecimalComparator(valueGetter));
     }
 
@@ -40,11 +42,11 @@ public class StatsManager {
                 .toList();
     }
 
-    public User getSellerWithMoreMoneySales(Predicate<VintageDate> datePredicate) {
+    public @Nullable User getSellerWithMoreMoneySales(Predicate<VintageDate> datePredicate) {
         return getMax(vintage.getAllUsers(), user -> getMoneyFromUserSalesByDatePredicate(user, datePredicate));
     }
 
-    public ParcelCarrier getParcelCarrierWithMoreMoneyReceived() {
+    public @Nullable ParcelCarrier getParcelCarrierWithMoreMoneyReceived() {
         return getMax(vintage.getAllParcelCarriers(), this::getParcelCarrierReceivedMoney);
     }
 
