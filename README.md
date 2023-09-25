@@ -34,5 +34,5 @@ You can find the built jar file in `build/libs`. To run it, use `java -jar build
 
 ## Authors
 - [Francisco Ferreira](https://github.com/chicoferreira)
-- [Rui Lopes](https://github.com/RuiL1904)
+- [Rui Lopes](https://github.com/ruilopesm)
 - [Júlio Pinto](https://github.com/JulioJPinto)
